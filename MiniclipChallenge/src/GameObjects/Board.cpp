@@ -1,8 +1,8 @@
 #include "Board.h"
 
-#include "Constants.h"
-#include "InputHandler.h"
-#include "TextureManager.h"
+#include "../Constants.h"
+#include "../InputHandler.h"
+#include "../TextureManager.h"
 
 #include <cmath>
 #include <chrono>
@@ -14,13 +14,13 @@ Board::Board(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::LoadTexture(SPR_BOARD_AUX);
 	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, 0, 0);
 	
-	gemID_ = 0;
+	nextGemID_ = 0;
 	scrollSpeed_ = -BOARD_STARTINGSPD;
 	hasClicked_ = false;
-	generator_.seed(6);
+	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	boardGems_ = {};
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; ++i) {
 		makeNewColumn();
 	}
 }
@@ -61,7 +61,7 @@ void Board::Render() {
 }
 
 int Board::getNextGemID() {
-	return ++gemID_;
+	return ++nextGemID_;
 }
 
 void Board::makeNewColumn() {
@@ -69,7 +69,7 @@ void Board::makeNewColumn() {
 	std::uniform_int_distribution<int> distribution(0,GEM_TYPE_NUMBER-1);
 	
 	std::vector<Gem> newColumn;
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; ++i) {
 
 		Gem::GemColor color = Gem::GemColor(distribution(generator_));
 
@@ -170,7 +170,7 @@ void Board::eraseGem(int gX, int gY) {
 	column.erase(column.begin() + gY);
 
 	//Update position for every Gem above
-	for (int i = gY; i < column.size(); i++) {
+	for (int i = gY; i < column.size(); ++i) {
 
 		column.at(i).Move(0, GEM_H);
 		column.at(i).MoveB(0, 1);
@@ -184,7 +184,7 @@ void Board::eraseGem(int gX, int gY) {
 		x_ += GEM_W;
 
 		//Move all left-hand gems.
-		for (int i = 0; i < gX; i++) {
+		for (int i = 0; i < gX; ++i) {
 			for (Gem& gem : boardGems_.at(i)) {
 
 				gem.Move(GEM_W, 0);

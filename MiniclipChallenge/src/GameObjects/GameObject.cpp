@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
-#include "Constants.h"
-#include "TextureManager.h"
+#include "../Constants.h"
+#include "../TextureManager.h"
 
 #include <iostream>
 

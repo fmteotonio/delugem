@@ -151,21 +151,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Background.h" />
-    <ClInclude Include="src\Board.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\Gem.h" />
+    <ClInclude Include="src\GameObjects\Background.h" />
+    <ClInclude Include="src\GameObjects\Board.h" />
+    <ClInclude Include="src\GameObjects\GameObject.h" />
+    <ClInclude Include="src\GameObjects\Gem.h" />
     <ClInclude Include="src\InputHandler.h" />
     <ClInclude Include="src\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Background.cpp" />
-    <ClCompile Include="src\Board.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="src\Gem.cpp" />
+    <ClCompile Include="src\GameObjects\Background.cpp" />
+    <ClCompile Include="src\GameObjects\Board.cpp" />
+    <ClCompile Include="src\GameObjects\GameObject.cpp" />
+    <ClCompile Include="src\GameObjects\Gem.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />

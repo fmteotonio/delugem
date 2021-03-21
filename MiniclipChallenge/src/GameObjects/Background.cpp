@@ -1,7 +1,7 @@
 #include "Background.h"
 
-#include "Constants.h"
-#include "TextureManager.h"
+#include "../Constants.h"
+#include "../TextureManager.h"
 
 Background::Background(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::LoadTexture(SPR_BACKGROUND);

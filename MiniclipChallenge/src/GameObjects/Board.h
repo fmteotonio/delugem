@@ -22,7 +22,7 @@ public:
 	void eraseGem(int gX, int gY);
 
 private:
-	int gemID_;
+	int nextGemID_;
 	int scrollSpeed_;
 	bool hasClicked_;
 	std::default_random_engine generator_;

@@ -1,8 +1,8 @@
 #include "Game.h"
 
-#include "Background.h"
-#include "Board.h"
-#include "Gem.h"
+#include "GameObjects/Background.h"
+#include "GameObjects/Board.h"
+#include "GameObjects/Gem.h"
 #include "InputHandler.h"
 #include "TextureManager.h"
 
@@ -68,28 +68,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 }
 
 void Game::HandleEvents() {
-	/*
-	SDL_Event event;
-
-	if (SDL_PollEvent(&event)) {
-
-		switch (event.type) {
-		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_LEFT) {
-				//board->clickPiece(event.button.x, event.button.y);
-			}
-			break;
-		case SDL_QUIT:
-			bRunning_ = false;
-			break;
-		default:
-			break;
-		}
-
-	}
-	*/
 	InputHandler::Instance()->Update();
-
 }
 
 void Game::Quit() {

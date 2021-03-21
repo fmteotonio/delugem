@@ -1,6 +1,7 @@
 #include "Gem.h"
-#include "TextureManager.h"
-#include "Constants.h"
+
+#include "../TextureManager.h"
+#include "../Constants.h"
 
 Gem::Gem(GemColor gemColor, float x, float y, int boardX,      int boardY,      int id) :
 	     gemColor_(gemColor),                 boardX_(boardX), boardY_(boardY), id_(id){

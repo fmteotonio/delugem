@@ -12,6 +12,9 @@
     <Filter Include="res\images">
       <UniqueIdentifier>{efdacea8-0294-4bbd-8e87-b6c297d320a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameObjects">
+      <UniqueIdentifier>{9a87590a-dac8-4316-a4ac-b95e2dde3370}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -20,23 +23,23 @@
     <ClInclude Include="src\TextureManager.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gem.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Constants.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Board.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Background.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\InputHandler.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjects\GameObject.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjects\Gem.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjects\Background.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjects\Board.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -49,20 +52,20 @@
     <ClCompile Include="src\TextureManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gem.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Board.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Background.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\InputHandler.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\GameObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\Gem.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\Background.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\Board.cpp">
+      <Filter>src\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
