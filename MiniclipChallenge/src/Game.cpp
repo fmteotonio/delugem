@@ -3,6 +3,8 @@
 #include "GameObjects/Background.h"
 #include "GameObjects/Board.h"
 #include "GameObjects/Gem.h"
+#include "GameStates/TitleScreenState.h"
+#include "GameStates/PlayingState.h"
 #include "InputHandler.h"
 #include "TextureManager.h"
 
@@ -19,6 +21,7 @@ Game* Game::Instance() {
 }
 
 bool Game::bRunning() { return bRunning_; }
+GameStateMachine* Game::gameStateMachine() { return gameStateMachine_; }
 SDL_Renderer* Game::renderer() { return renderer_; }
 
 bool Game::Init(const char* title, int width, int height, bool fullscreen) {
@@ -53,10 +56,10 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		//INIT INPUT HANDLER
 		InputHandler::Instance();
 
-		//INIT GAMEOBJECTS
+		//INIT GAME_STATE
 
-		gameObjects_.push_back(new Background(0, 0));
-		gameObjects_.push_back(new Board(350, 56));
+		gameStateMachine_ = new GameStateMachine();
+		gameStateMachine_->pushState(new TitleScreenState());
 		
 		return true;
 		//----------------------------------
@@ -76,22 +79,18 @@ void Game::Quit() {
 }
 
 void Game::Update(int deltaTime) {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Update(deltaTime);
-	}
+	gameStateMachine_->Update(deltaTime);
 }
 
 void Game::Render() {
 	SDL_RenderClear(renderer_);
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Render();
-	}
+	gameStateMachine_->Render();
 	SDL_RenderPresent(renderer_);
 }
 
 void Game::Clean() {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		delete gameObjectPointer;
+	while (!gameStateMachine_->IsEmpty()) {
+		gameStateMachine_->popState();
 	}
 	InputHandler::Instance()->Clean();
 
@@ -104,7 +103,7 @@ void Game::Clean() {
 
 Game::Game() {
 	bRunning_ = false;
-	gameObjects_ = {};
+	gameStateMachine_ = nullptr;
 	window_ = nullptr;
 	renderer_ = nullptr;
 };

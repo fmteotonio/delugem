@@ -1,3 +1,5 @@
+#pragma once
+
 #define SCREEN_WIDTH 768
 #define SCREEN_HEIGHT 432
 #define GAME_SCALE 2
@@ -23,3 +25,10 @@
 
 #define GEM_TYPE_NUMBER 5
 #define BOARD_STARTINGSPD 2
+
+//------------UI-------------------
+
+#define SPR_PLAYBUTTON "res/images/PlayButton.png"
+#define PLAYBUTTON_W 192
+#define PLAYBUTTON_H 64
+

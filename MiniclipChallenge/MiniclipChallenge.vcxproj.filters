@@ -15,6 +15,9 @@
     <Filter Include="src\GameObjects">
       <UniqueIdentifier>{9a87590a-dac8-4316-a4ac-b95e2dde3370}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameStates">
+      <UniqueIdentifier>{eaa015ed-e420-4269-b6a2-cc60320ee20a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -41,6 +44,21 @@
     <ClInclude Include="src\GameObjects\Board.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameStates\GameState.h">
+      <Filter>src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\TitleScreenState.h">
+      <Filter>src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\PlayingState.h">
+      <Filter>src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\GameStateMachine.h">
+      <Filter>src\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjects\PlayButton.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -65,6 +83,18 @@
       <Filter>src\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Board.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\TitleScreenState.cpp">
+      <Filter>src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\PlayingState.cpp">
+      <Filter>src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\GameStateMachine.cpp">
+      <Filter>src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\PlayButton.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>

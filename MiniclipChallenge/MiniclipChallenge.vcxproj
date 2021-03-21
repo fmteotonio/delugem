@@ -157,6 +157,11 @@
     <ClInclude Include="src\GameObjects\Board.h" />
     <ClInclude Include="src\GameObjects\GameObject.h" />
     <ClInclude Include="src\GameObjects\Gem.h" />
+    <ClInclude Include="src\GameObjects\PlayButton.h" />
+    <ClInclude Include="src\GameStates\GameState.h" />
+    <ClInclude Include="src\GameStates\GameStateMachine.h" />
+    <ClInclude Include="src\GameStates\PlayingState.h" />
+    <ClInclude Include="src\GameStates\TitleScreenState.h" />
     <ClInclude Include="src\InputHandler.h" />
     <ClInclude Include="src\TextureManager.h" />
   </ItemGroup>
@@ -166,6 +171,10 @@
     <ClCompile Include="src\GameObjects\Board.cpp" />
     <ClCompile Include="src\GameObjects\GameObject.cpp" />
     <ClCompile Include="src\GameObjects\Gem.cpp" />
+    <ClCompile Include="src\GameObjects\PlayButton.cpp" />
+    <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
+    <ClCompile Include="src\GameStates\PlayingState.cpp" />
+    <ClCompile Include="src\GameStates\TitleScreenState.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />

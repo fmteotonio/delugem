@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObjects/GameObject.h"
+#include "GameStates/GameStateMachine.h"
 
 #include <iostream>
 #include <vector>
@@ -13,6 +13,7 @@ public:
 	static Game* Instance();
 		
 	bool bRunning();
+	GameStateMachine* gameStateMachine();
 	SDL_Renderer* renderer();
 
 	bool Init(const char* title, int width, int height, bool fullscreen);
@@ -28,7 +29,7 @@ public:
 private:
 	static Game* spInstance_;
 	bool bRunning_;
-	std::vector<GameObject*> gameObjects_;
+	GameStateMachine* gameStateMachine_;
 	SDL_Window* window_;
 	SDL_Renderer* renderer_;
 	Game();
