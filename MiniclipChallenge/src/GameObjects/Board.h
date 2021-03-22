@@ -26,5 +26,6 @@ private:
 	int scrollSpeed_;
 	bool hasClicked_;
 	std::default_random_engine generator_;
-	std::vector<std::vector<Gem>> boardGems_;
+	std::vector<std::vector<Gem*>> boardGems_;
+	std::vector<Gem*> beingDestroyedGems_;
 };

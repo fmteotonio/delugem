@@ -11,7 +11,10 @@ public:
 	void Update(int deltaTime);
 	void HandleInput();
 	void Render();
+	void Clean();
 
 private:
+
+	GameObject* playText_;
 	bool clicked_;
 };

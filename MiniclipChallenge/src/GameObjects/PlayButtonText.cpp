@@ -7,13 +7,12 @@
 #include "../GameStates/TitleScreenState.h"
 
 PlayButtonText::PlayButtonText(float x, float y) {
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadText("res/fonts/m6x11.ttf", 20, "Hello World.",0,0,0);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadText(FNT_M6X11, 16, "PLAY GAME",255,255,255);
 
-	int w;
-	int h;
+	int w, h;
 	SDL_QueryTexture(objTexture, NULL, NULL, &w, &h);
 
-	GameObject::Init(x, y, w, h, objTexture, 0, 0);
+	GameObject::Init(x-w/2, y-h/2+1, w, h, objTexture, new Animation("Still", 0, 0));
 }
 
 void PlayButtonText::Render() {

@@ -8,17 +8,19 @@
 #include <chrono>
 #include <algorithm>
 #include <functional>
+#include <iterator>
 
 Board::Board(float x, float y) {
 
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BOARD_AUX);
-	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, 0, 0);
+	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, new Animation("Still", 0, 0));
 	
 	nextGemID_ = 0;
 	scrollSpeed_ = -BOARD_STARTINGSPD;
 	hasClicked_ = false;
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	boardGems_ = {};
+	beingDestroyedGems_ = {};
 
 	for (int i = 0; i < 20; ++i) {
 		makeNewColumn();
@@ -32,12 +34,18 @@ void Board::Update(int deltaTime) {
 
 	HandleInput();
 
-	for (std::vector<Gem> column : boardGems_) {
-		for (Gem gem : column) {
-			gem.Update(deltaTime);
+	for (std::vector<Gem*> column : boardGems_) {
+		for (Gem* gem : column) {
+			gem->Update(deltaTime);
 		}
 	}
-
+	for (int i = 0; i < beingDestroyedGems_.size(); ++i) {
+		if (beingDestroyedGems_.at(i)->gemStatus() == Gem::GemStatus::TO_DESTROY) {
+			delete beingDestroyedGems_.at(i);
+			beingDestroyedGems_.erase(beingDestroyedGems_.begin() + i);
+			std::cout << "Destroyed a Gem.\n";
+		}
+	}
 }
 
 void Board::HandleInput() {
@@ -53,10 +61,13 @@ void Board::Render() {
 
 	GameObject::Render();
 	
-	for (std::vector<Gem> column : boardGems_) {
-		for (Gem gem : column) {
-			gem.Render();
+	for (std::vector<Gem*> column : boardGems_) {
+		for (Gem* gem : column) {
+			gem->Render();
 		}
+	}
+	for (Gem* gem : beingDestroyedGems_) {
+		gem->Render();
 	}
 }
 
@@ -68,12 +79,12 @@ void Board::makeNewColumn() {
 
 	std::uniform_int_distribution<int> distribution(0,GEM_TYPE_NUMBER-1);
 	
-	std::vector<Gem> newColumn;
+	std::vector<Gem*> newColumn;
 	for (int i = 0; i < 10; ++i) {
 
 		Gem::GemColor color = Gem::GemColor(distribution(generator_));
 
-		Gem newGem = Gem(
+		Gem* newGem = new Gem(
 							color,
 							x_ + (double)boardGems_.size() * GEM_W,
 							y_ + ((double)BOARD_HEIGHT - i - 1) * GEM_H,
@@ -100,9 +111,9 @@ void Board::clickPiece(Sint32 mouseX, Sint32 mouseY) {
 
 void Board::moveBoard(float x) {
 	x_ += x;
-	for (std::vector<Gem>& column : boardGems_) {
-		for (Gem& gem : column) {
-			gem.Move(x, 0);
+	for (std::vector<Gem*> column : boardGems_) {
+		for (Gem* gem : column) {
+			gem->Move(x, 0);
 		}
 	}
 }
@@ -126,7 +137,7 @@ void Board::searchGemGroup(int gX, int gY) {
 		if (gX >= 0 && gX < boardGems_.size()) {
 			if (gY >= 0 && gY < boardGems_.at(gX).size()) {
 
-				Gem* this_gem = &boardGems_.at(gX).at(gY);
+				Gem* this_gem = boardGems_.at(gX).at(gY);
 
 				//Gem is not same Color - X
 				//Gem is same color but already checked - X
@@ -149,12 +160,12 @@ void Board::searchGemGroup(int gX, int gY) {
 		return 0;
 	};
 
-	gemNumber = recursion(dir::NONE, boardGems_.at(gX).at(gY).gemColor(), gX, gY);
+	gemNumber = recursion(dir::NONE, boardGems_.at(gX).at(gY)->gemColor(), gX, gY);
 
 	if (gemNumber > 1) {
 		for (int i = boardGems_.size() - 1; i >= 0; i--) {
 			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; ii--) {
-				if (std::find(toDelete.begin(), toDelete.end(), boardGems_.at(i).at(ii).id()) != toDelete.end()) {
+				if (std::find(toDelete.begin(), toDelete.end(), boardGems_.at(i).at(ii)->id()) != toDelete.end()) {
 					eraseGem(i, ii);
 				}
 			}
@@ -164,16 +175,17 @@ void Board::searchGemGroup(int gX, int gY) {
 
 void Board::eraseGem(int gX, int gY) {
 	
-	std::vector<Gem>& column = boardGems_.at(gX);
-
-	//Erase clicked Gem.
+	std::vector<Gem*>& column = boardGems_.at(gX);
+	
+	beingDestroyedGems_.push_back(column.at(gY));
+	column.at(gY)->DestroyGem();
 	column.erase(column.begin() + gY);
 
 	//Update position for every Gem above
 	for (int i = gY; i < column.size(); ++i) {
 
-		column.at(i).Move(0, GEM_H);
-		column.at(i).MoveB(0, 1);
+		column.at(i)->Move(0, GEM_H);
+		column.at(i)->MoveB(0, 1);
 	}
 
 	//Check if column empty
@@ -185,13 +197,15 @@ void Board::eraseGem(int gX, int gY) {
 
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
-			for (Gem& gem : boardGems_.at(i)) {
+			for (Gem* gem : boardGems_.at(i)) {
 
-				gem.Move(GEM_W, 0);
-				gem.MoveB(1,0);
+				gem->Move(GEM_W, 0);
+				gem->MoveB(1,0);
 
 			}
 		}
 
 	}
+	
+	
 }

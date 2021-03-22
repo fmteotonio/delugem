@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObjects\Background.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="src\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObjects\Background.cpp" />
     <ClCompile Include="src\GameObjects\Board.cpp" />
