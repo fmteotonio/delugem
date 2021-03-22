@@ -12,6 +12,7 @@ public:
 
 	void Update(int deltaTime);
 	void Render();
+	void Clean();
 
 	bool IsEmpty();
 private:

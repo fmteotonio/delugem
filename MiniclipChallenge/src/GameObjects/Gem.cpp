@@ -3,61 +3,95 @@
 #include "../TextureManager.h"
 #include "../Constants.h"
 
-Gem::Gem(GemColor gemColor, float x, float y, int boardX,      int boardY,      int id) :
-	     gemColor_(gemColor),                 boardX_(boardX), boardY_(boardY), id_(id){
+Gem::Gem(GemColor gemColor, float x, float y, int id) {
+	gemColor_ = gemColor;
+	id_ = id;
 
-	SDL_Texture* objTexture = nullptr;
-
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_GEMS);
+	
+	int frameRow;
 	switch (gemColor_) {
-	case(GemColor::BEIGE):  objTexture = TextureManager::Instance()->LoadTexture(SPR_BEIGEGEM);  break;
-	case(GemColor::BLUE):   objTexture = TextureManager::Instance()->LoadTexture(SPR_BLUEGEM);   break;
-	case(GemColor::GREEN):  objTexture = TextureManager::Instance()->LoadTexture(SPR_GREENGEM);  break;
-	case(GemColor::ORANGE): objTexture = TextureManager::Instance()->LoadTexture(SPR_ORANGEGEM); break;
-	case(GemColor::PINK):   objTexture = TextureManager::Instance()->LoadTexture(SPR_PINKGEM);   break;
+	case(GemColor::BEIGE):  frameRow = 0; break;
+	case(GemColor::BLUE):   frameRow = 1; break;
+	case(GemColor::GREEN):  frameRow = 2; break;
+	case(GemColor::ORANGE): frameRow = 3; break;
+	case(GemColor::PINK):   frameRow = 4; break;
+	default: frameRow = 0;
 	}
 
 	//ANIMATION
-	destroyAnimation = new Animation("Destroy", 0, 7, 0, 40);
-	stillAnimation = new Animation("Still", 0, 0);
+	destroyAnimation_ = new Animation("Destroy", 0, 5, frameRow, 40);
+	stillAnimation_ = new Animation("Still", 0, frameRow);
 
 	gemStatus_ = GemStatus::DEFAULT;
-	//destroyAnimationStarted_ = false;
-	//destroyAnimationSpeed_ = 40;
-	//destroyAnimationFrameNumber_ = 8;
-	//destroyAnimationStartTime_ = 0;
 
-	GameObject::Init(x, y, GEM_W, GEM_H, objTexture, stillAnimation);
+
+	GameObject::Init(x, y, GEM_W, GEM_H, objTexture, stillAnimation_);
 }
 
-int Gem::id()			      { return id_; }
-Gem::GemColor Gem::gemColor() { return gemColor_; }
+int Gem::id() { return id_; }
+Gem::GemColor Gem::gemColor()   { return gemColor_; }
 Gem::GemStatus Gem::gemStatus() { return gemStatus_; }
 
-void Gem::Update(int deltaTime) {
-}
-
-void Gem::Render() {
-	if (animation_->id() == stillAnimation->id() && gemStatus_ == GemStatus::DESTROY_ANIMATION) {
-		animation_ = destroyAnimation;
-		animation_->Play();
-	}
-	if (animation_->id() == destroyAnimation->id() && animation_->PlayedOnce()) {
-		gemStatus_ = GemStatus::TO_DESTROY;
-		return;
-	}
-	GameObject::Render();
-}
-
 void Gem::Move(float x, float y) {
-	x_ += x;
-	y_ += y;
-}
-
-void Gem::MoveB(int boardX, int boardY) {
-	boardX_ += boardX;
-	boardY_ += boardY;
+	toMoveX_ += x;
+	toMoveY_ += y;
 }
 
 void Gem::DestroyGem() {
 	gemStatus_ = GemStatus::DESTROY_ANIMATION;
+}
+
+void Gem::Update(int deltaTime) {
+	float moveUnitX = vx_ * (deltaTime / 1000.0f);
+	float moveUnitY = vy_ * (deltaTime / 1000.0f);
+	if (toMoveX_ != 0) {
+		int sign = (toMoveX_ > 0) - (toMoveX_ < 0);
+		if (toMoveX_ < moveUnitX && toMoveX_ > -moveUnitX) {
+			x_ += toMoveX_;
+			toMoveX_ -= toMoveX_;
+			vx_ = 0;
+		}
+		else {
+			x_ += moveUnitX * sign;
+			toMoveX_ -= moveUnitX * sign;
+
+			vx_ += a_ * (deltaTime / 1000.0f);
+		}
+	}
+	if (toMoveY_ != 0) {
+		int sign = (toMoveY_ > 0) - (toMoveY_ < 0);
+		if (toMoveY_ < moveUnitY && toMoveY_ > -moveUnitY) {
+			y_ += toMoveY_;
+			toMoveY_ -= toMoveY_;
+			vy_ = 0;
+		}
+		else {
+			y_ += moveUnitY * sign;
+			toMoveY_ -= moveUnitY * sign;
+			vy_ += a_ * (deltaTime / 1000.0f);
+		}
+	}
+
+	GameObject::Update(deltaTime);
+}
+
+void Gem::Render() {
+	if (animation_->id() == stillAnimation_->id() && gemStatus_ == GemStatus::DESTROY_ANIMATION) {
+		animation_ = destroyAnimation_;
+		animation_->Play();
+	}
+	if (animation_->id() == destroyAnimation_->id() && animation_->PlayedOnce()) {
+		gemStatus_ = GemStatus::TO_DESTROY;
+		return;
+	}
+
+	GameObject::Render();
+}
+
+void Gem::Clean() {
+	delete stillAnimation_;
+	delete destroyAnimation_;
+
+	GameObject::Clean();
 }

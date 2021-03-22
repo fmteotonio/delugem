@@ -1,6 +1,5 @@
 #include "Board.h"
 
-#include "../Constants.h"
 #include "../InputHandler.h"
 #include "../TextureManager.h"
 
@@ -15,12 +14,7 @@ Board::Board(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BOARD_AUX);
 	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, new Animation("Still", 0, 0));
 	
-	nextGemID_ = 0;
-	scrollSpeed_ = -BOARD_STARTINGSPD;
-	hasClicked_ = false;
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
-	boardGems_ = {};
-	beingDestroyedGems_ = {};
 
 	for (int i = 0; i < 20; ++i) {
 		makeNewColumn();
@@ -30,7 +24,7 @@ Board::Board(float x, float y) {
 
 void Board::Update(int deltaTime) {
 
-	moveBoard((double)scrollSpeed_ * deltaTime/1000.0);
+	moveBoard((float)scrollSpeed_ * deltaTime/1000.0f);
 
 	HandleInput();
 
@@ -39,11 +33,10 @@ void Board::Update(int deltaTime) {
 			gem->Update(deltaTime);
 		}
 	}
-	for (int i = 0; i < beingDestroyedGems_.size(); ++i) {
+	for (size_t i = 0; i < beingDestroyedGems_.size(); ++i) {
 		if (beingDestroyedGems_.at(i)->gemStatus() == Gem::GemStatus::TO_DESTROY) {
 			delete beingDestroyedGems_.at(i);
 			beingDestroyedGems_.erase(beingDestroyedGems_.begin() + i);
-			std::cout << "Destroyed a Gem.\n";
 		}
 	}
 }
@@ -86,10 +79,8 @@ void Board::makeNewColumn() {
 
 		Gem* newGem = new Gem(
 							color,
-							x_ + (double)boardGems_.size() * GEM_W,
-							y_ + ((double)BOARD_HEIGHT - i - 1) * GEM_H,
-							boardGems_.size(),
-							i,
+							x_ + (float)boardGems_.size() * GEM_W,
+							y_ + ((float)BOARD_HEIGHT - i - 1) * GEM_H,
 							getNextGemID()
 						);
 		newColumn.push_back(newGem);
@@ -123,7 +114,7 @@ void Board::searchGemGroup(int gX, int gY) {
 	int gemNumber = 0;
 	std::vector<int> toDelete = {};
 
-	enum dir{
+	enum class dir{
 		NONE, UP, DOWN, LEFT, RIGHT
 	};
 	
@@ -163,8 +154,8 @@ void Board::searchGemGroup(int gX, int gY) {
 	gemNumber = recursion(dir::NONE, boardGems_.at(gX).at(gY)->gemColor(), gX, gY);
 
 	if (gemNumber > 1) {
-		for (int i = boardGems_.size() - 1; i >= 0; i--) {
-			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; ii--) {
+		for (int i = boardGems_.size() - 1; i >= 0; --i) {
+			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {
 				if (std::find(toDelete.begin(), toDelete.end(), boardGems_.at(i).at(ii)->id()) != toDelete.end()) {
 					eraseGem(i, ii);
 				}
@@ -174,7 +165,6 @@ void Board::searchGemGroup(int gX, int gY) {
 }
 
 void Board::eraseGem(int gX, int gY) {
-	
 	std::vector<Gem*>& column = boardGems_.at(gX);
 	
 	beingDestroyedGems_.push_back(column.at(gY));
@@ -183,9 +173,7 @@ void Board::eraseGem(int gX, int gY) {
 
 	//Update position for every Gem above
 	for (int i = gY; i < column.size(); ++i) {
-
 		column.at(i)->Move(0, GEM_H);
-		column.at(i)->MoveB(0, 1);
 	}
 
 	//Check if column empty
@@ -198,14 +186,8 @@ void Board::eraseGem(int gX, int gY) {
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
 			for (Gem* gem : boardGems_.at(i)) {
-
 				gem->Move(GEM_W, 0);
-				gem->MoveB(1,0);
-
 			}
 		}
-
 	}
-	
-	
 }

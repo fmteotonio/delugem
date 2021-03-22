@@ -22,5 +22,5 @@ private:
 	int msPerFrame_;
 
 	bool isPlaying_;
-	int startTime_;
+	int startTime_ = 0;
 };

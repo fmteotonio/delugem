@@ -21,16 +21,11 @@ PlayButton::PlayButton(float x, float y) {
 
 bool PlayButton::clicked() {return clicked_;}
 
-void PlayButton::Render() {
-	GameObject::Render();
-	//Components:
-	playText_->Render();
-}
-
 void PlayButton::Update(int deltaTime) {
 	HandleInput();
-	//Components:
 	playText_->Update(deltaTime);
+
+	GameObject::Update(deltaTime);
 }
 
 void PlayButton::HandleInput() {
@@ -40,8 +35,15 @@ void PlayButton::HandleInput() {
 	}
 }
 
+void PlayButton::Render() {
+	playText_->Render();
+
+	GameObject::Render();
+}
+
 void PlayButton::Clean() {
-	//Components:
 	playText_->Clean();
 	delete playText_;
+
+	GameObject::Clean();
 }

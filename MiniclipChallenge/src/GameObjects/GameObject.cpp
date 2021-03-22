@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-void GameObject::Init(float x, float y, int w, int h, SDL_Texture* texture, Animation* animation /*int frame, int frameRow*/) {
+void GameObject::Init(float x, float y, int w, int h, SDL_Texture* texture, Animation* animation) {
 	x_ = x;
 	y_ = y;
 	w_ = w;
@@ -26,11 +26,13 @@ void GameObject::Render() {
 
 	SDL_Rect dest;
 	//Convert to Int before Scale to avoid sub-pixel movement
-	dest.x = (int)x_ * GAME_SCALE;
-	dest.y = (int)y_ * GAME_SCALE; 
+	dest.x = int(round(x_)) * GAME_SCALE;
+	dest.y = int(round(y_)) * GAME_SCALE; 
 	dest.w = w_ * GAME_SCALE;
 	dest.h = h_ * GAME_SCALE;
 	TextureManager::Instance()->Draw(texture_, src, dest);
 }
 
-void GameObject::Clean() { }
+void GameObject::Clean() { 
+	delete animation_;
+}

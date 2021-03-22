@@ -10,7 +10,7 @@ public:
 	virtual void Update(int deltaTime);
 	virtual void Render();
 	virtual void Clean();
-protected:  
+protected:
 	float x_;
 	float y_;
 	int w_;

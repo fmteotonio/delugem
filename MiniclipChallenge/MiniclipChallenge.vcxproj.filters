@@ -114,25 +114,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\images\BlueGem.png">
-      <Filter>res\images</Filter>
-    </Image>
     <Image Include="res\images\auxOrigin.png">
       <Filter>res\images</Filter>
     </Image>
-    <Image Include="res\images\BeigeGem.png">
+    <Image Include="res\images\Gems.png">
       <Filter>res\images</Filter>
     </Image>
-    <Image Include="res\images\GreenGem.png">
+    <Image Include="res\images\PlayButtonLow.png">
       <Filter>res\images</Filter>
     </Image>
-    <Image Include="res\images\OrangeGem.png">
-      <Filter>res\images</Filter>
-    </Image>
-    <Image Include="res\images\PinkGem.png">
-      <Filter>res\images</Filter>
-    </Image>
-    <Image Include="res\images\background.png">
+    <Image Include="res\images\backgroundLow.png">
       <Filter>res\images</Filter>
     </Image>
   </ItemGroup>

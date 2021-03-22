@@ -15,9 +15,15 @@ PlayButtonText::PlayButtonText(float x, float y) {
 	GameObject::Init(x-w/2, y-h/2+1, w, h, objTexture, new Animation("Still", 0, 0));
 }
 
+void PlayButtonText::Update(int deltaTime) {
+	GameObject::Update(deltaTime);
+}
+
 void PlayButtonText::Render() {
 	GameObject::Render();
 }
 
-void PlayButtonText::Update(int deltaTime) {
+void PlayButtonText::Clean() {
+	GameObject::Clean();
 }
+

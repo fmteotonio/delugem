@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "../Animation.h"
+#include "../Constants.h"
 
 class Gem : public GameObject {
 public:
@@ -12,34 +13,31 @@ public:
 		DEFAULT, DESTROY_ANIMATION, TO_DESTROY
 	};
 
-	Gem(GemColor gemColor, float x, float y, int boardX, int boardY, int id);
+	Gem(GemColor gemColor, float x, float y, int id);
 
 	int id();
 	GemColor gemColor();
 	GemStatus gemStatus();
 
+	void Move(float x, float y);
+	void DestroyGem();
+
 	void Update(int deltaTime);
 	void Render();
-
-	void Move(float x, float y);
-	void MoveB(int boardX, int boardY);
-
-	void DestroyGem();
+	void Clean();
 
 private:
 	int id_;
-	int boardX_;
-	int boardY_;
+
+	float toMoveX_ = 0;
+	float toMoveY_ = 0;
+	float vx_ = 0;
+	float vy_ = 0;
+	float a_ = GEM_ACCELERATION;
+
 	GemColor gemColor_;
-	
-	//AnimationTests
 	GemStatus gemStatus_;
 
-	Animation* stillAnimation;
-	Animation* destroyAnimation;
-
-	//bool destroyAnimationStarted_;
-	//int destroyAnimationSpeed_;
-	//int destroyAnimationFrameNumber_;
-	//int destroyAnimationStartTime_;
+	Animation* stillAnimation_;
+	Animation* destroyAnimation_;
 };

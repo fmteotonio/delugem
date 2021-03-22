@@ -5,6 +5,7 @@
 
 #include "Gem.h"
 #include "GameObject.h"
+#include "../Constants.h"
 
 class Board : public GameObject {
 public:
@@ -22,9 +23,9 @@ public:
 	void eraseGem(int gX, int gY);
 
 private:
-	int nextGemID_;
-	int scrollSpeed_;
-	bool hasClicked_;
+	int nextGemID_ = 0;
+	int scrollSpeed_ = -BOARD_STARTINGSPD;
+	bool hasClicked_ = false;
 	std::default_random_engine generator_;
 	std::vector<std::vector<Gem*>> boardGems_;
 	std::vector<Gem*> beingDestroyedGems_;

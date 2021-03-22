@@ -185,12 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\images\auxOrigin.png" />
-    <Image Include="res\images\background.png" />
-    <Image Include="res\images\BeigeGem.png" />
-    <Image Include="res\images\BlueGem.png" />
-    <Image Include="res\images\GreenGem.png" />
-    <Image Include="res\images\OrangeGem.png" />
-    <Image Include="res\images\PinkGem.png" />
+    <Image Include="res\images\backgroundLow.png" />
+    <Image Include="res\images\Gems.png" />
+    <Image Include="res\images\PlayButtonLow.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\fonts\m3x6.ttf" />

@@ -100,9 +100,7 @@ void Game::Render() {
 }
 
 void Game::Clean() {
-	while (!gameStateMachine_->IsEmpty()) {
-		gameStateMachine_->popState();
-	}
+	
 	TextureManager::Instance()->Clean();
 	InputHandler::Instance()->Clean();
 
@@ -111,6 +109,7 @@ void Game::Clean() {
 	TTF_Quit();
 	SDL_Quit();
 
+	delete gameStateMachine_;
 	delete sGameInstance_;
 }
 

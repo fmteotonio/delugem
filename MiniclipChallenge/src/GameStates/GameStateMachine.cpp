@@ -34,6 +34,12 @@ void GameStateMachine::Render() {
 		gameStates_.back()->Render();
 }
 
+void GameStateMachine::Clean() {
+	while (!gameStates_.empty()) {
+		popState();
+	}
+}
+
 bool GameStateMachine::IsEmpty() {
 	return gameStates_.empty();
 }
