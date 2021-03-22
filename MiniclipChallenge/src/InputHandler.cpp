@@ -4,13 +4,13 @@
 
 #include <iostream>
 
-InputHandler* InputHandler::spInstance_ = nullptr;
+InputHandler* InputHandler::sInputHandlerInstance_ = nullptr;
 
 InputHandler* InputHandler::Instance() {
-	if (!spInstance_) {
-		spInstance_ = new InputHandler();
+	if (!sInputHandlerInstance_) {
+		sInputHandlerInstance_ = new InputHandler();
 	}
-	return spInstance_;
+	return sInputHandlerInstance_;
 }
 
 bool   InputHandler::mouseLeft() { return mouseLeft_; }
@@ -49,7 +49,7 @@ void InputHandler::Update() {
 }
 
 void InputHandler::Clean() {
-	delete spInstance_;
+	delete sInputHandlerInstance_;
 }
 
 InputHandler::InputHandler() {

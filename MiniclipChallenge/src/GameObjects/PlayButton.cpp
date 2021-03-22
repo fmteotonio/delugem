@@ -9,7 +9,7 @@
 PlayButton::PlayButton(float x, float y) {
 	clicked_ = false;
 
-	SDL_Texture* objTexture = TextureManager::LoadTexture(SPR_PLAYBUTTON);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_PLAYBUTTON);
 	GameObject::Init(x, y, PLAYBUTTON_W, PLAYBUTTON_H, objTexture, 0, 0);
 }
 

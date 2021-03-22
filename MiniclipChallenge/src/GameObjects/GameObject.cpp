@@ -28,11 +28,11 @@ void GameObject::Render() {
 	src.h = h_;
 
 	SDL_Rect dest;
-	dest.x = (int)(x_ * GAME_SCALE);
-	dest.y = (int)(y_ * GAME_SCALE);
+	dest.x = (int)x_ * GAME_SCALE;
+	dest.y = (int)y_ * GAME_SCALE;
 	dest.w = w_ * GAME_SCALE;
 	dest.h = h_ * GAME_SCALE;
-	TextureManager::Draw(texture_, src, dest);
+	TextureManager::Instance()->Draw(texture_, src, dest);
 }
 
 void GameObject::Clean() { 

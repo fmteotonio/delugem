@@ -11,7 +11,7 @@
 
 Board::Board(float x, float y) {
 
-	SDL_Texture* objTexture = TextureManager::LoadTexture(SPR_BOARD_AUX);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BOARD_AUX);
 	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, 0, 0);
 	
 	nextGemID_ = 0;
@@ -20,7 +20,7 @@ Board::Board(float x, float y) {
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	boardGems_ = {};
 
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < 20; ++i) {
 		makeNewColumn();
 	}
 }

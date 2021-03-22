@@ -14,7 +14,7 @@ public:
 	void Clean();
 
 private:
-	static InputHandler* spInstance_;
+	static InputHandler* sInputHandlerInstance_;
 
 	bool mouseLeft_;
 	Sint32 mouseX_;

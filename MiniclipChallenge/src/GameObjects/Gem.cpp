@@ -9,11 +9,11 @@ Gem::Gem(GemColor gemColor, float x, float y, int boardX,      int boardY,      
 	SDL_Texture* objTexture = nullptr;
 
 	switch (gemColor_) {
-	case(GemColor::BEIGE):  objTexture = TextureManager::LoadTexture(SPR_BEIGEGEM);  break;
-	case(GemColor::BLUE):   objTexture = TextureManager::LoadTexture(SPR_BLUEGEM);   break;
-	case(GemColor::GREEN):  objTexture = TextureManager::LoadTexture(SPR_GREENGEM);  break;
-	case(GemColor::ORANGE): objTexture = TextureManager::LoadTexture(SPR_ORANGEGEM); break;
-	case(GemColor::PINK):   objTexture = TextureManager::LoadTexture(SPR_PINKGEM);   break;
+	case(GemColor::BEIGE):  objTexture = TextureManager::Instance()->LoadTexture(SPR_BEIGEGEM);  break;
+	case(GemColor::BLUE):   objTexture = TextureManager::Instance()->LoadTexture(SPR_BLUEGEM);   break;
+	case(GemColor::GREEN):  objTexture = TextureManager::Instance()->LoadTexture(SPR_GREENGEM);  break;
+	case(GemColor::ORANGE): objTexture = TextureManager::Instance()->LoadTexture(SPR_ORANGEGEM); break;
+	case(GemColor::PINK):   objTexture = TextureManager::Instance()->LoadTexture(SPR_PINKGEM);   break;
 	}
 
 	GameObject::Init(x, y, GEM_W, GEM_H, objTexture, 0, 0);

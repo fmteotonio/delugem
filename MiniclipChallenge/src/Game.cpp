@@ -10,14 +10,15 @@
 
 #include <SDL.h>
 #include <SDL_Image.h>
+#include <SDL_ttf.h>
 
-Game* Game::spInstance_ = nullptr;
+Game* Game::sGameInstance_ = nullptr;
 
 Game* Game::Instance() {
-	if (!spInstance_) {
-		spInstance_ = new Game();
+	if (!sGameInstance_) {
+		sGameInstance_ = new Game();
 	}
-	return spInstance_;
+	return sGameInstance_;
 }
 
 bool Game::bRunning() { return bRunning_; }
@@ -52,7 +53,17 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		}
 		std::cout << "SDL_Init successful.\n";
 		bRunning_ = true;
+
+		//INIT TEX MAN
+
+		TextureManager::Instance();
 	
+		if (TTF_Init() != 0) {
+			std::cout << "TTF Init failed.\n";
+			return false;
+		}
+
+
 		//INIT INPUT HANDLER
 		InputHandler::Instance();
 
@@ -92,13 +103,15 @@ void Game::Clean() {
 	while (!gameStateMachine_->IsEmpty()) {
 		gameStateMachine_->popState();
 	}
+	TextureManager::Instance()->Clean();
 	InputHandler::Instance()->Clean();
 
 	SDL_DestroyWindow(window_);
 	SDL_DestroyRenderer(renderer_);
+	TTF_Quit();
 	SDL_Quit();
 
-	delete spInstance_;
+	delete sGameInstance_;
 }
 
 Game::Game() {

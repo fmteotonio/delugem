@@ -27,7 +27,7 @@ public:
 	
 
 private:
-	static Game* spInstance_;
+	static Game* sGameInstance_;
 	bool bRunning_;
 	GameStateMachine* gameStateMachine_;
 	SDL_Window* window_;

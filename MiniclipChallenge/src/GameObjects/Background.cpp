@@ -4,7 +4,7 @@
 #include "../TextureManager.h"
 
 Background::Background(float x, float y) {
-	SDL_Texture* objTexture = TextureManager::LoadTexture(SPR_BACKGROUND);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BACKGROUND);
 	GameObject::Init(x, y, BACKGROUND_W, BACKGROUND_H, objTexture, 0, 0);
 }
 
