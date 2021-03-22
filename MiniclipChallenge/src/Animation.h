@@ -21,6 +21,6 @@ private:
 	int frameRow_;
 	int msPerFrame_;
 
-	bool isPlaying_;
+	bool isPlaying_ = false;
 	int startTime_ = 0;
 };

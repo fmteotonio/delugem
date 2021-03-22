@@ -16,5 +16,5 @@ public:
 private:
 
 	GameObject* playText_;
-	bool clicked_;
+	bool clicked_ = false;
 };

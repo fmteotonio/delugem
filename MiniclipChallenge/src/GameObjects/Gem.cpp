@@ -23,9 +23,6 @@ Gem::Gem(GemColor gemColor, float x, float y, int id) {
 	destroyAnimation_ = new Animation("Destroy", 0, 5, frameRow, 40);
 	stillAnimation_ = new Animation("Still", 0, frameRow);
 
-	gemStatus_ = GemStatus::DEFAULT;
-
-
 	GameObject::Init(x, y, GEM_W, GEM_H, objTexture, stillAnimation_);
 }
 

@@ -36,7 +36,7 @@ private:
 	float a_ = GEM_ACCELERATION;
 
 	GemColor gemColor_;
-	GemStatus gemStatus_;
+	GemStatus gemStatus_ = GemStatus::DEFAULT;
 
 	Animation* stillAnimation_;
 	Animation* destroyAnimation_;

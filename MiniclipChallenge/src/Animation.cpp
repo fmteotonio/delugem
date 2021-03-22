@@ -9,7 +9,6 @@ Animation::Animation(std::string id, int firstFrame, int lastFrame, int frameRow
 	lastFrame_ = lastFrame;
 	frameRow_ = frameRow;
 	msPerFrame_ = msPerFrame;
-	isPlaying_ = false;
 }
 
 Animation::Animation(std::string id, int onlyFrame, int frameRow) {
@@ -18,7 +17,6 @@ Animation::Animation(std::string id, int onlyFrame, int frameRow) {
 	lastFrame_ = onlyFrame;
 	frameRow_ = frameRow;
 	msPerFrame_ = 0;
-	isPlaying_ = false;
 }
 
 std::string Animation::id() {

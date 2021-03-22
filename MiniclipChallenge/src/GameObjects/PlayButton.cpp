@@ -9,7 +9,6 @@
 #include "PlayButtonText.h"
 
 PlayButton::PlayButton(float x, float y) {
-	clicked_ = false;
 
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_PLAYBUTTON);
 

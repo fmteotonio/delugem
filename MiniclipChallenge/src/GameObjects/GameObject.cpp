@@ -10,7 +10,6 @@ void GameObject::Init(float x, float y, int w, int h, SDL_Texture* texture, Anim
 	y_ = y;
 	w_ = w;
 	h_ = h;
-
 	texture_ = texture;
 	animation_ = animation;
 }
