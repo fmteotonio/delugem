@@ -16,7 +16,7 @@ void TitleScreenState::Update(int deltaTime) {
 	for (GameObject* gameObjectPointer : gameObjects_) {
 		gameObjectPointer->Update(deltaTime);
 	}
-	if (playButton_->clicked())
+	if (playButton_->playButtonState() == PlayButton::PlayButtonState::GAMESTATE_TOPLAYING)
 		Game::Instance()->gameStateMachine()->changeState(new PlayingState());
 }
 

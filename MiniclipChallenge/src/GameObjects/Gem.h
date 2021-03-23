@@ -9,6 +9,8 @@ public:
 	enum class GemState {
 		DEFAULT, HOVERED, BREAKING, TO_DESTROY
 	};
+	
+
 	enum class GemColor {
 		PINK, BLUE, ORANGE, GREEN, BEIGE
 	};
@@ -18,16 +20,15 @@ public:
 
 	int id();
 	GemColor gemColor();
-	GemState gemState();
-
 	void Move(float x, float y);
 	bool isMoving();
+
+	GemState gemState();
+	bool TransitState(GemState newGemState);
 
 	void Update(int deltaTime);
 	void Render();
 	void Clean();
-
-	bool TransitState(GemState newGemState);
 
 private:
 

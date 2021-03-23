@@ -5,25 +5,24 @@
 class PlayButton : public GameObject {
 public:
 	enum class PlayButtonState {
-		DEFAULT, PRESSED
+		DEFAULT, PRESSED, GAMESTATE_TOPLAYING
 	};
 
 	PlayButton(float x, float y);
-
-	bool clicked();
 
 	void Update(int deltaTime);
 	void HandleInput();
 	void Render();
 	void Clean();
 
+	PlayButtonState playButtonState();
+	bool TransitState(PlayButtonState newPlayButtonState);
+
 private:
-	PlayButtonState playButtonState = PlayButtonState::DEFAULT;
+	PlayButtonState playButtonState_ = PlayButtonState::DEFAULT;
 
-	Animation* defaultAnimation;
-	Animation* pressedAnimation;
-
+	Animation* defaultAnimation_;
+	Animation* pressedAnimation_;
 
 	GameObject* playText_;
-	bool clicked_ = false;
 };
