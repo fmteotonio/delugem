@@ -22,5 +22,5 @@ void GameManager::AddScore(int score) {
 
 void GameManager::Reset() {
 	level_ = 1;
-	score_ = 0;
+	score_ = 500;
 }

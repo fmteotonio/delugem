@@ -77,6 +77,9 @@
     <ClInclude Include="src\GameObjects\ForegroundStrip.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameObjects\ShadowedText.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -128,6 +131,9 @@
       <Filter>src\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\ForegroundStrip.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\ShadowedText.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,7 +4,7 @@
 #include "../GameObjects/Background.h"
 #include "../GameObjects/ForegroundStrip.h"
 #include "../GameObjects/Button.h"
-#include "../GameObjects/Text.h"
+#include "../GameObjects/ShadowedText.h"
 #include "../Game.h"
 #include "PlayingState.h"
 
@@ -20,12 +20,9 @@ void TitleScreenState::Init() {
 	int bY = SCREEN_HEIGHT / 2 - PLAYBUTTON_H / 2;
 	int bW = PLAYBUTTON_W;
 	int bH = PLAYBUTTON_H;
-	
-	GameObject* playButtonText = new Text(bX+bW/2, bY+bH/2, Text::Align::MID, FNT_M6X11, 16, "START GAME!", WHITE);
-	GameObject* playButtonTextShadow = new Text(bX+bW/2+1, bY+bH/2+1, Text::Align::MID, FNT_M6X11, 16, "START GAME!", BLACK);
+
 	gameObjects_.push_back(playButton_ = new Button(bX, bY, bW, bH, SPR_PLAYBUTTON));
-	playButton_->AddContent(playButtonTextShadow);
-	playButton_->AddContent(playButtonText);
+	playButton_->AddContent(new ShadowedText(bX + bW / 2, bY + bH / 2, Text::Align::MID, FNT_M6X11, 16, "START GAME!", WHITE, BLACK));
 
 }
 

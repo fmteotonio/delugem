@@ -11,10 +11,11 @@ Board::Board(float x, float y) {
 
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 
-	for (int i = 0; i < 20; ++i) {
+	for (int i = 0; i < BOARD_STARTCOLUMNS; ++i) {
 		makeNewColumn();
 	}
 
+	//Time must depend on gameManager
 	columnTimer_ = new Timer(5000, true);
 }
 
@@ -115,7 +116,7 @@ void Board::makeNewColumn() {
 	std::uniform_int_distribution<int> distribution(0,GEM_TYPE_NUMBER-1);
 	
 	std::vector<Gem*> newColumn;
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < BOARD_HEIGHT; ++i) {
 
 		Gem::GemColor color = Gem::GemColor(distribution(generator_));
 

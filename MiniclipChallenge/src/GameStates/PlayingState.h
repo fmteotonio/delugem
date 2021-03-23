@@ -17,4 +17,6 @@ public:
 private:
 	static const std::string stateID_;
 	std::vector<GameObject*> gameObjects_;
+
+	GameObject* scoreText_;
 };
