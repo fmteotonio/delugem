@@ -1,5 +1,6 @@
 #include "InputHandler.h"
 
+#include "Constants.h"
 #include "Game.h"
 
 #include <iostream>
@@ -14,8 +15,8 @@ InputHandler* InputHandler::Instance() {
 }
 
 bool   InputHandler::mouseLeft() { return mouseLeft_; }
-Sint32 InputHandler::mouseX() { return mouseX_; }
-Sint32 InputHandler::mouseY() { return mouseY_; }
+Sint32 InputHandler::mouseX() { return mouseX_ / GAME_SCALE; }
+Sint32 InputHandler::mouseY() { return mouseY_ / GAME_SCALE; }
 
 void InputHandler::Update() {
 	SDL_Event event;

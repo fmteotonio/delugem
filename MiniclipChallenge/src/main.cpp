@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	Uint32 lastFrameStart = SDL_GetTicks();
 	int frameTime;
 	
-	if (Game::Instance()->Init("BreakBreak", SCREEN_WIDTH * GAME_SCALE, SCREEN_HEIGHT * GAME_SCALE, false)) {
+	if (Game::Instance()->Init("Delugem", SCREEN_WIDTH * GAME_SCALE, SCREEN_HEIGHT * GAME_SCALE, false)) {
 		while (Game::Instance()->bRunning()) {
 			frameStart = SDL_GetTicks();
 

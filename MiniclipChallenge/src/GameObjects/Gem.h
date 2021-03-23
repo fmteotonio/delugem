@@ -4,29 +4,33 @@
 #include "../Animation.h"
 #include "../Constants.h"
 
-class Gem : public GameObject {
+class Gem : public GameObject{
 public:
+	enum class GemState {
+		DEFAULT, HOVERED, BREAKING, TO_DESTROY
+	};
 	enum class GemColor {
 		PINK, BLUE, ORANGE, GREEN, BEIGE
 	};
-	enum class GemStatus {
-		DEFAULT, DESTROY_ANIMATION, TO_DESTROY
-	};
+	
 
 	Gem(GemColor gemColor, float x, float y, int id);
 
 	int id();
 	GemColor gemColor();
-	GemStatus gemStatus();
+	GemState gemState();
 
 	void Move(float x, float y);
-	void DestroyGem();
+	bool isMoving();
 
 	void Update(int deltaTime);
 	void Render();
 	void Clean();
 
+	bool TransitState(GemState newGemState);
+
 private:
+
 	int id_;
 
 	float toMoveX_ = 0;
@@ -36,8 +40,10 @@ private:
 	float a_ = GEM_ACCELERATION;
 
 	GemColor gemColor_;
-	GemStatus gemStatus_ = GemStatus::DEFAULT;
+	GemState gemState_ = GemState::DEFAULT;
 
-	Animation* stillAnimation_;
-	Animation* destroyAnimation_;
+	Animation* defaultAnimation_;
+	Animation* hoveredAnimation_;
+	Animation* breakingAnimation_;
+	Animation* toDestroyAnimation_;
 };

@@ -4,6 +4,10 @@
 
 class PlayButton : public GameObject {
 public:
+	enum class PlayButtonState {
+		DEFAULT, PRESSED
+	};
+
 	PlayButton(float x, float y);
 
 	bool clicked();
@@ -14,6 +18,11 @@ public:
 	void Clean();
 
 private:
+	PlayButtonState playButtonState = PlayButtonState::DEFAULT;
+
+	Animation* defaultAnimation;
+	Animation* pressedAnimation;
+
 
 	GameObject* playText_;
 	bool clicked_ = false;

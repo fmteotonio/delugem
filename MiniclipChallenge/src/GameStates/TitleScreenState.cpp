@@ -2,7 +2,6 @@
 
 #include "../Constants.h"
 #include "../GameObjects/Background.h"
-#include "../GameObjects/PlayButtonText.h"
 #include "../Game.h"
 #include "PlayingState.h"
 

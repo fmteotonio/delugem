@@ -4,18 +4,19 @@
 
 class Animation {
 public:
-	Animation(std::string id, int firstFrame, int lastFrame, int frameRow, int msPerFrame);
-	Animation(std::string id, int onlyFrame, int frameRow);
+	Animation(int firstFrame, int lastFrame, int frameRow, int msPerFrame);
+	Animation(int onlyFrame, int frameRow);
 
-	std::string id();
+	bool isPlaying();
 	int frameRow();
 
 	void Play();
 	int getCurrentFrame();
-	int PlayedOnce();
+	bool PlayedOnce();
 	
+	void Update(int deltaTime);
+
 private:
-	std::string id_;
 	int firstFrame_;
 	int lastFrame_;
 	int frameRow_;
@@ -23,4 +24,6 @@ private:
 
 	bool isPlaying_ = false;
 	int startTime_ = 0;
+
+	int timePassed_ = 0;
 };

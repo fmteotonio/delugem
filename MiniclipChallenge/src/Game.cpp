@@ -7,6 +7,7 @@
 #include "GameStates/PlayingState.h"
 #include "InputHandler.h"
 #include "TextureManager.h"
+#include "GameManager.h"
 
 #include <SDL.h>
 #include <SDL_Image.h>
@@ -68,6 +69,8 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		InputHandler::Instance();
 
 		//INIT GAME_STATE
+
+		GameManager::Instance();
 
 		gameStateMachine_ = new GameStateMachine();
 		gameStateMachine_->pushState(new TitleScreenState());

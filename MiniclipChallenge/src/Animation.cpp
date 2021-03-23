@@ -3,41 +3,44 @@
 #include <SDL.h>
 #include <algorithm>
 
-Animation::Animation(std::string id, int firstFrame, int lastFrame, int frameRow, int msPerFrame) {
-	id_ = id;
+Animation::Animation(int firstFrame, int lastFrame, int frameRow, int msPerFrame) {
 	firstFrame_ = firstFrame;
 	lastFrame_ = lastFrame;
 	frameRow_ = frameRow;
 	msPerFrame_ = msPerFrame;
 }
 
-Animation::Animation(std::string id, int onlyFrame, int frameRow) {
-	id_ = id;
+Animation::Animation(int onlyFrame, int frameRow) {
 	firstFrame_ = onlyFrame;
 	lastFrame_ = onlyFrame;
 	frameRow_ = frameRow;
 	msPerFrame_ = 0;
 }
 
-std::string Animation::id() {
-	return id_;
-}
-int Animation::frameRow() {
-	return frameRow_;
-}
+bool Animation::isPlaying() { return isPlaying_; }
+int Animation::frameRow()   { return frameRow_; }
 
 void Animation::Play() {
-	startTime_ = SDL_GetTicks();
+	timePassed_ = 0;
 	isPlaying_ = true;
 }
 
 int Animation::getCurrentFrame() {
 	if (isPlaying_ && msPerFrame_ > 0)
-		return ((SDL_GetTicks() - startTime_) / msPerFrame_) % (lastFrame_ - firstFrame_ + 1);
+		return (timePassed_ / msPerFrame_) % (lastFrame_ - firstFrame_ + 1);
 	else
 		return firstFrame_;
 }
 
-int Animation::PlayedOnce() {
-	return (SDL_GetTicks() - startTime_) / msPerFrame_ >= (lastFrame_ - firstFrame_ + 1);
+bool Animation::PlayedOnce() {
+	//returns true if last frame was reached once.
+	if (isPlaying_ && msPerFrame_ > 0)
+		return timePassed_ / msPerFrame_ >= (lastFrame_ - firstFrame_);
+	else
+		return false;
+}
+
+void Animation::Update(int deltaTime) {
+	if (isPlaying_)
+		timePassed_ += deltaTime;
 }

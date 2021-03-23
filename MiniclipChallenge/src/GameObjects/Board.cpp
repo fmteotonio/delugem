@@ -12,19 +12,25 @@
 Board::Board(float x, float y) {
 
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BOARD_AUX);
-	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, new Animation("Still", 0, 0));
-	
+	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, new Animation(0, 0));
+
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 
 	for (int i = 0; i < 20; ++i) {
 		makeNewColumn();
 	}
+
+	columnTimer_ = new Timer(5000, true);
 }
 
 
 void Board::Update(int deltaTime) {
 
-	moveBoard((float)scrollSpeed_ * deltaTime/1000.0f);
+	columnTimer_->Update(deltaTime);
+	if (columnTimer_->hasRung()) {
+		pushColumn();
+		columnTimer_->ResetTimer();
+	}
 
 	HandleInput();
 
@@ -34,7 +40,8 @@ void Board::Update(int deltaTime) {
 		}
 	}
 	for (size_t i = 0; i < beingDestroyedGems_.size(); ++i) {
-		if (beingDestroyedGems_.at(i)->gemStatus() == Gem::GemStatus::TO_DESTROY) {
+		beingDestroyedGems_.at(i)->Update(deltaTime);
+		if (beingDestroyedGems_.at(i)->gemState() == Gem::GemState::TO_DESTROY) {
 			delete beingDestroyedGems_.at(i);
 			beingDestroyedGems_.erase(beingDestroyedGems_.begin() + i);
 		}
@@ -42,12 +49,40 @@ void Board::Update(int deltaTime) {
 }
 
 void Board::HandleInput() {
-	if (InputHandler::Instance()->mouseLeft() && !hasClicked_) {
-		hasClicked_ = true;
-		clickPiece(InputHandler::Instance()->mouseX(), InputHandler::Instance()->mouseY());
+
+	int conv_x = int(floor((InputHandler::Instance()->mouseX() - x_) / GEM_W));
+	int conv_y = int(floor(BOARD_HEIGHT - (InputHandler::Instance()->mouseY() - y_) / GEM_H));
+
+
+	//Release any previous Highlight
+	if (lastHoveredGem_ != nullptr && lastHoveredGem_->gemState() == Gem::GemState::HOVERED) {
+		lastHoveredGem_->TransitState(Gem::GemState::DEFAULT);
+		lastHoveredGem_ = nullptr;
 	}
-	else if (!InputHandler::Instance()->mouseLeft() && hasClicked_)
-		hasClicked_ = false;
+	//If hovering a gem...
+	if (conv_x >= 0 && conv_x < boardGems_.size()) {
+		if (conv_y >= 0 && conv_y < boardGems_.at(conv_x).size()) {
+			Gem* gem = boardGems_.at(conv_x).at(conv_y);
+			//...highlight if it is stopped.
+			if (gem->gemState() == Gem::GemState::DEFAULT && !gem->isMoving()) {
+				gem->TransitState(Gem::GemState::HOVERED);
+				lastHoveredGem_ = gem;
+			}
+
+			//Process clicks
+			if (InputHandler::Instance()->mouseLeft() && !hasClicked_) {
+				hasClicked_ = true;
+				searchGemGroup(conv_x, conv_y);
+			}
+			else if (!InputHandler::Instance()->mouseLeft() && hasClicked_)
+				hasClicked_ = false;
+		}
+	}
+	//----------------------------------------------------
+	
+
+
+
 }
 
 void Board::Render() {
@@ -61,6 +96,18 @@ void Board::Render() {
 	}
 	for (Gem* gem : beingDestroyedGems_) {
 		gem->Render();
+	}
+}
+
+void Board::Clean() {
+	delete columnTimer_;
+	for (std::vector<Gem*> column : boardGems_) {
+		for (Gem* gem : column) {
+			delete gem;
+		}
+	}
+	for (size_t i = 0; i < beingDestroyedGems_.size(); ++i) {
+		delete beingDestroyedGems_.at(i);
 	}
 }
 
@@ -88,16 +135,9 @@ void Board::makeNewColumn() {
 	boardGems_.push_back(newColumn);
 }
 
-void Board::clickPiece(Sint32 mouseX, Sint32 mouseY) {
-
-	int conv_x = int(floor((mouseX/GAME_SCALE - x_) / GEM_W));
-	int conv_y = int(floor(BOARD_HEIGHT - (mouseY/GAME_SCALE - y_) / GEM_H));
-
-	if (conv_x >= 0 && conv_x < boardGems_.size()) {
-		if (conv_y >= 0 && conv_y < boardGems_.at(conv_x).size()) {
-			searchGemGroup(conv_x, conv_y);
-		}
-	}
+void Board::pushColumn() {
+	makeNewColumn();
+	moveBoard(-GEM_W);
 }
 
 void Board::moveBoard(float x) {
@@ -168,7 +208,7 @@ void Board::eraseGem(int gX, int gY) {
 	std::vector<Gem*>& column = boardGems_.at(gX);
 	
 	beingDestroyedGems_.push_back(column.at(gY));
-	column.at(gY)->DestroyGem();
+	column.at(gY)->TransitState(Gem::GemState::BREAKING);
 	column.erase(column.begin() + gY);
 
 	//Update position for every Gem above

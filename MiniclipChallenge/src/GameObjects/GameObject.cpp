@@ -14,7 +14,9 @@ void GameObject::Init(float x, float y, int w, int h, SDL_Texture* texture, Anim
 	animation_ = animation;
 }
 
-void GameObject::Update(int deltaTime) { }
+void GameObject::Update(int deltaTime) {
+	animation_->Update(deltaTime);
+}
 
 void GameObject::Render() { 
 	SDL_Rect src;
