@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 class Animation {
 public:
 	Animation(int firstFrame, int lastFrame, int frameRow, int msPerFrame);

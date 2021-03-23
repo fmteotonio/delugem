@@ -3,8 +3,6 @@
 #include "Constants.h"
 #include "Game.h"
 
-#include <iostream>
-
 InputHandler* InputHandler::sInputHandlerInstance_ = nullptr;
 
 InputHandler* InputHandler::Instance() {

@@ -5,7 +5,9 @@
 
 Background::Background(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BACKGROUND);
-	GameObject::Init(x, y, BACKGROUND_W, BACKGROUND_H, objTexture, new Animation(0, 0));
+	Animation* animation = new Animation(0, 15, 0, 60);
+	GameObject::Init(x, y, BACKGROUND_W, BACKGROUND_H, objTexture, animation);
+	animation->Play();
 }
 
 void Background::Render() {

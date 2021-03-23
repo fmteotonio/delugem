@@ -1,7 +1,5 @@
 #include "Timer.h"
 
-#include "SDL.h"
-
 Timer::Timer(int milliseconds, bool startNow) {
 	timeToPass_ = milliseconds;
 	isRunning_ = startNow;

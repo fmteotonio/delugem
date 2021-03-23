@@ -1,5 +1,9 @@
 #include "TextureManager.h"
 
+#include "Game.h"
+
+#include <iostream>
+
 TextureManager* TextureManager::sTextureManagerInstance_ = nullptr;
 
 TextureManager* TextureManager::Instance() {
@@ -28,22 +32,22 @@ SDL_Texture* TextureManager::LoadTexture(std::string filename) {
 		return findResult->second;
 }
 
-SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::string text, Uint8 r, Uint8 g, Uint8 b) {
+SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::string text, SDL_Color color) {
 	TTF_Font* font = LoadFont(filename, size);
 
-	textureMap::iterator findResult = textTextures_.find(filename + std::to_string(size) + text + std::to_string(r) + std::to_string(g) + std::to_string(b));
+	textureMap::iterator findResult = textTextures_.find(filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b));
 
 	if (findResult == textTextures_.end()) {
 
 		//DEBUG
-		std::cout << "Inserted new TextTexture: " << filename + std::to_string(size) + text + std::to_string(r) + std::to_string(g) + std::to_string(b) << "\n";
+		std::cout << "Inserted new TextTexture: " << filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b) << "\n";
 
-		//SDL_Surface* tempSurface = TTF_RenderText_Solid(font, text.c_str(), { r,g,b });
-		SDL_Surface* tempSurface = TTF_RenderText_Blended(font, text.c_str(), { r,g,b });
+		SDL_Surface* tempSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+		//SDL_Surface* tempSurface = TTF_RenderText_Blended(font, text.c_str(), { r,g,b });
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->renderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 
-		textTextures_.insert({ filename + std::to_string(size) + text + std::to_string(r) + std::to_string(g) + std::to_string(b), texture });
+		textTextures_.insert({ filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b), texture });
 		return texture;
 	}
 	else

@@ -3,16 +3,11 @@
 #include "../InputHandler.h"
 #include "../TextureManager.h"
 
-#include <cmath>
 #include <chrono>
-#include <algorithm>
 #include <functional>
-#include <iterator>
 
 Board::Board(float x, float y) {
-
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BOARD_AUX);
-	GameObject::Init(x, y, BOARD_AUX_W, BOARD_AUX_H, objTexture, new Animation(0, 0));
+	GameObject::Init(x, y, 0, 0, nullptr, nullptr);
 
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 
@@ -87,7 +82,7 @@ void Board::HandleInput() {
 
 void Board::Render() {
 
-	GameObject::Render();
+	//Does not render itself
 	
 	for (std::vector<Gem*> column : boardGems_) {
 		for (Gem* gem : column) {

@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+#include <string>
+
 class Text : public GameObject {
 public:
 	enum class Align {
@@ -16,7 +18,7 @@ public:
 		DOWNRIGHT
 	};
 
-	Text(float x, float y, Align align, std::string font, int size, std::string text, int r, int g, int b);
+	Text(float x, float y, Align align, std::string font, int size, std::string text, SDL_Color color);
 
 	void Update(int deltaTime);
 	void Render();

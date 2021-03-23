@@ -1,17 +1,16 @@
 #pragma once
 
-#include "Game.h"
-
 #include <SDL_ttf.h>
 
 #include <map> 
+#include <string>
 
 class TextureManager {
 public:
 	static TextureManager* Instance();
 
 	SDL_Texture* LoadTexture(std::string filename);
-	SDL_Texture* LoadText(std::string filename, int size, std::string text, Uint8 r, Uint8 g, Uint8 b);
+	SDL_Texture* LoadText(std::string filename, int size, std::string text, SDL_Color color);
 
 	void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 

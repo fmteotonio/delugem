@@ -1,13 +1,12 @@
 #include "Game.h"
 
-#include "GameObjects/Background.h"
-#include "GameObjects/Board.h"
-#include "GameObjects/Gem.h"
 #include "GameStates/TitleScreenState.h"
 #include "GameStates/PlayingState.h"
 #include "InputHandler.h"
 #include "TextureManager.h"
 #include "GameManager.h"
+
+#include <iostream>
 
 #include <SDL.h>
 #include <SDL_Image.h>

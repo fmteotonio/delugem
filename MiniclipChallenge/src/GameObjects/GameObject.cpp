@@ -3,8 +3,6 @@
 #include "../Constants.h"
 #include "../TextureManager.h"
 
-#include <iostream>
-
 void GameObject::Init(float x, float y, int w, int h, SDL_Texture* texture, Animation* animation) {
 	x_ = x;
 	y_ = y;

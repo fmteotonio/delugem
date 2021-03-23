@@ -2,7 +2,7 @@
 
 #include "GameState.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/PlayButton.h"
+#include "../GameObjects/Button.h"
 
 #include <vector>
 
@@ -18,5 +18,5 @@ private:
 	static const std::string stateID_;
 	std::vector<GameObject*> gameObjects_;
 
-	PlayButton* playButton_;
+	Button* playButton_;
 };

@@ -4,6 +4,7 @@
 #include "../Constants.h"
 
 #include <cmath>
+#include <iostream>
 
 Gem::Gem(GemColor gemColor, float x, float y, int id) {
 	gemColor_ = gemColor;
@@ -86,8 +87,6 @@ void Gem::Clean() {
 	delete hoveredAnimation_;
 	delete breakingAnimation_;
 	delete toDestroyAnimation_;
-
-	GameObject::Clean();
 }
 
 bool Gem::TransitState(GemState newGemState) {

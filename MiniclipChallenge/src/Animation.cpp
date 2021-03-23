@@ -1,8 +1,5 @@
 #include "Animation.h"
 
-#include <SDL.h>
-#include <algorithm>
-
 Animation::Animation(int firstFrame, int lastFrame, int frameRow, int msPerFrame) {
 	firstFrame_ = firstFrame;
 	lastFrame_ = lastFrame;

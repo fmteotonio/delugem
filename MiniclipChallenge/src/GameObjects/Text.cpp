@@ -2,12 +2,9 @@
 
 #include "../Constants.h"
 #include "../TextureManager.h"
-#include "../InputHandler.h"
 
-#include "../GameStates/TitleScreenState.h"
-
-Text::Text(float x, float y, Align align, std::string font, int size, std::string text, int r, int g, int b) {
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadText(font, size, text, r, g, b);
+Text::Text(float x, float y, Align align, std::string font, int size, std::string text, SDL_Color color) {
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadText(font, size, text, color);
 
 	int w, h;
 	SDL_QueryTexture(objTexture, NULL, NULL, &w, &h);

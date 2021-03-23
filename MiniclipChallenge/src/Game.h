@@ -2,9 +2,6 @@
 
 #include "GameStates/GameStateMachine.h"
 
-#include <iostream>
-#include <vector>
-
 #include <SDL.h>
 #include <SDL_Image.h>
 
