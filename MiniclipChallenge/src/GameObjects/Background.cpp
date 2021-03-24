@@ -3,6 +3,9 @@
 #include "../Constants.h"
 #include "../TextureManager.h"
 
+//DEBUG
+#include <iostream>
+
 Background::Background(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_BACKGROUND);
 	Animation* animation = new Animation(0, 15, 0, 60);

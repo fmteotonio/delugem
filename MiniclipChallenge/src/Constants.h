@@ -7,22 +7,33 @@
 #define TARGET_FPS			60
 
 //RESOURCEPATHS
-#define FNT_M6X11			"res/fonts/m6x11.ttf" //Multiples of 16
-#define FNT_M3X6			"res/fonts/m3x6.ttf"  //Multiples of 16
-#define SPR_BACKGROUND		"res/images/background.png"
-#define SPR_FOREGROUNDSTRIP "res/images/foregroundstrip.png"
+#define FNT_M6X11			"res/fonts/m6x11.ttf" //Mults. of 16
+#define FNT_M3X6			"res/fonts/m3x6.ttf"  //Mults. of 16
 #define SPR_GEMS			"res/images/gems.png"
-#define SPR_PLAYBUTTON		"res/images/playbutton.png"
+#define SPR_BACKGROUND		"res/images/background.png"
+#define SPR_ENDLINE			"res/images/endline.png"
+#define SPR_FOREGROUNDSTRIP "res/images/foregroundstrip.png"
+#define SPR_BIGBUTTON		"res/images/bigbutton.png"
+#define SPR_SMALLBUTTON		"res/images/smallbutton.png"
+#define SPR_ICONFILL		"res/images/iconfill.png"
+#define SPR_ICONPAUSE		"res/images/iconpause.png"
+#define SPR_ICONPUSH		"res/images/iconpush.png"
 
 //OBJECT SIZES
 #define GEM_W				16
 #define GEM_H				16
 #define BACKGROUND_W		SCREEN_WIDTH
 #define BACKGROUND_H		SCREEN_HEIGHT
+#define ENDLINE_W			1
+#define ENDLINE_H		    160
 #define FOREGROUNDSTRIP_W	SCREEN_WIDTH
-#define FOREGROUNDSTIRP_H	28
-#define PLAYBUTTON_W		96
-#define PLAYBUTTON_H		32
+#define FOREGROUNDSTRIP_H	28
+#define BIGBUTTON_W			98
+#define BIGBUTTON_H			34
+#define SMALLBUTTON_W		24
+#define SMALLBUTTON_H		24
+#define ICON_W				9
+#define ICON_H				9
 
 //OBJECT PLACEMENTS
 #define SCORETEXT_X			140
@@ -37,7 +48,7 @@
 //GAME SETTINGS
 #define BOARD_HEIGHT		10
 #define BOARD_STARTCOLUMNS	13
-#define BOARD_START_X		175 + GEM_W*(13-BOARD_STARTCOLUMNS)
+#define BOARD_START_X		176 + GEM_W*(13-BOARD_STARTCOLUMNS)
 #define BOARD_START_Y		28  + GEM_H*(10-BOARD_HEIGHT)
 
 #define GEM_ACCELERATION	350

@@ -5,7 +5,7 @@
 
 ForegroundStrip::ForegroundStrip(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_FOREGROUNDSTRIP);
-	GameObject::Init(x, y, FOREGROUNDSTRIP_W, FOREGROUNDSTIRP_H, objTexture, new Animation(0,0));
+	GameObject::Init(x, y, FOREGROUNDSTRIP_W, FOREGROUNDSTRIP_H, objTexture, new Animation(0,0));
 }
 
 void ForegroundStrip::Render() {

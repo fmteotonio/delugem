@@ -8,7 +8,7 @@
 class Button : public GameObject {
 public:
 	enum class ButtonState {
-		DEFAULT, PRESSED, PRESS_ACTION
+		DEFAULT, HOVERED, HOV_PRESSED, UNHOV_PRESSED, PRESS_ACTION
 	};
 
 	Button(float x, float y, int w, int h, std::string filename);
@@ -29,7 +29,9 @@ private:
 	ButtonState buttonState_ = ButtonState::DEFAULT;
 
 	Animation* defaultAnimation_;
-	Animation* pressedAnimation_;
+	Animation* hoveredAnimation_;
+	Animation* hovPressedAnimation_;
+	Animation* unhovPressedAnimation_;
 
 	std::vector<GameObject*> contents_;
 };

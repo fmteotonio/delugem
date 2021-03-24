@@ -72,7 +72,7 @@ void Gem::Update(int deltaTime) {
 		}
 	}
 
-	if (gemState_ == GemState::BREAKING && animation_->PlayedOnce()) {
+	if (animation_->PlayedOnce() && gemState_ == GemState::BREAKING) {
 		TransitState(GemState::TO_DESTROY);
 	}
 	GameObject::Update(deltaTime);

@@ -2,6 +2,8 @@
 
 #include "GameStates/GameStateMachine.h"
 
+#include "GameObjects/GameObject.h"
+
 #include <SDL.h>
 #include <SDL_Image.h>
 
@@ -30,4 +32,6 @@ private:
 	SDL_Window* window_;
 	SDL_Renderer* renderer_;
 	Game();
+	GameObject* background_;
+	
 }; 

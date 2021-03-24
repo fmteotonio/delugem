@@ -2,6 +2,7 @@
 
 #include "GameState.h"
 #include "../GameObjects/GameObject.h"
+#include "../GameObjects/Button.h"
 
 #include <string>
 #include <vector>
@@ -22,4 +23,7 @@ private:
 	int displayedScore_;
 	GameObject* levelValueText_;
 	int displayedLevel_;
+
+	Button* pushButton_;
+	Button* fillButton_;
 };

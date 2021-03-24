@@ -2,6 +2,7 @@
 
 #include "GameStates/TitleScreenState.h"
 #include "GameStates/PlayingState.h"
+#include "GameObjects/Background.h"
 #include "InputHandler.h"
 #include "TextureManager.h"
 #include "GameManager.h"
@@ -70,6 +71,8 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		//INIT GAME_STATE
 
 		GameManager::Instance();
+		
+		background_ = new Background(0, 0);
 
 		gameStateMachine_ = new GameStateMachine();
 		gameStateMachine_->pushState(new TitleScreenState());
@@ -92,17 +95,24 @@ void Game::Quit() {
 }
 
 void Game::Update(int deltaTime) {
+	background_->Update(deltaTime);
 	gameStateMachine_->Update(deltaTime);
 }
 
 void Game::Render() {
+
 	SDL_RenderClear(renderer_);
+	background_->Render();
+
 	gameStateMachine_->Render();
+
 	SDL_RenderPresent(renderer_);
 }
 
 void Game::Clean() {
 	
+	background_->Clean();
+
 	TextureManager::Instance()->Clean();
 	InputHandler::Instance()->Clean();
 
