@@ -2,6 +2,7 @@
 
 #include "../InputHandler.h"
 #include "../TextureManager.h"
+#include "../GameManager.h"
 
 #include <chrono>
 #include <functional>
@@ -25,7 +26,7 @@ void Board::Update(int deltaTime) {
 	columnTimer_->Update(deltaTime);
 	if (columnTimer_->hasRung()) {
 		pushColumn();
-		columnTimer_->ResetTimer();
+		columnTimer_->ResetTimer(GameManager::Instance()->timePerColumn());
 	}
 
 	HandleInput();
@@ -197,6 +198,9 @@ void Board::searchGemGroup(int gX, int gY) {
 				}
 			}
 		}
+		//Update Score
+		int scoreToAdd = 10 * pow(2,gemNumber-1); 
+		GameManager::Instance()->AddScore(scoreToAdd);
 	}
 }
 

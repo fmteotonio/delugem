@@ -27,11 +27,9 @@ public:
 
 private:
 	int nextGemID_ = 0;
-	int scrollSpeed_ = -BOARD_STARTINGSPD;
 	bool hasClicked_ = false;
 
 	Timer* columnTimer_;
-	int timePerColumn = 5000;
 	int timePassed = 0;
 
 	std::default_random_engine generator_;

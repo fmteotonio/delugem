@@ -6,8 +6,8 @@ public:
 	
 	int level();
 	int score();
+	int timePerColumn();
 
-	void LevelUp();
 	void AddScore(int score);
 	void Reset();
 

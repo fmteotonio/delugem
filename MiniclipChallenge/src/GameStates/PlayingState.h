@@ -18,5 +18,8 @@ private:
 	static const std::string stateID_;
 	std::vector<GameObject*> gameObjects_;
 
-	GameObject* scoreText_;
+	GameObject* scoreValueText_;
+	int displayedScore_;
+	GameObject* levelValueText_;
+	int displayedLevel_;
 };
