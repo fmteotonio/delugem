@@ -5,6 +5,7 @@
 #include "../GameObjects/Button.h"
 #include "../GameObjects/ShadowedText.h"
 #include "../Game.h"
+#include "../SoundManager.h"
 #include "PlayingState.h"
 #include "TitleScreenState.h"
 
@@ -33,6 +34,7 @@ void GameOverScreenState::Update(int deltaTime) {
 	}
 	if (playAgainButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->gameStateMachine()->changeState(new PlayingState());
+		SoundManager::Instance()->playSFX("GameStart",false);
 		return;
 	}
 	if (exitButton_->buttonState() == Button::ButtonState::PRESS_ACTION)

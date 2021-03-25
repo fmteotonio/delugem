@@ -10,6 +10,7 @@
 #include "../GameStates/GameOverScreenState.h"
 #include "../Constants.h"
 #include "../GameManager.h"
+#include "../SoundManager.h"
 #include "../Game.h"
 
 const std::string PlayingState::stateID_ = "PLAYING";
@@ -18,8 +19,8 @@ void PlayingState::Init() {
 	gameObjects_.push_back(board_ = new Board(BOARD_START_X, BOARD_START_Y));
 	gameObjects_.push_back(new EndLine(ENDLINE_X, ENDLINE_Y));
 
-	gameObjects_.push_back(new ForegroundStrip(0, 0));
-	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_HEIGHT - FOREGROUNDSTRIP_H));
+	gameObjects_.push_back(foregroundStrip1_ = new ForegroundStrip(0, 0));
+	gameObjects_.push_back(foregroundStrip2_ = new ForegroundStrip(0, SCREEN_HEIGHT - FOREGROUNDSTRIP_H));
 	
 	//Static text elements
 	gameObjects_.push_back(new ShadowedText(SCORETEXT_X, SCORETEXT_Y,   Text::Align::MIDLEFT, FNT_M6X11, 16, "SCORE:", WHITE, BLACK));
@@ -63,6 +64,9 @@ void PlayingState::Update(int deltaTime) {
 		displayedLevel_ = GameManager::Instance()->level();
 		delete levelValueText_;
 		levelValueText_ = new ShadowedText(LEVELVALUE_X, LEVELVALUE_Y, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
+
+		foregroundStrip1_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
+		foregroundStrip2_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
 	}
 	//Check if fills text needs update
 	if (displayedFills_ != GameManager::Instance()->fillsLeft()) {
@@ -82,8 +86,11 @@ void PlayingState::Update(int deltaTime) {
 		fillButton_->TransitState(Button::ButtonState::INACTIVE);
 	if (GameManager::Instance()->fillsLeft() >  0 && fillButton_->buttonState() == Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::DEFAULT);
-	if (board_->gameLost())
+	if (board_->gameLost()) {
 		Game::Instance()->gameStateMachine()->changeState(new GameOverScreenState());
+		SoundManager::Instance()->playSFX("GameOver", false);
+	}
+		
 }
 
 void PlayingState::Render() {

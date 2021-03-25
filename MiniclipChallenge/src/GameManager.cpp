@@ -1,6 +1,7 @@
 #include "GameManager.h"
 
 #include "Constants.h"
+#include "SoundManager.h"
 
 #include <cmath>
 
@@ -29,6 +30,7 @@ void GameManager::AddScore(int gemNumber) {
 	score_ += 10 * pow(2, gemNumber - 1);
 
 	while (score_ >= 1000 * level_ + 100 * (int(pow(2, level_-1))-1) ) {
+		SoundManager::Instance()->playSFX("LevelUp", false);
 		++level_;
 		if (fillsLeft_ <= 9) {
 			++fillsLeft_;

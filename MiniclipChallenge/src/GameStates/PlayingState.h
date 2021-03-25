@@ -4,6 +4,7 @@
 #include "../GameObjects/GameObject.h"
 #include "../GameObjects/Button.h"
 #include "../GameObjects/Board.h"
+#include "../GameObjects/ForegroundStrip.h"
 
 #include <string>
 #include <vector>
@@ -31,4 +32,7 @@ private:
 	Button* pauseButton_;
 	Button* pushButton_;
 	Button* fillButton_;
+
+	ForegroundStrip* foregroundStrip1_;
+	ForegroundStrip* foregroundStrip2_;
 };

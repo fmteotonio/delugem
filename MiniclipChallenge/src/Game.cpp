@@ -6,6 +6,7 @@
 #include "InputHandler.h"
 #include "TextureManager.h"
 #include "GameManager.h"
+#include "SoundManager.h"
 
 #include <iostream>
 
@@ -55,23 +56,31 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		std::cout << "SDL_Init successful.\n";
 		bRunning_ = true;
 
-		//INIT TEX MAN
 
 		TextureManager::Instance();
-	
 		if (TTF_Init() != 0) {
 			std::cout << "TTF Init failed.\n";
 			return false;
 		}
-
-
-		//INIT INPUT HANDLER
 		InputHandler::Instance();
-
-		//INIT GAME_STATE
+		SoundManager::Instance();
 
 		GameManager::Instance();
 		
+
+		//SoundManager::Instance()->Load(MUS_ONLYTRACK,"onlyTrack",SoundManager::soundType::MUSIC,4);
+		//SoundManager::Instance()->playMusic("onlyTrack", 1);
+		//SoundManager::Instance()->setMusicPosition(33.5);
+
+		//Load SFX
+		SoundManager::Instance()->Load(SND_BREAK,     "Break",     SoundManager::soundType::SFX, 8);
+		SoundManager::Instance()->Load(SND_PUSHCOLUMN,"PushColumn",SoundManager::soundType::SFX, 8);
+		SoundManager::Instance()->Load(SND_FILL,      "Fill",      SoundManager::soundType::SFX, 12);
+		SoundManager::Instance()->Load(SND_GAMEOVER,  "GameOver",  SoundManager::soundType::SFX, 16);
+		SoundManager::Instance()->Load(SND_GAMESTART, "GameStart", SoundManager::soundType::SFX, 12);
+		SoundManager::Instance()->Load(SND_LEVELUP,	  "LevelUp",   SoundManager::soundType::SFX, 8);
+		SoundManager::Instance()->Load(SND_PIECEFALL, "PieceFall", SoundManager::soundType::SFX, 8);
+
 		background_ = new Background(0, 0);
 
 		gameStateMachine_ = new GameStateMachine();
@@ -124,10 +133,3 @@ void Game::Clean() {
 	delete gameStateMachine_;
 	delete sGameInstance_;
 }
-
-Game::Game() {
-	bRunning_ = false;
-	gameStateMachine_ = nullptr;
-	window_ = nullptr;
-	renderer_ = nullptr;
-};

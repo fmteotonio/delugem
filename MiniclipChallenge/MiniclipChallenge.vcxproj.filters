@@ -21,6 +21,9 @@
     <Filter Include="res\fonts">
       <UniqueIdentifier>{8f615dc1-95d4-4c6d-9cca-36694d8514c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="res\sounds">
+      <UniqueIdentifier>{9ab3b015-d799-41df-b9f7-29f3c50cddfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -92,6 +95,9 @@
     <ClInclude Include="src\GameStates\GameOverScreenState.h">
       <Filter>src\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="src\SoundManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -160,6 +166,9 @@
     <ClCompile Include="src\GameStates\GameOverScreenState.cpp">
       <Filter>src\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="src\SoundManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\fonts\m3x6.ttf">
@@ -182,5 +191,10 @@
     <Image Include="res\images\playbutton.png">
       <Filter>res\images</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\sounds\visager_shoots.mp3">
+      <Filter>res\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

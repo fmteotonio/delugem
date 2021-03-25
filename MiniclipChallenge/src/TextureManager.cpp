@@ -43,7 +43,6 @@ SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::strin
 		std::cout << "Inserted new TextTexture: " << filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b) << "\n";
 
 		SDL_Surface* tempSurface = TTF_RenderText_Solid(font, text.c_str(), color);
-		//SDL_Surface* tempSurface = TTF_RenderText_Blended(font, text.c_str(), { r,g,b });
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->renderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 

@@ -2,6 +2,7 @@
 
 #include "../InputHandler.h"
 #include "../TextureManager.h"
+#include "../SoundManager.h"
 #include "../GameManager.h"
 
 #include <chrono>
@@ -113,6 +114,9 @@ int Board::getNextGemID() {
 }
 
 void Board::pushColumn(int n) {
+
+	SoundManager::Instance()->playSFX("PushColumn",false);
+
 	for (int aux = 0; aux < n; ++aux) {
 		std::uniform_int_distribution<int> distribution(0, GEM_TYPE_NUMBER - 1);
 
@@ -146,6 +150,7 @@ void Board::pushColumn(int n) {
 
 void Board::fillBoard() {
 	if (GameManager::Instance()->fillsLeft() > 0) {
+
 		int maxGapHeight = 0;
 		std::vector<Gem*> createdGems;
 
@@ -180,8 +185,11 @@ void Board::fillBoard() {
 			gem->setY(gem->y() - maxGapHeight * GEM_H);
 			gem->Move(0, maxGapHeight * GEM_H);
 		}
-		if (createdGems.size() > 0)
+		if (createdGems.size() > 0) {
+			SoundManager::Instance()->playSFX("Fill", false);
 			GameManager::Instance()->useFill();
+		}
+			
 	}
 }
 
@@ -230,6 +238,9 @@ void Board::searchGemGroup(int gX, int gY) {
 	gemNumber = recursion(dir::NONE, boardGems_.at(gX).at(gY)->gemColor(), gX, gY);
 
 	if (gemNumber > 1) {
+		
+		SoundManager::Instance()->playSFX("Break",0);
+		
 		for (int i = boardGems_.size() - 1; i >= 0; --i) {
 			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {
 				if (std::find(toDelete.begin(), toDelete.end(), boardGems_.at(i).at(ii)->id()) != toDelete.end()) {

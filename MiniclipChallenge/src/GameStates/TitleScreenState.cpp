@@ -6,7 +6,9 @@
 #include "../GameObjects/ShadowedText.h"
 #include "../Game.h"
 #include "../GameManager.h"
+#include "../SoundManager.h"
 #include "PlayingState.h"
+
 
 const std::string TitleScreenState::stateID_ = "TITLESCREEN";
 
@@ -32,8 +34,11 @@ void TitleScreenState::Update(int deltaTime) {
 	for (GameObject* gameObjectPointer : gameObjects_) {
 		gameObjectPointer->Update(deltaTime);
 	}
-	if (playButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+	if (playButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->gameStateMachine()->changeState(new PlayingState());
+		SoundManager::Instance()->playSFX("GameStart", false);
+	}
+		
 }
 
 void TitleScreenState::Render() {

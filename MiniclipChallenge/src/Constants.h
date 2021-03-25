@@ -33,6 +33,14 @@
 #define SPR_ICONFILL		"res/images/iconfill.png"
 #define SPR_ICONPAUSE		"res/images/iconpause.png"
 #define SPR_ICONPUSH		"res/images/iconpush.png"
+#define MUS_ONLYTRACK		"res/sounds/visager_shoots.mp3"
+#define SND_BREAK			"res/sounds/break.wav"
+#define SND_PUSHCOLUMN		"res/sounds/columnpush.wav"
+#define SND_FILL			"res/sounds/fill.wav"
+#define SND_GAMEOVER		"res/sounds/gameover.wav"
+#define SND_GAMESTART		"res/sounds/gamestart.wav"
+#define SND_LEVELUP			"res/sounds/levelup.wav"
+#define SND_PIECEFALL		"res/sounds/piecefall.wav"
 
 //OBJECT SIZES
 #define GEM_W				16
