@@ -11,6 +11,7 @@ GameManager* GameManager::sGameManagerInstance_ = nullptr;
 
 int GameManager::level() { return level_; }
 int GameManager::score() { return score_; }
+int GameManager::fillsLeft() { return fillsLeft_; }
 
 int GameManager::timePerColumn() {
 	return BOARD_COLUMNTIME * pow(BOARD_CTIMEMULTIP, GameManager::Instance()->level() - 1);
@@ -23,11 +24,15 @@ GameManager* GameManager::Instance() {
 	return sGameManagerInstance_;
 }
 
-void GameManager::AddScore(int score) {
-	score_ += score;
+void GameManager::AddScore(int gemNumber) {
+
+	score_ += 10 * pow(2, gemNumber - 1);
 
 	while (score_ >= 1000 * level_ + 100 * (int(pow(2, level_-1))-1) ) {
 		++level_;
+		if (fillsLeft_ <= 9) {
+			++fillsLeft_;
+		}
 	}
 		
 	//1 - 1000  = 1000 +     0
@@ -39,6 +44,10 @@ void GameManager::AddScore(int score) {
 	//7 - 10200 = 7000 +  3200
 	//8 - 14400 = 8000 +  6400
 	//9 - 21800 = 9000 + 12800
+}
+
+void GameManager::useFill() {
+	--fillsLeft_;
 }
 
 void GameManager::Reset() {

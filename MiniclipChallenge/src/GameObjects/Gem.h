@@ -19,6 +19,8 @@ public:
 	Gem(GemColor gemColor, float x, float y, int id);
 
 	int id();
+	float y();
+	void setY(float y);
 	GemColor gemColor();
 	void Move(float x, float y);
 	bool isMoving();

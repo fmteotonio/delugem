@@ -40,8 +40,9 @@ void TitleScreenState::Render() {
 }
 
 void TitleScreenState::Clean() {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		delete gameObjectPointer;
+	for (GameObject* gameObject : gameObjects_) {
+		gameObject->Clean();
+		delete gameObject;
 	}
 }
 

@@ -6,9 +6,11 @@ public:
 	
 	int level();
 	int score();
+	int fillsLeft();
 	int timePerColumn();
 
-	void AddScore(int score);
+	void AddScore(int gemNumber);
+	void useFill();
 	void Reset();
 
 private:
@@ -16,4 +18,5 @@ private:
 
 	int level_ = 1;
 	int score_ = 0;
+	int fillsLeft_ = 2;
 };

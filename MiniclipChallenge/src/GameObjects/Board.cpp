@@ -7,17 +7,18 @@
 #include <chrono>
 #include <functional>
 
+//DEBUG
+#include <iostream>
+
 Board::Board(float x, float y) {
 	GameObject::Init(x, y, 0, 0, nullptr, nullptr);
 
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 
-	for (int i = 0; i < BOARD_STARTCOLUMNS; ++i) {
-		makeNewColumn();
-	}
 
-	//Time must depend on gameManager
-	columnTimer_ = new Timer(5000, true);
+	columnTimer_ = new Timer(GameManager::Instance()->timePerColumn(), true);
+
+	pushColumn(BOARD_STARTCOLUMNS);
 }
 
 
@@ -25,8 +26,7 @@ void Board::Update(int deltaTime) {
 
 	columnTimer_->Update(deltaTime);
 	if (columnTimer_->hasRung()) {
-		pushColumn();
-		columnTimer_->ResetTimer(GameManager::Instance()->timePerColumn());
+		pushColumn(1);
 	}
 
 	HandleInput();
@@ -49,6 +49,7 @@ void Board::HandleInput() {
 
 	int conv_x = int(floor((InputHandler::Instance()->mouseX() - x_) / GEM_W));
 	int conv_y = int(floor(BOARD_HEIGHT - (InputHandler::Instance()->mouseY() - y_) / GEM_H));
+	bool isHovered = conv_x >= 0 && conv_x < boardGems_.size() && conv_y >= 0 && conv_y < boardGems_.at(conv_x).size();
 
 
 	//Release any previous Highlight
@@ -56,30 +57,25 @@ void Board::HandleInput() {
 		lastHoveredGem_->TransitState(Gem::GemState::DEFAULT);
 		lastHoveredGem_ = nullptr;
 	}
-	//If hovering a gem...
-	if (conv_x >= 0 && conv_x < boardGems_.size()) {
-		if (conv_y >= 0 && conv_y < boardGems_.at(conv_x).size()) {
-			Gem* gem = boardGems_.at(conv_x).at(conv_y);
-			//...highlight if it is stopped.
-			if (gem->gemState() == Gem::GemState::DEFAULT && !gem->isMoving()) {
-				gem->TransitState(Gem::GemState::HOVERED);
-				lastHoveredGem_ = gem;
-			}
-
-			//Process clicks
-			if (InputHandler::Instance()->mouseLeft() && !hasClicked_) {
-				hasClicked_ = true;
-				searchGemGroup(conv_x, conv_y);
-			}
-			else if (!InputHandler::Instance()->mouseLeft() && hasClicked_)
-				hasClicked_ = false;
-		}
-	}
-	//----------------------------------------------------
 	
+	//If hovering a gem...
+	if (isHovered) {
+		Gem* gem = boardGems_.at(conv_x).at(conv_y);
+		//...highlight if it is stopped.
+		if (gem->gemState() == Gem::GemState::DEFAULT && !gem->isMoving()) {
+			gem->TransitState(Gem::GemState::HOVERED);
+			lastHoveredGem_ = gem;
+		}
+		//Only once per click
+		if (InputHandler::Instance()->mouseLeft() && !hasClicked_) 
+			searchGemGroup(conv_x, conv_y);			
+	}
+	if (InputHandler::Instance()->mouseLeft() && !hasClicked_) 
+		hasClicked_ = true;
+	if (!InputHandler::Instance()->mouseLeft() && hasClicked_)
+		hasClicked_ = false;
 
-
-
+	//----------------------------------------------------
 }
 
 void Board::Render() {
@@ -112,37 +108,74 @@ int Board::getNextGemID() {
 	return ++nextGemID_;
 }
 
-void Board::makeNewColumn() {
+void Board::pushColumn(int n) {
+	for (int aux = 0; aux < n; ++aux) {
+		std::uniform_int_distribution<int> distribution(0, GEM_TYPE_NUMBER - 1);
 
-	std::uniform_int_distribution<int> distribution(0,GEM_TYPE_NUMBER-1);
-	
-	std::vector<Gem*> newColumn;
-	for (int i = 0; i < BOARD_HEIGHT; ++i) {
+		std::vector<Gem*> newColumn;
+		for (int i = 0; i < BOARD_HEIGHT; ++i) {
 
-		Gem::GemColor color = Gem::GemColor(distribution(generator_));
+			Gem::GemColor color = Gem::GemColor(distribution(generator_));
 
-		Gem* newGem = new Gem(
-							color,
-							x_ + (float)boardGems_.size() * GEM_W,
-							y_ + ((float)BOARD_HEIGHT - i - 1) * GEM_H,
-							getNextGemID()
-						);
-		newColumn.push_back(newGem);
+			Gem* newGem = new Gem(
+				color,
+				x_ + (float)boardGems_.size() * GEM_W,
+				y_ + ((float)BOARD_HEIGHT - i - 1) * GEM_H,
+				getNextGemID()
+			);
+			newColumn.push_back(newGem);
+		}
+		boardGems_.push_back(newColumn);
 	}
-	boardGems_.push_back(newColumn);
-}
-
-void Board::pushColumn() {
-	makeNewColumn();
-	moveBoard(-GEM_W);
-}
-
-void Board::moveBoard(float x) {
-	x_ += x;
+	//Move all gems to the left
+	x_ -= GEM_W * n;
 	for (std::vector<Gem*> column : boardGems_) {
 		for (Gem* gem : column) {
-			gem->Move(x, 0);
+			gem->Move(-GEM_W * n, 0);
 		}
+	}
+
+	columnTimer_->ResetTimer(GameManager::Instance()->timePerColumn());
+}
+
+void Board::fillBoard() {
+	if (GameManager::Instance()->fillsLeft() > 0) {
+		int maxGapHeight = 0;
+		std::vector<Gem*> createdGems;
+
+		//Creates gems in their correct places
+		for (int i = 0; i < boardGems_.size(); i++) {
+			std::vector<Gem*>& column = boardGems_.at(i);
+
+			int thisGapHeight = 0;
+
+			while (column.size() < 10) {
+
+				++thisGapHeight;
+				maxGapHeight = std::max(maxGapHeight, thisGapHeight);
+
+				std::uniform_int_distribution<int> distribution(0, GEM_TYPE_NUMBER - 1);
+
+				Gem::GemColor color = Gem::GemColor(distribution(generator_));
+
+				Gem* newGem = new Gem(
+					color,
+					x_ + i * GEM_W,
+					y_ + (BOARD_HEIGHT - (float)column.size() - 1) * GEM_H,
+					getNextGemID()
+				);
+
+				createdGems.push_back(newGem);
+				column.push_back(newGem);
+			}
+		}
+		//Vertical offset just enough so they fall from the top
+		for (Gem* gem : createdGems) {
+			gem->setY(gem->y() - maxGapHeight * GEM_H);
+			gem->Move(0, maxGapHeight * GEM_H);
+		}
+		if (createdGems.size() > 0)
+			GameManager::Instance()->useFill();
 	}
 }
 
@@ -199,8 +232,7 @@ void Board::searchGemGroup(int gX, int gY) {
 			}
 		}
 		//Update Score
-		int scoreToAdd = 10 * pow(2,gemNumber-1); 
-		GameManager::Instance()->AddScore(scoreToAdd);
+		GameManager::Instance()->AddScore(gemNumber);
 	}
 }
 

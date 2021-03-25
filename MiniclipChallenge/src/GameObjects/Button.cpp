@@ -96,7 +96,7 @@ Button::ButtonState Button::buttonState() {
 bool Button::TransitState(ButtonState newButtonState) {
 	switch (newButtonState) {
 		case ButtonState::DEFAULT:{
-			if (buttonState_ == ButtonState::HOVERED || buttonState_ == ButtonState::UNHOV_PRESSED) {
+			if (buttonState_ == ButtonState::HOVERED || buttonState_ == ButtonState::UNHOV_PRESSED || buttonState_ == ButtonState::INACTIVE) {
 				buttonState_ = ButtonState::DEFAULT;
 				animation_ = defaultAnimation_;
 				return true;
@@ -132,6 +132,11 @@ bool Button::TransitState(ButtonState newButtonState) {
 				buttonState_ = ButtonState::PRESS_ACTION;
 				return true;
 			}
+			break;
+		}
+		case ButtonState::INACTIVE: {
+			buttonState_ = ButtonState::INACTIVE;
+			animation_ = unhovPressedAnimation_;
 			break;
 		}
 	}

@@ -8,7 +8,7 @@
 class Button : public GameObject {
 public:
 	enum class ButtonState {
-		DEFAULT, HOVERED, HOV_PRESSED, UNHOV_PRESSED, PRESS_ACTION
+		DEFAULT, HOVERED, HOV_PRESSED, UNHOV_PRESSED, PRESS_ACTION, INACTIVE
 	};
 
 	Button(float x, float y, int w, int h, std::string filename);
@@ -19,8 +19,6 @@ public:
 	void HandleInput();
 	void Render();
 	void Clean();
-
-	
 
 	ButtonState buttonState();
 	bool TransitState(ButtonState newButtonState);

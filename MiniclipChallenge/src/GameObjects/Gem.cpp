@@ -35,6 +35,13 @@ int Gem::id() { return id_; }
 Gem::GemColor Gem::gemColor()   { return gemColor_; }
 Gem::GemState Gem::gemState() { return gemState_; }
 
+float Gem::y() {
+	return y_;
+}
+void Gem::setY(float y) {
+	y_ = y;
+}
+
 void Gem::Move(float x, float y) {
 	toMoveX_ += x;
 	toMoveY_ += y;

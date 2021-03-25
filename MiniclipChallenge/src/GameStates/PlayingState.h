@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "../GameObjects/GameObject.h"
 #include "../GameObjects/Button.h"
+#include "../GameObjects/Board.h"
 
 #include <string>
 #include <vector>
@@ -23,7 +24,11 @@ private:
 	int displayedScore_;
 	GameObject* levelValueText_;
 	int displayedLevel_;
+	GameObject* fillsText_;
+	int displayedFills_;
 
+	Board* board_;
+	Button* pauseButton_;
 	Button* pushButton_;
 	Button* fillButton_;
 };

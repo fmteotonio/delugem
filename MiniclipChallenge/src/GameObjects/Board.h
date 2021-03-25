@@ -18,9 +18,8 @@ public:
 	void Clean();
 
 	int getNextGemID();
-	void makeNewColumn();
-	void pushColumn();
-	void moveBoard(float x);
+	void pushColumn(int n);
+	void fillBoard();
 	void searchGemGroup(int gX, int gY);
 	void eraseGem(int gX, int gY);
 	
