@@ -6,8 +6,11 @@
 #include "../GameObjects/Button.h"
 #include "../GameObjects/ShadowedText.h"
 #include "../GameObjects/StaticImage.h"
+#include "../GameStates/PauseScreenState.h"
+#include "../GameStates/GameOverScreenState.h"
 #include "../Constants.h"
 #include "../GameManager.h"
+#include "../Game.h"
 
 const std::string PlayingState::stateID_ = "PLAYING";
 
@@ -72,10 +75,15 @@ void PlayingState::Update(int deltaTime) {
 		board_->pushColumn(1);
 	if (fillButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		board_->fillBoard();
+	if (pauseButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+		Game::Instance()->gameStateMachine()->pushState(new PauseScreenState());
+
 	if (GameManager::Instance()->fillsLeft() == 0 && fillButton_->buttonState() != Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::INACTIVE);
 	if (GameManager::Instance()->fillsLeft() >  0 && fillButton_->buttonState() == Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::DEFAULT);
+	if (board_->gameLost())
+		Game::Instance()->gameStateMachine()->changeState(new GameOverScreenState());
 }
 
 void PlayingState::Render() {

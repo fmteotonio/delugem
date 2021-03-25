@@ -21,6 +21,10 @@ Board::Board(float x, float y) {
 	pushColumn(BOARD_STARTCOLUMNS);
 }
 
+bool Board::gameLost() {
+	return gameLost_;
+}
+
 
 void Board::Update(int deltaTime) {
 
@@ -134,8 +138,10 @@ void Board::pushColumn(int n) {
 			gem->Move(-GEM_W * n, 0);
 		}
 	}
-
 	columnTimer_->ResetTimer(GameManager::Instance()->timePerColumn());
+	
+	if (x_ < ENDLINE_X)
+		gameLost_ = true;
 }
 
 void Board::fillBoard() {

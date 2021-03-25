@@ -17,6 +17,8 @@ public:
 	void Render();
 	void Clean();
 
+	bool gameLost();
+
 	int getNextGemID();
 	void pushColumn(int n);
 	void fillBoard();
@@ -27,6 +29,7 @@ public:
 private:
 	int nextGemID_ = 0;
 	bool hasClicked_ = false;
+	bool gameLost_ = false;
 
 	Timer* columnTimer_;
 	int timePassed = 0;

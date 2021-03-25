@@ -5,12 +5,15 @@
 #include "../GameObjects/Button.h"
 #include "../GameObjects/ShadowedText.h"
 #include "../Game.h"
+#include "../GameManager.h"
 #include "PlayingState.h"
 
 const std::string TitleScreenState::stateID_ = "TITLESCREEN";
 
 void TitleScreenState::Init() {
-	//gameObjects_.push_back(new Background(0, 0));
+
+	GameManager::Instance()->Reset();
+
 	gameObjects_.push_back(new ForegroundStrip(0, 0));
 	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_HEIGHT-FOREGROUNDSTRIP_H));
 

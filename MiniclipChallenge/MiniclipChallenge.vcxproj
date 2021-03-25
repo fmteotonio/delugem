@@ -165,8 +165,10 @@
     <ClInclude Include="src\GameObjects\ShadowedText.h" />
     <ClInclude Include="src\GameObjects\StaticImage.h" />
     <ClInclude Include="src\GameObjects\Text.h" />
+    <ClInclude Include="src\GameStates\GameOverScreenState.h" />
     <ClInclude Include="src\GameStates\GameState.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />
+    <ClInclude Include="src\GameStates\PauseScreenState.h" />
     <ClInclude Include="src\GameStates\PlayingState.h" />
     <ClInclude Include="src\GameStates\TitleScreenState.h" />
     <ClInclude Include="src\InputHandler.h" />
@@ -187,7 +189,9 @@
     <ClCompile Include="src\GameObjects\ShadowedText.cpp" />
     <ClCompile Include="src\GameObjects\StaticImage.cpp" />
     <ClCompile Include="src\GameObjects\Text.cpp" />
+    <ClCompile Include="src\GameStates\GameOverScreenState.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
+    <ClCompile Include="src\GameStates\PauseScreenState.cpp" />
     <ClCompile Include="src\GameStates\PlayingState.cpp" />
     <ClCompile Include="src\GameStates\TitleScreenState.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />

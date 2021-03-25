@@ -16,7 +16,7 @@ public:
 private:
 	static GameManager* sGameManagerInstance_;
 
-	int level_ = 1;
-	int score_ = 0;
-	int fillsLeft_ = 2;
+	int level_;
+	int score_;
+	int fillsLeft_;
 };

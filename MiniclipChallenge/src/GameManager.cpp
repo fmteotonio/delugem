@@ -53,4 +53,5 @@ void GameManager::useFill() {
 void GameManager::Reset() {
 	level_ = 1;
 	score_ = 0;
+	fillsLeft_ = 2;
 }
