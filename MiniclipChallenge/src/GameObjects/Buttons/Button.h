@@ -21,7 +21,7 @@ public:
 	void Render();
 	void Clean();
 
-	ButtonState buttonState();
+	ButtonState GetButtonState();
 	bool TransitState(ButtonState newButtonState);
 
 private:

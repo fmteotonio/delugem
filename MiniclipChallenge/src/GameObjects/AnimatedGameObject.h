@@ -14,8 +14,8 @@ public:
 	virtual void Render();
 	virtual void Clean();
 
-	virtual void addAnimation(std::string id, Animation* animation);
-	virtual void setAnimation(std::string id, bool playNow);
+	virtual void AddAnimation(std::string id, Animation* animation);
+	virtual void SetAnimation(std::string id, bool playNow);
 protected:
 	int w_;
 	int h_;

@@ -11,8 +11,8 @@ const int   ForegroundStrip::cH =    28;
 ForegroundStrip::ForegroundStrip(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 
-	addAnimation("Default", new Animation(0, 0));
-	addAnimation("LevelUp", new Animation(0, 8, 0, 80));
+	AddAnimation("Default", new Animation(0, 0));
+	AddAnimation("LevelUp", new Animation(0, 8, 0, 80));
 
 	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", false);
 }
@@ -30,7 +30,7 @@ bool ForegroundStrip::TransitState(ForegroundStripState newForegroundStripState)
 		case ForegroundStripState::DEFAULT: {
 			if (foregroundStripState_ == ForegroundStripState::LEVELUP) {
 				foregroundStripState_ = newForegroundStripState;
-				setAnimation("Default", false);
+				SetAnimation("Default", false);
 				return true;
 			}
 			break;
@@ -38,7 +38,7 @@ bool ForegroundStrip::TransitState(ForegroundStripState newForegroundStripState)
 		case ForegroundStripState::LEVELUP: {
 			if (foregroundStripState_ == ForegroundStripState::DEFAULT) {
 				foregroundStripState_ = newForegroundStripState;
-				setAnimation("LevelUp", true);
+				SetAnimation("LevelUp", true);
 				return true;
 			}
 			break;

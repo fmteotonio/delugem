@@ -21,14 +21,14 @@ public:
 	
 	Gem(GemColor gemColor, float x, float y, int id);
 
-	int id();
-	float y();
-	void setY(float y);
-	GemColor gemColor();
+	int GetId();
+	GemColor GetGemColor();
+	float GetY();
+	void SetY(float y);
 	void Move(float x, float y);
 	bool isMoving();
 
-	GemState gemState();
+	GemState GetGemState();
 	bool TransitState(GemState newGemState);
 
 	void Update(int deltaTime);

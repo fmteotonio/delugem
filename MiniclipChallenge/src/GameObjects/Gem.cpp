@@ -28,23 +28,23 @@ Gem::Gem(GemColor gemColor, float x, float y, int id) {
 		default: frameRow = 0;
 	}
 
-	addAnimation("Default", new Animation(0, frameRow));
-	addAnimation("Hovered", new Animation(6, frameRow));
-	addAnimation("Breaking", new Animation(0, 5, frameRow, 40));
-	addAnimation("ToDestroy", new Animation(5, frameRow));
+	AddAnimation("Default", new Animation(0, frameRow));
+	AddAnimation("Hovered", new Animation(6, frameRow));
+	AddAnimation("Breaking", new Animation(0, 5, frameRow, 40));
+	AddAnimation("ToDestroy", new Animation(5, frameRow));
 
 	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", false);
 }
 
-int Gem::id() { return id_; }
-Gem::GemColor Gem::gemColor()   { return gemColor_; }
-Gem::GemState Gem::gemState() { return gemState_; }
+int Gem::GetId() { return id_; }
+Gem::GemColor Gem::GetGemColor()   { return gemColor_; }
+Gem::GemState Gem::GetGemState() { return gemState_; }
 
-float Gem::y() {
+float Gem::GetY() {
 	return y_;
 }
 
-void Gem::setY(float y) {
+void Gem::SetY(float y) {
 	y_ = y;
 }
 
@@ -97,7 +97,7 @@ bool Gem::TransitState(GemState newGemState) {
 		case GemState::DEFAULT: {
 			if (gemState_ == GemState::HOVERED) {
 				gemState_ = newGemState;
-				setAnimation("Default", false);
+				SetAnimation("Default", false);
 				return true;
 			}
 			break;
@@ -105,7 +105,7 @@ bool Gem::TransitState(GemState newGemState) {
 		case GemState::HOVERED: {
 			if (gemState_ == GemState::DEFAULT) {
 				gemState_ = newGemState;
-				setAnimation("Hovered", false);
+				SetAnimation("Hovered", false);
 				return true;
 			}
 			break;
@@ -113,14 +113,14 @@ bool Gem::TransitState(GemState newGemState) {
 		case GemState::BREAKING: {
 			if (gemState_ == GemState::DEFAULT || gemState_ == GemState::HOVERED) {
 				gemState_ = newGemState;
-				setAnimation("Breaking", true);
+				SetAnimation("Breaking", true);
 				return true;
 			}
 			break;
 		}
 		case GemState::TO_DESTROY: {
 			gemState_ = newGemState;
-			setAnimation("ToDestroy", false);
+			SetAnimation("ToDestroy", false);
 			return true;
 		}
 	}

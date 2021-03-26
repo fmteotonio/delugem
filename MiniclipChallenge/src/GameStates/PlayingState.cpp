@@ -97,30 +97,30 @@ void PlayingState::Update(int deltaTime) {
 	}
 
 	//Check for actions in all buttons (and update click delay in push button)
-	if (fillButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
-		board_->fillBoard();
-	else if (pauseButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+	if (fillButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
+		board_->FillBoard();
+	else if (pauseButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->GetGameStateMachine()->PushState(new PauseScreenState());
-	else if (pushButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
-		board_->pushColumn(1);
+	else if (pushButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+		board_->PushColumn(1);
 		pushButtonTimer_->ResetTimer(100);
 	}
 	pushButtonTimer_->Update(deltaTime);
 
 	//Check if fill button should be active
-	if (GameManager::Instance()->GetFillsLeft() == 0 && fillButton_->buttonState() != Button::ButtonState::INACTIVE)
+	if (GameManager::Instance()->GetFillsLeft() == 0 && fillButton_->GetButtonState() != Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::INACTIVE);
-	else if (GameManager::Instance()->GetFillsLeft() >  0 && fillButton_->buttonState() == Button::ButtonState::INACTIVE)
+	else if (GameManager::Instance()->GetFillsLeft() >  0 && fillButton_->GetButtonState() == Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::DEFAULT);
 
 	//Check if push button should be active
-	if (!pushButtonTimer_->HasRung() && pushButton_->buttonState() != Button::ButtonState::INACTIVE)
+	if (!pushButtonTimer_->HasRung() && pushButton_->GetButtonState() != Button::ButtonState::INACTIVE)
 		pushButton_->TransitState(Button::ButtonState::INACTIVE);
-	else if (pushButtonTimer_->HasRung() && pushButton_->buttonState() == Button::ButtonState::INACTIVE)
+	else if (pushButtonTimer_->HasRung() && pushButton_->GetButtonState() == Button::ButtonState::INACTIVE)
 		pushButton_->TransitState(Button::ButtonState::DEFAULT);
 
 	//Check if game is lost
-	if (board_->gameLost()) {
+	if (board_->IsGameLost()) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new GameOverScreenState());
 		SoundManager::Instance()->PlaySFX("GameOver", false);
 	}

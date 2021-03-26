@@ -38,11 +38,11 @@ void GameOverScreenState::Init() {
 void GameOverScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
-	if (playAgainButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
+	if (playAgainButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart",false);
 		return;
 	}
-	if (exitButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+	if (exitButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
 }

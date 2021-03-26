@@ -30,7 +30,7 @@ void TitleScreenState::Init() {
 void TitleScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
-	if (playButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
+	if (playButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart", false);
 	}

@@ -8,7 +8,7 @@ void AnimatedGameObject::Init(float x, float y, int w, int h, SDL_Texture* textu
 	w_ = w;
 	h_ = h;
 	texture_ = texture;
-	setAnimation(animationID, playNow);
+	SetAnimation(animationID, playNow);
 }
 
 void AnimatedGameObject::Update(int deltaTime) {
@@ -37,11 +37,11 @@ void AnimatedGameObject::Clean() {
 	}
 }
 
-void AnimatedGameObject::addAnimation(std::string id, Animation* animation) {
+void AnimatedGameObject::AddAnimation(std::string id, Animation* animation) {
 	animations_.insert({ id,animation });
 }
 
-void AnimatedGameObject::setAnimation(std::string id, bool playNow) {
+void AnimatedGameObject::SetAnimation(std::string id, bool playNow) {
 	currentAnimation_ = animations_.at(id);
 	if (playNow)
 		currentAnimation_->Play();

@@ -16,7 +16,7 @@ Background::Background(float x, float y) {
 
 	stepTimer_ = new Timer(cTimePerStep_, true);
 
-	addAnimation("Default", new Animation(0, 0));
+	AddAnimation("Default", new Animation(0, 0));
 	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", true);
 }
 

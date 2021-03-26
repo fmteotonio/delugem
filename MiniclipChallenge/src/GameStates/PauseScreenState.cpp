@@ -36,10 +36,10 @@ void PauseScreenState::Init() {
 void PauseScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
-	if (resumeButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
+	if (resumeButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->PopState();
 		return;
 	}
-	if (exitButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+	if (exitButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
 }

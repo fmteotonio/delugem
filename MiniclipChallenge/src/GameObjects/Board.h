@@ -20,18 +20,18 @@ public:
 	void Render();
 	void Clean();
 
-	bool gameLost();
+	bool IsGameLost();
 
-	int getNextGemID();
-	void pushColumn(int n);
-	void fillBoard();
-	void searchGemGroup(int gX, int gY);
-	void eraseGem(int gX, int gY);
+	int NextGemID();
+	void PushColumn(int n);
+	void FillBoard();
+	void SearchGemGroup(int gX, int gY);
+	void EraseGem(int gX, int gY);
 	
 private:
 	int nextGemID_ = 0;
 	bool hasClicked_ = false;
-	bool gameLost_ = false;
+	bool isGameLost_ = false;
 
 	Timer* columnTimer_;
 	int timePassed = 0;
