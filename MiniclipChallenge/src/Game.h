@@ -2,7 +2,7 @@
 
 #include "GameStates/GameStateMachine.h"
 
-#include "GameObjects/GameObject.h"
+#include "GameObjects/AnimatedGameObject.h"
 
 #include <SDL.h>
 #include <SDL_Image.h>
@@ -31,6 +31,5 @@ private:
 	GameStateMachine* gameStateMachine_;
 	SDL_Window* window_;
 	SDL_Renderer* renderer_;
-	GameObject* background_;
-	
+	AnimatedGameObject* background_;
 }; 

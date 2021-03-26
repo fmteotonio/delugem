@@ -9,9 +9,11 @@
 #include "PlayingState.h"
 #include "TitleScreenState.h"
 
-const std::string GameOverScreenState::stateID_ = "GAMEOVERSCREEN";
 
 void GameOverScreenState::Init() {
+
+	stateID_ = "GAMEOVERSCREEN";
+
 	gameObjects_.push_back(new ForegroundStrip(0, 0));
 	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_HEIGHT-FOREGROUNDSTRIP_H));
 
@@ -29,9 +31,8 @@ void GameOverScreenState::Init() {
 }
 
 void GameOverScreenState::Update(int deltaTime) {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Update(deltaTime);
-	}
+	GameState::Update(deltaTime);
+
 	if (playAgainButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->gameStateMachine()->changeState(new PlayingState());
 		SoundManager::Instance()->playSFX("GameStart",false);
@@ -40,20 +41,3 @@ void GameOverScreenState::Update(int deltaTime) {
 	if (exitButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->gameStateMachine()->changeState(new TitleScreenState());
 }
-
-void GameOverScreenState::Render() {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Render();
-	}
-}
-
-void GameOverScreenState::Clean() {
-	for (GameObject* gameObject : gameObjects_) {
-		gameObject->Clean();
-		delete gameObject;
-	}
-}
-
-std::string GameOverScreenState::stateID() {
-	return stateID_;
-};

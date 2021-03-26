@@ -13,9 +13,11 @@
 #include "../SoundManager.h"
 #include "../Game.h"
 
-const std::string PlayingState::stateID_ = "PLAYING";
 
 void PlayingState::Init() {
+
+	stateID_ = "PLAYING";
+
 	gameObjects_.push_back(board_ = new Board(BOARD_START_X, BOARD_START_Y));
 	gameObjects_.push_back(new EndLine(ENDLINE_X, ENDLINE_Y));
 
@@ -50,9 +52,8 @@ void PlayingState::Init() {
 }
 
 void PlayingState::Update(int deltaTime) {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Update(deltaTime);
-	}
+	GameState::Update(deltaTime);
+
 	//Check if score text needs update
 	if (displayedScore_ != GameManager::Instance()->score()) {
 		displayedScore_ = GameManager::Instance()->score();
@@ -94,19 +95,16 @@ void PlayingState::Update(int deltaTime) {
 }
 
 void PlayingState::Render() {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Render();
-	}
+	GameState::Render();
+
 	scoreValueText_->Render();
 	levelValueText_->Render();
 	fillsText_->Render();
 }
 
 void PlayingState::Clean() {
-	for (GameObject* gameObject : gameObjects_) {
-		gameObject->Clean();
-		delete gameObject;
-	}
+	GameState::Clean();
+
 	scoreValueText_->Clean();
 	levelValueText_->Clean();
 	fillsText_->Clean();
@@ -114,7 +112,3 @@ void PlayingState::Clean() {
 	delete levelValueText_;
 	delete fillsText_;
 }
-
-std::string PlayingState::stateID() {
-	return stateID_;
-};

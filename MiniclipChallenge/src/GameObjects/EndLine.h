@@ -1,11 +1,8 @@
 #pragma once
 
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 
-class EndLine : public GameObject {
+class EndLine : public AnimatedGameObject {
 public:
 	EndLine(float x, float y);
-
-	void Update(int deltaTime);
-	void Render();
 };

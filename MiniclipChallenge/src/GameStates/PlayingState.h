@@ -16,10 +16,7 @@ public:
 	void Render();
 	void Clean();
 
-	std::string stateID();
 private:
-	static const std::string stateID_;
-	std::vector<GameObject*> gameObjects_;
 
 	GameObject* scoreValueText_;
 	int displayedScore_;

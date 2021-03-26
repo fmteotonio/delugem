@@ -12,7 +12,7 @@
 #include <iostream>
 
 Board::Board(float x, float y) {
-	GameObject::Init(x, y, 0, 0, nullptr, nullptr);
+	GameObject::Init(x, y);
 
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 

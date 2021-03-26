@@ -1,10 +1,10 @@
 #pragma once
 
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 
 #include <string>
 
-class Text : public GameObject {
+class Text : public AnimatedGameObject {
 public:
 	enum class Align {
 		UPLEFT,
@@ -19,8 +19,4 @@ public:
 	};
 
 	Text(float x, float y, Align align, std::string font, int size, std::string text, SDL_Color color);
-
-	void Update(int deltaTime);
-	void Render();
-	void Clean();
 };

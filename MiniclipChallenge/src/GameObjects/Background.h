@@ -1,11 +1,8 @@
 #pragma once
 
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 
-class Background : public GameObject {
+class Background : public AnimatedGameObject {
 public:
 	Background(float x, float y);
-
-	void Update(int deltaTime);
-	void Render();
 };

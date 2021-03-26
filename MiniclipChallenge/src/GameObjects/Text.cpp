@@ -28,18 +28,7 @@ Text::Text(float x, float y, Align align, std::string font, int size, std::strin
 	if		(font == FNT_M6X11) { yAux += size/16; }
 	else if (font == FNT_M3X6)	{ yAux -= 2*size / 16; }
 
-	GameObject::Init(xAux, yAux, w, h, objTexture, new Animation(0, 0));
-}
+	addAnimation("Default", new Animation(0, 0));
 
-void Text::Update(int deltaTime) {
-	GameObject::Update(deltaTime);
+	AnimatedGameObject::Init(xAux, yAux, w, h, objTexture, "Default", false);
 }
-
-void Text::Render() {
-	GameObject::Render();
-}
-
-void Text::Clean() {
-	GameObject::Clean();
-}
-

@@ -10,12 +10,12 @@ Button::Button(float x, float y, int w, int h, std::string filename) {
 
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(filename);
 
-	defaultAnimation_ = new Animation(0, 0);
-	hoveredAnimation_ = new Animation(0, 1);
-	hovPressedAnimation_ = new Animation(0, 2);
-	unhovPressedAnimation_ = new Animation(0, 3);
+	addAnimation("Default",	     new Animation(0, 0));
+	addAnimation("Hovered",      new Animation(0, 1));
+	addAnimation("HovPressed",   new Animation(0, 2));
+	addAnimation("UnhovPressed", new Animation(0, 3));
 
-	GameObject::Init(x, y, w, h, objTexture, defaultAnimation_);
+	AnimatedGameObject::Init(x, y, w, h, objTexture, "Default", false);
 }
 
 void Button::AddContent(GameObject* content) {
@@ -24,11 +24,10 @@ void Button::AddContent(GameObject* content) {
 
 void Button::Update(int deltaTime) {
 	HandleInput();
-
 	for (GameObject* content : contents_) {
 		content->Update(deltaTime);
 	}
-	GameObject::Update(deltaTime);
+	AnimatedGameObject::Update(deltaTime);
 }
 
 void Button::HandleInput() {
@@ -72,7 +71,7 @@ void Button::HandleInput() {
 }
 
 void Button::Render() {
-	GameObject::Render();
+	AnimatedGameObject::Render();
 	for (GameObject* content : contents_) {
 		content->Render();
 	}
@@ -83,10 +82,7 @@ void Button::Clean() {
 		content->Clean();
 		delete content;
 	}
-	delete defaultAnimation_;
-	delete hoveredAnimation_;
-	delete hovPressedAnimation_;
-	delete unhovPressedAnimation_;
+	AnimatedGameObject::Clean();
 }
 
 Button::ButtonState Button::buttonState() {
@@ -98,7 +94,7 @@ bool Button::TransitState(ButtonState newButtonState) {
 		case ButtonState::DEFAULT:{
 			if (buttonState_ == ButtonState::HOVERED || buttonState_ == ButtonState::UNHOV_PRESSED || buttonState_ == ButtonState::INACTIVE) {
 				buttonState_ = ButtonState::DEFAULT;
-				animation_ = defaultAnimation_;
+				setAnimation("Default", false);
 				return true;
 			}
 			break;
@@ -106,7 +102,7 @@ bool Button::TransitState(ButtonState newButtonState) {
 		case ButtonState::HOVERED: {
 			if (buttonState_ == ButtonState::DEFAULT || buttonState_ == ButtonState::PRESS_ACTION) {
 				buttonState_ = ButtonState::HOVERED;
-				animation_ = hoveredAnimation_;
+				setAnimation("Hovered", false);
 				return true;
 			}
 			break;
@@ -114,7 +110,7 @@ bool Button::TransitState(ButtonState newButtonState) {
 		case ButtonState::HOV_PRESSED:{
 			if (buttonState_ == ButtonState::HOVERED || buttonState_ == ButtonState::UNHOV_PRESSED) {
 				buttonState_ = ButtonState::HOV_PRESSED;
-				animation_ = hovPressedAnimation_;
+				setAnimation("HovPressed", false);
 				return true;
 			}
 			break;
@@ -122,7 +118,7 @@ bool Button::TransitState(ButtonState newButtonState) {
 		case ButtonState::UNHOV_PRESSED: {
 			if (buttonState_ == ButtonState::HOV_PRESSED) {
 				buttonState_ = ButtonState::UNHOV_PRESSED;
-				animation_ = unhovPressedAnimation_;
+				setAnimation("UnhovPressed", false);
 				return true;
 			}
 			break;
@@ -136,7 +132,7 @@ bool Button::TransitState(ButtonState newButtonState) {
 		}
 		case ButtonState::INACTIVE: {
 			buttonState_ = ButtonState::INACTIVE;
-			animation_ = unhovPressedAnimation_;
+			setAnimation("UnhovPressed", false);
 			break;
 		}
 	}

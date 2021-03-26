@@ -22,13 +22,12 @@ Gem::Gem(GemColor gemColor, float x, float y, int id) {
 		default: frameRow = 0;
 	}
 
-	//ANIMATION
-	defaultAnimation_ =	  new Animation(0, frameRow);
-	hoveredAnimation_ =   new Animation(6, frameRow);
-	breakingAnimation_ =  new Animation(0, 5, frameRow, 40);
-	toDestroyAnimation_ = new Animation(5, frameRow);
+	addAnimation("Default", new Animation(0, frameRow));
+	addAnimation("Hovered", new Animation(6, frameRow));
+	addAnimation("Breaking", new Animation(0, 5, frameRow, 40));
+	addAnimation("ToDestroy", new Animation(5, frameRow));
 
-	GameObject::Init(x, y, GEM_W, GEM_H, objTexture, defaultAnimation_);
+	AnimatedGameObject::Init(x, y, GEM_W, GEM_H, objTexture, "Default", false);
 }
 
 int Gem::id() { return id_; }
@@ -38,6 +37,7 @@ Gem::GemState Gem::gemState() { return gemState_; }
 float Gem::y() {
 	return y_;
 }
+
 void Gem::setY(float y) {
 	y_ = y;
 }
@@ -46,6 +46,7 @@ void Gem::Move(float x, float y) {
 	toMoveX_ += x;
 	toMoveY_ += y;
 }
+
 bool Gem::isMoving() {
 	return toMoveX_ != 0 || toMoveY_ != 0;
 }
@@ -79,21 +80,10 @@ void Gem::Update(int deltaTime) {
 		}
 	}
 
-	if (animation_->PlayedOnce() && gemState_ == GemState::BREAKING) {
+	if (currentAnimation_->PlayedOnce() && gemState_ == GemState::BREAKING) {
 		TransitState(GemState::TO_DESTROY);
 	}
-	GameObject::Update(deltaTime);
-}
-
-void Gem::Render() {
-	GameObject::Render();
-}
-
-void Gem::Clean() {
-	delete defaultAnimation_;
-	delete hoveredAnimation_;
-	delete breakingAnimation_;
-	delete toDestroyAnimation_;
+	AnimatedGameObject::Update(deltaTime);
 }
 
 bool Gem::TransitState(GemState newGemState) {
@@ -101,7 +91,7 @@ bool Gem::TransitState(GemState newGemState) {
 		case GemState::DEFAULT: {
 			if (gemState_ == GemState::HOVERED) {
 				gemState_ = newGemState;
-				animation_ = defaultAnimation_;
+				setAnimation("Default", false);
 				return true;
 			}
 			break;
@@ -109,7 +99,7 @@ bool Gem::TransitState(GemState newGemState) {
 		case GemState::HOVERED: {
 			if (gemState_ == GemState::DEFAULT) {
 				gemState_ = newGemState;
-				animation_ = hoveredAnimation_;
+				setAnimation("Hovered", false);
 				return true;
 			}
 			break;
@@ -117,15 +107,14 @@ bool Gem::TransitState(GemState newGemState) {
 		case GemState::BREAKING: {
 			if (gemState_ == GemState::DEFAULT || gemState_ == GemState::HOVERED) {
 				gemState_ = newGemState;
-				animation_ = breakingAnimation_;
-				animation_->Play();
+				setAnimation("Breaking", true);
 				return true;
 			}
 			break;
 		}
 		case GemState::TO_DESTROY: {
 			gemState_ = newGemState;
-			animation_ = toDestroyAnimation_;
+			setAnimation("ToDestroy", false);
 			return true;
 		}
 	}

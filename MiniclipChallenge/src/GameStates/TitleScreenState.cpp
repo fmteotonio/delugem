@@ -10,9 +10,10 @@
 #include "PlayingState.h"
 
 
-const std::string TitleScreenState::stateID_ = "TITLESCREEN";
 
 void TitleScreenState::Init() {
+
+	stateID_ = "TITLESCREEN";
 
 	GameManager::Instance()->Reset();
 
@@ -31,29 +32,11 @@ void TitleScreenState::Init() {
 }
 
 void TitleScreenState::Update(int deltaTime) {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Update(deltaTime);
-	}
+	GameState::Update(deltaTime);
+
 	if (playButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->gameStateMachine()->changeState(new PlayingState());
 		SoundManager::Instance()->playSFX("GameStart", false);
 	}
 		
 }
-
-void TitleScreenState::Render() {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Render();
-	}
-}
-
-void TitleScreenState::Clean() {
-	for (GameObject* gameObject : gameObjects_) {
-		gameObject->Clean();
-		delete gameObject;
-	}
-}
-
-std::string TitleScreenState::stateID() {
-	return stateID_;
-};

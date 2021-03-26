@@ -8,9 +8,10 @@
 #include "PlayingState.h"
 #include "TitleScreenState.h"
 
-const std::string PauseScreenState::stateID_ = "PAUSESCREEN";
-
 void PauseScreenState::Init() {
+
+	stateID_ = "PAUSESCREEN";
+
 	gameObjects_.push_back(new ForegroundStrip(0, 0));
 	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_HEIGHT-FOREGROUNDSTRIP_H));
 
@@ -28,9 +29,8 @@ void PauseScreenState::Init() {
 }
 
 void PauseScreenState::Update(int deltaTime) {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Update(deltaTime);
-	}
+	GameState::Update(deltaTime);
+
 	if (resumeButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->gameStateMachine()->popState();
 		return;
@@ -38,20 +38,3 @@ void PauseScreenState::Update(int deltaTime) {
 	if (exitButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->gameStateMachine()->changeState(new TitleScreenState());
 }
-
-void PauseScreenState::Render() {
-	for (GameObject* gameObjectPointer : gameObjects_) {
-		gameObjectPointer->Render();
-	}
-}
-
-void PauseScreenState::Clean() {
-	for (GameObject* gameObject : gameObjects_) {
-		gameObject->Clean();
-		delete gameObject;
-	}
-}
-
-std::string PauseScreenState::stateID() {
-	return stateID_;
-};

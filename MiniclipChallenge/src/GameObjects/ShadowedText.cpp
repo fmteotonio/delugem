@@ -6,7 +6,7 @@
 ShadowedText::ShadowedText(float x, float y, Text::Align align, std::string font, int size, std::string text, SDL_Color textColor, SDL_Color shadowColor) {
 	text_ = new Text(x, y, align, font, size, text, textColor);
 	shadow_ = new Text(x+1, y+1, align, font, size, text, shadowColor);
-	GameObject::Init(x, y, 0, 0, nullptr, nullptr);
+	GameObject::Init(x, y);
 }
 
 void ShadowedText::Update(int deltaTime) {

@@ -1,8 +1,10 @@
 #pragma once
 
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
+#include <map>
+#include <string>
 
-class ForegroundStrip : public GameObject {
+class ForegroundStrip : public AnimatedGameObject {
 public:
 	enum class ForegroundStripState {
 		DEFAULT, LEVELUP
@@ -18,7 +20,4 @@ public:
 private:
 
 	ForegroundStripState foregroundStripState_ = ForegroundStripState::DEFAULT;
-
-	Animation* defaultAnimation_;
-	Animation* levelUpAnimation_;
 };

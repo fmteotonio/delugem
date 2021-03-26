@@ -1,21 +1,18 @@
 #pragma once
 
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 #include "../Animation.h"
 #include "../Constants.h"
 
-class Gem : public GameObject{
+class Gem : public AnimatedGameObject{
 public:
 	enum class GemState {
 		DEFAULT, HOVERED, BREAKING, TO_DESTROY
 	};
-	
-
 	enum class GemColor {
 		PINK, BLUE, ORANGE, GREEN, BEIGE
 	};
 	
-
 	Gem(GemColor gemColor, float x, float y, int id);
 
 	int id();
@@ -29,8 +26,6 @@ public:
 	bool TransitState(GemState newGemState);
 
 	void Update(int deltaTime);
-	void Render();
-	void Clean();
 
 private:
 
@@ -44,9 +39,4 @@ private:
 
 	GemColor gemColor_;
 	GemState gemState_ = GemState::DEFAULT;
-
-	Animation* defaultAnimation_;
-	Animation* hoveredAnimation_;
-	Animation* breakingAnimation_;
-	Animation* toDestroyAnimation_;
 };

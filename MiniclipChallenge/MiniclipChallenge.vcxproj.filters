@@ -38,7 +38,7 @@
     <ClInclude Include="src\InputHandler.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObjects\GameObject.h">
+    <ClInclude Include="src\GameObjects\AnimatedGameObject.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Gem.h">
@@ -98,6 +98,9 @@
     <ClInclude Include="src\SoundManager.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameObjects\GameObject.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -112,7 +115,7 @@
     <ClCompile Include="src\InputHandler.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObjects\GameObject.cpp">
+    <ClCompile Include="src\GameObjects\AnimatedGameObject.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Gem.cpp">
@@ -168,6 +171,12 @@
     </ClCompile>
     <ClCompile Include="src\SoundManager.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\GameObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\GameState.cpp">
+      <Filter>src\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

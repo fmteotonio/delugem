@@ -1,11 +1,12 @@
 #pragma once
 
+#include "AnimatedGameObject.h"
 #include "GameObject.h"
 
 #include <string>
 #include <vector>
 
-class Button : public GameObject {
+class Button : public AnimatedGameObject {
 public:
 	enum class ButtonState {
 		DEFAULT, HOVERED, HOV_PRESSED, UNHOV_PRESSED, PRESS_ACTION, INACTIVE
@@ -25,11 +26,6 @@ public:
 
 private:
 	ButtonState buttonState_ = ButtonState::DEFAULT;
-
-	Animation* defaultAnimation_;
-	Animation* hoveredAnimation_;
-	Animation* hovPressedAnimation_;
-	Animation* unhovPressedAnimation_;
 
 	std::vector<GameObject*> contents_;
 };

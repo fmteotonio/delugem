@@ -1,15 +1,20 @@
 #pragma once
 
 #include<string>
+#include<vector>
+
+#include "../GameObjects/GameObject.h"
 
 class GameState {
 public:
 	virtual void Init() = 0;
-	virtual void Update(int deltaTime) = 0;
-	virtual void Render() = 0;  
-	virtual void Clean() = 0;
+	virtual void Update(int deltaTime);
+	virtual void Render();  
+	virtual void Clean();
 
-	virtual std::string stateID() = 0;
-private:
+	virtual std::string stateID();
+protected:
+	std::string stateID_;
 
+	std::vector<GameObject*> gameObjects_;
 };

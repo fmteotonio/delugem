@@ -160,8 +160,9 @@
     <ClInclude Include="src\GameObjects\Button.h" />
     <ClInclude Include="src\GameObjects\EndLine.h" />
     <ClInclude Include="src\GameObjects\ForegroundStrip.h" />
-    <ClInclude Include="src\GameObjects\GameObject.h" />
+    <ClInclude Include="src\GameObjects\AnimatedGameObject.h" />
     <ClInclude Include="src\GameObjects\Gem.h" />
+    <ClInclude Include="src\GameObjects\GameObject.h" />
     <ClInclude Include="src\GameObjects\ShadowedText.h" />
     <ClInclude Include="src\GameObjects\StaticImage.h" />
     <ClInclude Include="src\GameObjects\Text.h" />
@@ -185,12 +186,14 @@
     <ClCompile Include="src\GameObjects\Button.cpp" />
     <ClCompile Include="src\GameObjects\EndLine.cpp" />
     <ClCompile Include="src\GameObjects\ForegroundStrip.cpp" />
-    <ClCompile Include="src\GameObjects\GameObject.cpp" />
+    <ClCompile Include="src\GameObjects\AnimatedGameObject.cpp" />
     <ClCompile Include="src\GameObjects\Gem.cpp" />
+    <ClCompile Include="src\GameObjects\GameObject.cpp" />
     <ClCompile Include="src\GameObjects\ShadowedText.cpp" />
     <ClCompile Include="src\GameObjects\StaticImage.cpp" />
     <ClCompile Include="src\GameObjects\Text.cpp" />
     <ClCompile Include="src\GameStates\GameOverScreenState.cpp" />
+    <ClCompile Include="src\GameStates\GameState.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
     <ClCompile Include="src\GameStates\PauseScreenState.cpp" />
     <ClCompile Include="src\GameStates\PlayingState.cpp" />

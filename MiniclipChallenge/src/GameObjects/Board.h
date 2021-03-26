@@ -25,7 +25,6 @@ public:
 	void searchGemGroup(int gX, int gY);
 	void eraseGem(int gX, int gY);
 	
-
 private:
 	int nextGemID_ = 0;
 	bool hasClicked_ = false;

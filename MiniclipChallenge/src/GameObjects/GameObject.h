@@ -1,21 +1,19 @@
 #pragma once
 
 #include<SDL_image.h>
+#include<map>
+#include<string>
 
 #include "../Animation.h"
 
 class GameObject { 
-public:  
-	virtual void Init(float x, float y, int w, int h, SDL_Texture* texture, Animation* animation);
-	virtual void Update(int deltaTime);
-	virtual void Render();
-	virtual void Clean();
+public:
+	virtual void Init(float x, float y);
+	virtual void Update(int deltaTime) = 0;
+	virtual void Render() = 0;
+	virtual void Clean() = 0;
+
 protected:
 	float x_;
 	float y_;
-	int w_;
-	int h_;
-
-	SDL_Texture* texture_;
-	Animation* animation_;
 };
