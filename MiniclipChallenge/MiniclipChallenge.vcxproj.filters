@@ -122,6 +122,9 @@
     <ClInclude Include="src\GameObjects\StaticImages\SmallIcon.h">
       <Filter>src\GameObjects\StaticImages</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameObjects\Texts\VerticalShadowedText.h">
+      <Filter>src\GameObjects\Texts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -207,6 +210,9 @@
     </ClCompile>
     <ClCompile Include="src\GameObjects\StaticImages\SmallIcon.cpp">
       <Filter>src\GameObjects\StaticImages</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\Texts\VerticalShadowedText.cpp">
+      <Filter>src\GameObjects\Texts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

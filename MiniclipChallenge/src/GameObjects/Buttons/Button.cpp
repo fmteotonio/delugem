@@ -31,10 +31,10 @@ void Button::Update(int deltaTime) {
 }
 
 void Button::HandleInput() {
-	int mouseX = InputHandler::Instance()->mouseX();
-	int mouseY = InputHandler::Instance()->mouseY();
+	int mouseX = InputHandler::Instance()->GetMouseX();
+	int mouseY = InputHandler::Instance()->GetMouseY();
 	bool isHovering = mouseX > x_ && mouseX < x_ + w_ && mouseY > y_ && mouseY < y_ + h_;
-	bool isClicking = InputHandler::Instance()->mouseLeft();
+	bool isClicking = InputHandler::Instance()->GetMouseLeft();
 
 
 

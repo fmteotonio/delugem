@@ -11,15 +11,16 @@
 GameManager* GameManager::sGameManagerInstance_ = nullptr;
 
 const int GameManager::cColumnTime = 10000;
-const float GameManager::cColumnTimeMultiplier = 0.95;
+const float GameManager::cColumnTimeMultiplier = 0.95f;
 const int GameManager::cEndGemsMargin = 4;
 
-int GameManager::level() { return level_; }
-int GameManager::score() { return score_; }
-int GameManager::fillsLeft() { return fillsLeft_; }
+int GameManager::GetLevel() { return level_; }
+int GameManager::GetScore() { return score_; }
+int GameManager::GetFillsLeft() { return fillsLeft_; }
 
-int GameManager::timePerColumn() {
-	return cColumnTime * pow(cColumnTimeMultiplier, GameManager::Instance()->level() - 1);
+
+int GameManager::TimePerColumn() {
+	return cColumnTime * pow(cColumnTimeMultiplier, GameManager::Instance()->GetLevel() - 1);
 }
 
 GameManager* GameManager::Instance() {
@@ -34,7 +35,7 @@ void GameManager::AddScore(int gemNumber) {
 	score_ += 10 * pow(2, gemNumber - 1);
 
 	while (score_ >= 1000 * level_ + 100 * (int(pow(2, level_-1))-1) ) {
-		SoundManager::Instance()->playSFX("LevelUp", false);
+		SoundManager::Instance()->PlaySFX("LevelUp", false);
 		++level_;
 		if (fillsLeft_ <= 9) {
 			++fillsLeft_;
@@ -52,7 +53,7 @@ void GameManager::AddScore(int gemNumber) {
 	//9 - 21800 = 9000 + 12800
 }
 
-void GameManager::useFill() {
+void GameManager::UseFill() {
 	--fillsLeft_;
 }
 

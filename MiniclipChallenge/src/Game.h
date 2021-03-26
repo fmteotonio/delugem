@@ -11,9 +11,9 @@ class Game {
 public:
 	static Game* Instance();
 		
-	bool bRunning();
-	GameStateMachine* gameStateMachine();
-	SDL_Renderer* renderer();
+	bool IsGameRunning();
+	GameStateMachine* GetGameStateMachine();
+	SDL_Renderer* GetRenderer();
 
 	bool Init(const char* title, int width, int height, bool fullscreen);
 
@@ -27,7 +27,7 @@ public:
 
 private:
 	static Game* sGameInstance_;
-	bool bRunning_ = false;
+	bool isGameRunning_ = false;
 
 	GameStateMachine* gameStateMachine_;
 	SDL_Window* window_;

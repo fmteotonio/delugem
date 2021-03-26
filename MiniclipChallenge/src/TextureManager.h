@@ -25,6 +25,4 @@ private:
 	typedef std::map<std::string, TTF_Font*> fontMap;
 
 	TTF_Font* LoadFont(std::string filename, int size);
-
-	bool temp;
 };

@@ -12,7 +12,7 @@ public:
 	virtual void Render();  
 	virtual void Clean();
 
-	virtual std::string stateID();
+	virtual std::string GetStateID();
 protected:
 	std::string stateID_;
 

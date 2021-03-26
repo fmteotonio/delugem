@@ -20,7 +20,7 @@ Board::Board(float x, float y) {
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 
 
-	columnTimer_ = new Timer(GameManager::Instance()->timePerColumn(), true);
+	columnTimer_ = new Timer(GameManager::Instance()->TimePerColumn(), true);
 
 	pushColumn(cStartColumns);
 }
@@ -33,7 +33,7 @@ bool Board::gameLost() {
 void Board::Update(int deltaTime) {
 
 	columnTimer_->Update(deltaTime);
-	if (columnTimer_->hasRung()) {
+	if (columnTimer_->HasRung()) {
 		pushColumn(1);
 	}
 
@@ -55,8 +55,8 @@ void Board::Update(int deltaTime) {
 
 void Board::HandleInput() {
 
-	int conv_x = int(floor((InputHandler::Instance()->mouseX() - x_) / Gem::cW));
-	int conv_y = int(floor(cColumnSize - (InputHandler::Instance()->mouseY() - y_) / Gem::cH));
+	int conv_x = int(floor((InputHandler::Instance()->GetMouseX() - x_) / Gem::cW));
+	int conv_y = int(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - y_) / Gem::cH));
 	bool isHovered = conv_x >= 0 && conv_x < boardGems_.size() && conv_y >= 0 && conv_y < boardGems_.at(conv_x).size();
 
 
@@ -75,12 +75,12 @@ void Board::HandleInput() {
 			lastHoveredGem_ = gem;
 		}
 		//Only once per click
-		if (InputHandler::Instance()->mouseLeft() && !hasClicked_) 
+		if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) 
 			searchGemGroup(conv_x, conv_y);			
 	}
-	if (InputHandler::Instance()->mouseLeft() && !hasClicked_) 
+	if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) 
 		hasClicked_ = true;
-	if (!InputHandler::Instance()->mouseLeft() && hasClicked_)
+	if (!InputHandler::Instance()->GetMouseLeft() && hasClicked_)
 		hasClicked_ = false;
 
 	//----------------------------------------------------
@@ -118,7 +118,7 @@ int Board::getNextGemID() {
 
 void Board::pushColumn(int n) {
 
-	SoundManager::Instance()->playSFX("PushColumn",false);
+	SoundManager::Instance()->PlaySFX("PushColumn",false);
 
 	for (int aux = 0; aux < n; ++aux) {
 		std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
@@ -145,14 +145,14 @@ void Board::pushColumn(int n) {
 			gem->Move(-Gem::cW * n, 0);
 		}
 	}
-	columnTimer_->ResetTimer(GameManager::Instance()->timePerColumn());
+	columnTimer_->ResetTimer(GameManager::Instance()->TimePerColumn());
 	
 	if (x_ < GameManager::cEndGemsMargin * Gem::cW)
 		gameLost_ = true;
 }
 
 void Board::fillBoard() {
-	if (GameManager::Instance()->fillsLeft() > 0) {
+	if (GameManager::Instance()->GetFillsLeft() > 0) {
 
 		int maxGapHeight = 0;
 		std::vector<Gem*> createdGems;
@@ -189,8 +189,8 @@ void Board::fillBoard() {
 			gem->Move(0, maxGapHeight * Gem::cH);
 		}
 		if (createdGems.size() > 0) {
-			SoundManager::Instance()->playSFX("Fill", false);
-			GameManager::Instance()->useFill();
+			SoundManager::Instance()->PlaySFX("Fill", false);
+			GameManager::Instance()->UseFill();
 		}
 			
 	}
@@ -242,7 +242,7 @@ void Board::searchGemGroup(int gX, int gY) {
 
 	if (gemNumber > 1) {
 		
-		SoundManager::Instance()->playSFX("Break",0);
+		SoundManager::Instance()->PlaySFX("Break",0);
 		
 		for (int i = boardGems_.size() - 1; i >= 0; --i) {
 			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {

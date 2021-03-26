@@ -32,9 +32,9 @@ Game* Game::Instance() {
 	return sGameInstance_;
 }
 
-bool Game::bRunning() { return bRunning_; }
-GameStateMachine* Game::gameStateMachine() { return gameStateMachine_; }
-SDL_Renderer* Game::renderer() { return renderer_; }
+bool Game::IsGameRunning() { return isGameRunning_; }
+GameStateMachine* Game::GetGameStateMachine() { return gameStateMachine_; }
+SDL_Renderer* Game::GetRenderer() { return renderer_; }
 
 bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 	//INIT WINDOW AND RENDERER
@@ -63,7 +63,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 			return false;
 		}
 		std::cout << "SDL_Init successful.\n";
-		bRunning_ = true;
+		isGameRunning_ = true;
 
 
 		TextureManager::Instance();
@@ -78,8 +78,8 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		
 
 		//SoundManager::Instance()->Load(MUS_ONLYTRACK,"onlyTrack",SoundManager::soundType::MUSIC,4);
-		//SoundManager::Instance()->playMusic("onlyTrack", 1);
-		//SoundManager::Instance()->setMusicPosition(33.5);
+		//SoundManager::Instance()->PlayMusic("onlyTrack", 1);
+		//SoundManager::Instance()->SetMusicPosition(33.5);
 
 		//Load SFX
 		SoundManager::Instance()->Load(SND_BREAK,     "Break",     SoundManager::soundType::SFX, 8);
@@ -93,7 +93,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		background_ = new Background(-15, 0);
 
 		gameStateMachine_ = new GameStateMachine();
-		gameStateMachine_->pushState(new TitleScreenState());
+		gameStateMachine_->PushState(new TitleScreenState());
 		
 		return true;
 		//----------------------------------
@@ -109,7 +109,7 @@ void Game::HandleEvents() {
 }
 
 void Game::Quit() {
-	bRunning_ = false;
+	isGameRunning_ = false;
 }
 
 void Game::Update(int deltaTime) {

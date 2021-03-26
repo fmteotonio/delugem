@@ -15,7 +15,7 @@ Animation::Animation(int onlyFrame, int frameRow) {
 }
 
 bool Animation::isPlaying() { return isPlaying_; }
-int Animation::frameRow()   { return frameRow_; }
+int Animation::GetFrameRow()   { return frameRow_; }
 
 void Animation::Update(int deltaTime) {
 	if (isPlaying_)

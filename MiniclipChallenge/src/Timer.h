@@ -7,7 +7,7 @@ public:
 	void ResetTimer(int milliseconds);
 	void StartTimer();
 	void PauseTimer();
-	bool hasRung();
+	bool HasRung();
 
 	void Update(int deltaTime);
 private:

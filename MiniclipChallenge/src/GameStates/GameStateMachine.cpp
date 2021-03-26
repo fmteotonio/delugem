@@ -2,23 +2,23 @@
 
 #include "../TextureManager.h"
 
-void GameStateMachine::pushState(GameState* state) {
+void GameStateMachine::PushState(GameState* state) {
 	gameStates_.push_back(state);
 	gameStates_.back()->Init();
 }
 
-void GameStateMachine::changeState(GameState* state) {
+void GameStateMachine::ChangeState(GameState* state) {
 	if (!gameStates_.empty()) {
-		if (gameStates_.back()->stateID() != state->stateID()){
+		if (gameStates_.back()->GetStateID() != state->GetStateID()){
 			delete gameStates_.back();
 			gameStates_.pop_back();
 		}
 		else return;
 	}
-	pushState(state);
+	PushState(state);
 }
 
-void GameStateMachine::popState() {
+void GameStateMachine::PopState() {
 	if (!gameStates_.empty()){
 		gameStates_.back()->Clean();
 		delete gameStates_.back();
@@ -38,7 +38,7 @@ void GameStateMachine::Render() {
 
 void GameStateMachine::Clean() {
 	while (!gameStates_.empty()) {
-		popState();
+		PopState();
 	}
 }
 

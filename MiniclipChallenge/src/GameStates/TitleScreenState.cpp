@@ -16,10 +16,10 @@ void TitleScreenState::Init() {
 	GameManager::Instance()->Reset();
 
 	gameObjects_.push_back(new ForegroundStrip(0, 0));
-	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_HEIGHT- ForegroundStrip::cH));
+	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_H- ForegroundStrip::cH));
 	
-	int bX = SCREEN_WIDTH / 2 - BigButton::cW / 2;
-	int bY = SCREEN_HEIGHT / 2 - BigButton::cH / 2;
+	int bX = SCREEN_W / 2 - BigButton::cW / 2;
+	int bY = SCREEN_H / 2 - BigButton::cH / 2;
 	int bW = BigButton::cW;
 	int bH = BigButton::cH;
 
@@ -31,8 +31,8 @@ void TitleScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
 	if (playButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
-		Game::Instance()->gameStateMachine()->changeState(new PlayingState());
-		SoundManager::Instance()->playSFX("GameStart", false);
+		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
+		SoundManager::Instance()->PlaySFX("GameStart", false);
 	}
 		
 }

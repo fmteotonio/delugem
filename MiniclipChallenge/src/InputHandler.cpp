@@ -12,9 +12,9 @@ InputHandler* InputHandler::Instance() {
 	return sInputHandlerInstance_;
 }
 
-bool   InputHandler::mouseLeft() { return mouseLeft_; }
-Sint32 InputHandler::mouseX() { return mouseX_ / GAME_SCALE; }
-Sint32 InputHandler::mouseY() { return mouseY_ / GAME_SCALE; }
+bool   InputHandler::GetMouseLeft() { return mouseLeft_; }
+Sint32 InputHandler::GetMouseX() { return mouseX_ / GAME_SCALE; }
+Sint32 InputHandler::GetMouseY() { return mouseY_ / GAME_SCALE; }
 
 void InputHandler::Update() {
 	SDL_Event event;

@@ -24,7 +24,7 @@ void Timer::PauseTimer() {
 	isRunning_ = false;
 }
 
-bool Timer::hasRung() {
+bool Timer::HasRung() {
 	return (isRunning_ && timePassed_ > timeToPass_);
 }
 

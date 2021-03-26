@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
 	Uint32 lastFrameStart = SDL_GetTicks();
 	int frameTime;
 	
-	if (Game::Instance()->Init("Delugem", SCREEN_WIDTH * GAME_SCALE, SCREEN_HEIGHT * GAME_SCALE, false)) {
-		while (Game::Instance()->bRunning()) {
+	if (Game::Instance()->Init("Delugem", SCREEN_W * GAME_SCALE, SCREEN_H * GAME_SCALE, false)) {
+		while (Game::Instance()->IsGameRunning()) {
 			frameStart = SDL_GetTicks();
 
 			int deltaTime = frameStart - lastFrameStart;

@@ -6,7 +6,7 @@ public:
 	Animation(int onlyFrame, int frameRow);
 
 	bool isPlaying();
-	int frameRow();
+	int GetFrameRow();
 
 	void Update(int deltaTime);
 

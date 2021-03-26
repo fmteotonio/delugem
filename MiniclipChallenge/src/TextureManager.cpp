@@ -22,7 +22,7 @@ SDL_Texture* TextureManager::LoadTexture(std::string filename) {
 		std::cout << "Inserted new ObjectTexture: " << filename << "\n";
 
 		SDL_Surface* tempSurface = IMG_Load(filename.c_str());
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->renderer(), tempSurface);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->GetRenderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 
 		objTextures_.insert({ filename , texture });
@@ -43,7 +43,7 @@ SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::strin
 		std::cout << "Inserted new TextTexture: " << filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b) << "\n";
 
 		SDL_Surface* tempSurface = TTF_RenderText_Solid(font, text.c_str(), color);
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->renderer(), tempSurface);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->GetRenderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 
 		textTextures_.insert({ filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b), texture });
@@ -54,7 +54,7 @@ SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::strin
 }
 
 void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest) {
-	SDL_RenderCopy(Game::Instance()->renderer(), tex, &src, &dest);
+	SDL_RenderCopy(Game::Instance()->GetRenderer(), tex, &src, &dest);
 }
 
 void TextureManager::Clean(){

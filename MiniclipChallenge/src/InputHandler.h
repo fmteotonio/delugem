@@ -6,9 +6,9 @@ class InputHandler {
 public:
 	static InputHandler* Instance();
 
-	bool mouseLeft();
-	Sint32 mouseX();
-	Sint32 mouseY();
+	bool GetMouseLeft();
+	Sint32 GetMouseX();
+	Sint32 GetMouseY();
 
 	void Update();
 	void Clean();

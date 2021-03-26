@@ -169,6 +169,7 @@
     <ClInclude Include="src\GameObjects\StaticImages\StaticImage.h" />
     <ClInclude Include="src\GameObjects\Texts\ShadowedText.h" />
     <ClInclude Include="src\GameObjects\Texts\Text.h" />
+    <ClInclude Include="src\GameObjects\Texts\VerticalShadowedText.h" />
     <ClInclude Include="src\GameStates\GameOverScreenState.h" />
     <ClInclude Include="src\GameStates\GameState.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="src\GameObjects\StaticImages\StaticImage.cpp" />
     <ClCompile Include="src\GameObjects\Texts\ShadowedText.cpp" />
     <ClCompile Include="src\GameObjects\Texts\Text.cpp" />
+    <ClCompile Include="src\GameObjects\Texts\VerticalShadowedText.cpp" />
     <ClCompile Include="src\GameStates\GameOverScreenState.cpp" />
     <ClCompile Include="src\GameStates\GameState.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />

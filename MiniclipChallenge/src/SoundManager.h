@@ -10,16 +10,14 @@ public:
 	enum class soundType {
 		MUSIC, SFX
 	};
-
-	SoundManager();
 	static SoundManager* Instance();
 
 	bool Load(std::string filename, std::string id, soundType type, int volume);
-	void playMusic(std::string id, int loop);
-	void setMusicPosition(double position);
-	void setMusicVolume(int volume);
-	void playSFX(std::string id, int loop);
-	void setSFXVolume(std::string id, int volume);
+	void PlayMusic(std::string id, int loop);
+	void SetMusicPosition(double position);
+	void SetMusicVolume(int volume);
+	void PlaySFX(std::string id, int loop);
+	void SetSFXVolume(std::string id, int volume);
 
 	void Clean();
 

@@ -8,13 +8,14 @@ public:
 	static const float cColumnTimeMultiplier;
 	static const int cEndGemsMargin;
 	
-	int level();
-	int score();
-	int fillsLeft();
-	int timePerColumn();
+	int GetLevel();
+	int GetScore();
+	int GetFillsLeft();
+
+	int TimePerColumn();
 
 	void AddScore(int gemNumber);
-	void useFill();
+	void UseFill();
 	void Reset();
 
 private:

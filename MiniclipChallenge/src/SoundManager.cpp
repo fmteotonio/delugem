@@ -4,13 +4,10 @@
 
 SoundManager* SoundManager::sSoundManagerInstance_ = nullptr;
 
-SoundManager::SoundManager() {
-	Mix_OpenAudio(66150, AUDIO_S16, 2, 4096);
-}
-
 SoundManager* SoundManager::Instance() {
 	if (!sSoundManagerInstance_) {
 		sSoundManagerInstance_ = new SoundManager();
+		Mix_OpenAudio(66150, AUDIO_S16, 2, 4096);
 	}
 	return sSoundManagerInstance_;
 }
@@ -23,7 +20,7 @@ bool SoundManager::Load(std::string filename, std::string id, SoundManager::soun
 			return false;
 		}
 		musics_.insert({ id, pMusic });
-		setMusicVolume(volume);
+		SetMusicVolume(volume);
 		return true;
 	}
 	else if (type == SoundManager::soundType::SFX) {
@@ -33,28 +30,28 @@ bool SoundManager::Load(std::string filename, std::string id, SoundManager::soun
 			return false;
 		}
 		sfxs_.insert({ id, pSFX });
-		setSFXVolume(id,volume);
+		SetSFXVolume(id,volume);
 		return true;
 	}
 	return false;
 }
 
-void SoundManager::playMusic(std::string id, int loop) {
+void SoundManager::PlayMusic(std::string id, int loop) {
 	Mix_PlayMusic(musics_.at(id), loop);
 }
-void SoundManager::setMusicPosition(double position) {
+void SoundManager::SetMusicPosition(double position) {
 	Mix_SetMusicPosition(position);
 }
 
-void SoundManager::setMusicVolume(int volume) {
+void SoundManager::SetMusicVolume(int volume) {
 	Mix_VolumeMusic(volume);
 }
 
 
-void SoundManager::playSFX(std::string id, int loop) {
+void SoundManager::PlaySFX(std::string id, int loop) {
 	Mix_PlayChannel(-1, sfxs_.at(id), loop);
 }
-void SoundManager::setSFXVolume(std::string id, int volume) {
+void SoundManager::SetSFXVolume(std::string id, int volume) {
 	Mix_VolumeChunk(sfxs_.at(id), volume);
 }
 

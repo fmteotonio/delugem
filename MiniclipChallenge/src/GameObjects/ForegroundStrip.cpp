@@ -5,7 +5,7 @@
 #include <iostream>
 
 const char* ForegroundStrip::cPath = "res/images/foregroundstrip.png";
-const int   ForegroundStrip::cW =    SCREEN_WIDTH;
+const int   ForegroundStrip::cW =    SCREEN_W;
 const int   ForegroundStrip::cH =    28;
 
 ForegroundStrip::ForegroundStrip(float x, float y) {

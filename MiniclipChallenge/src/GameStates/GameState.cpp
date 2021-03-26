@@ -1,6 +1,6 @@
 #include "GameState.h"
 
-std::string GameState::stateID() {
+std::string GameState::GetStateID() {
 	return stateID_;
 }
 
