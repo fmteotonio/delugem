@@ -12,6 +12,7 @@ public:
 
 	void Play();
 	int GetCurrentFrame();
+	void SetCurrentFrame(int frame);
 	bool HasPlayedOnce();
 	
 private:
@@ -22,6 +23,8 @@ private:
 	int startTime_ = 0;
 	int timePassed_ = 0;
 	int timePerFrame;
+
+	int currentFrame_;
 
 	bool isPlaying_ = false;
 };

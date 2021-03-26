@@ -3,6 +3,7 @@
 #include "../GameObjects/EndLine.h"
 #include "../GameObjects/ForegroundStrip.h"
 #include "../GameObjects/Board.h"
+#include "../GameObjects/PushClock.h"
 #include "../GameObjects/Buttons/SmallButton.h"
 #include "../GameObjects/Texts/ShadowedText.h"
 #include "../GameObjects/Texts/VerticalShadowedText.h"

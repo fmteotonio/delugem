@@ -5,9 +5,9 @@
 
 class Background : public AnimatedGameObject {
 public:
-	static const char* cPath_;
-	static const int cMaxSteps_;
-	static const int cTimePerStep_;
+	static const char* cPath;
+	static const int cMaxSteps;
+	static const int cTimePerStep;
 	static const int cW;
 	static const int cH;
 

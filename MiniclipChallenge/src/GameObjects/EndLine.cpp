@@ -1,6 +1,5 @@
 #include "EndLine.h"
 
-#include "../Constants.h"
 #include "../TextureManager.h"
 
 const char* EndLine::cPath = "res/images/endline.png";

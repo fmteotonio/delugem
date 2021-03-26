@@ -8,6 +8,7 @@ public:
 	void StartTimer();
 	void PauseTimer();
 	bool HasRung();
+	float HowMuchPassed();
 
 	void Update(int deltaTime);
 private:

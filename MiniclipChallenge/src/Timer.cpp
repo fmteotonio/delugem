@@ -28,6 +28,10 @@ bool Timer::HasRung() {
 	return (isRunning_ && timePassed_ > timeToPass_);
 }
 
+float Timer::HowMuchPassed() {
+	return timePassed_ / (timeToPass_ * 1.0f);
+}
+
 void Timer::Update(int deltaTime) {
 	if (isRunning_)
 		timePassed_ += deltaTime;

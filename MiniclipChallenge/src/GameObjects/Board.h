@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "../Constants.h"
 #include "../Timer.h"
+#include "PushClock.h"
 
 class Board : public GameObject {
 public:
@@ -40,4 +41,7 @@ private:
 	std::vector<std::vector<Gem*>> boardGems_;
 	std::vector<Gem*> beingDestroyedGems_;
 	Gem* lastHoveredGem_ = nullptr;
+
+	//Should not be Board Dependant
+	PushClock* pushClock_;
 };

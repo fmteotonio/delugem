@@ -19,8 +19,10 @@ Board::Board(float x, float y) {
 
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 
-
 	columnTimer_ = new Timer(GameManager::Instance()->TimePerColumn(), true);
+
+	//Should not be Board Dependant
+	pushClock_ = new PushClock(100, 100, columnTimer_);
 
 	PushColumn(cStartColumns);
 }
@@ -33,6 +35,11 @@ bool Board::IsGameLost() {
 void Board::Update(int deltaTime) {
 
 	columnTimer_->Update(deltaTime);
+	
+	//Should not be Board Dependant
+	pushClock_->Update();
+	
+	
 	if (columnTimer_->HasRung()) {
 		PushColumn(1);
 	}
@@ -98,6 +105,7 @@ void Board::Render() {
 	for (Gem* gem : beingDestroyedGems_) {
 		gem->Render();
 	}
+	pushClock_->Render();
 }
 
 void Board::Clean() {
@@ -110,6 +118,7 @@ void Board::Clean() {
 	for (size_t i = 0; i < beingDestroyedGems_.size(); ++i) {
 		delete beingDestroyedGems_.at(i);
 	}
+	delete pushClock_;
 }
 
 int Board::NextGemID() {

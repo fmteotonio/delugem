@@ -5,6 +5,7 @@ Animation::Animation(int firstFrame, int lastFrame, int frameRow, int msPerFrame
 	lastFrame_ = lastFrame;
 	frameRow_ = frameRow;
 	timePerFrame = msPerFrame;
+	currentFrame_ = firstFrame_;
 }
 
 Animation::Animation(int onlyFrame, int frameRow) {
@@ -12,14 +13,17 @@ Animation::Animation(int onlyFrame, int frameRow) {
 	lastFrame_ = onlyFrame;
 	frameRow_ = frameRow;
 	timePerFrame = 0;
+	currentFrame_ = firstFrame_;
 }
 
 bool Animation::isPlaying() { return isPlaying_; }
 int Animation::GetFrameRow()   { return frameRow_; }
 
 void Animation::Update(int deltaTime) {
-	if (isPlaying_)
+	if (isPlaying_ && timePerFrame > 0) {
 		timePassed_ += deltaTime;
+		currentFrame_ = (timePassed_ / timePerFrame) % (lastFrame_ - firstFrame_ + 1);
+	}
 }
 
 void Animation::Play() {
@@ -28,10 +32,11 @@ void Animation::Play() {
 }
 
 int Animation::GetCurrentFrame() {
-	if (isPlaying_ && timePerFrame > 0)
-		return (timePassed_ / timePerFrame) % (lastFrame_ - firstFrame_ + 1);
-	else
-		return firstFrame_;
+	return currentFrame_;
+}
+
+void Animation::SetCurrentFrame(int frame) {
+	currentFrame_ = frame;
 }
 
 bool Animation::HasPlayedOnce() {

@@ -3,7 +3,7 @@
 namespace UI {
 	static const int cLevelTextX = 7;
 	static const int cLevelValueX = cLevelTextX + 71;
-	static const int cScoreTextX = 150;
+	static const int cScoreTextX = 165;
 	static const int cScoreValueX = cScoreTextX + 99;
 	static const int cPauseButtonX = 351;
 	static const int cTopTextY = 14;

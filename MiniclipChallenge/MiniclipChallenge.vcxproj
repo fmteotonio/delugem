@@ -165,6 +165,7 @@
     <ClInclude Include="src\GameObjects\AnimatedGameObject.h" />
     <ClInclude Include="src\GameObjects\Gem.h" />
     <ClInclude Include="src\GameObjects\GameObject.h" />
+    <ClInclude Include="src\GameObjects\PushClock.h" />
     <ClInclude Include="src\GameObjects\StaticImages\SmallIcon.h" />
     <ClInclude Include="src\GameObjects\StaticImages\StaticImage.h" />
     <ClInclude Include="src\GameObjects\Texts\ShadowedText.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="src\GameObjects\AnimatedGameObject.cpp" />
     <ClCompile Include="src\GameObjects\Gem.cpp" />
     <ClCompile Include="src\GameObjects\GameObject.cpp" />
+    <ClCompile Include="src\GameObjects\PushClock.cpp" />
     <ClCompile Include="src\GameObjects\StaticImages\SmallIcon.cpp" />
     <ClCompile Include="src\GameObjects\StaticImages\StaticImage.cpp" />
     <ClCompile Include="src\GameObjects\Texts\ShadowedText.cpp" />
