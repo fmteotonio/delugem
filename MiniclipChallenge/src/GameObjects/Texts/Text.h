@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnimatedGameObject.h"
+#include "../AnimatedGameObject.h"
 
 #include <string>
 

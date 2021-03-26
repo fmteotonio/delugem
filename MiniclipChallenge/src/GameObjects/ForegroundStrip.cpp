@@ -1,33 +1,28 @@
 #include "ForegroundStrip.h"
 
-#include "../Constants.h"
 #include "../TextureManager.h"
 
 #include <iostream>
 
+const char* ForegroundStrip::cPath = "res/images/foregroundstrip.png";
+const int   ForegroundStrip::cW =    SCREEN_WIDTH;
+const int   ForegroundStrip::cH =    28;
+
 ForegroundStrip::ForegroundStrip(float x, float y) {
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_FOREGROUNDSTRIP);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 
 	addAnimation("Default", new Animation(0, 0));
 	addAnimation("LevelUp", new Animation(0, 8, 0, 80));
 
-	AnimatedGameObject::Init(x, y, FOREGROUNDSTRIP_W, FOREGROUNDSTRIP_H, objTexture, "Default", false);
-}
-
-void ForegroundStrip::Render() {
-	AnimatedGameObject::Render();
+	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", false);
 }
 
 void ForegroundStrip::Update(int deltaTime) {
 	AnimatedGameObject::Update(deltaTime);
 
-	if (currentAnimation_->PlayedOnce() && foregroundStripState_ == ForegroundStripState::LEVELUP) {
+	if (currentAnimation_->HasPlayedOnce() && foregroundStripState_ == ForegroundStripState::LEVELUP) {
 		TransitState(ForegroundStripState::DEFAULT);
 	}
-}
-
-void ForegroundStrip::Clean() {
-	//GameObject just cleans animationvector;
 }
 
 bool ForegroundStrip::TransitState(ForegroundStripState newForegroundStripState) {

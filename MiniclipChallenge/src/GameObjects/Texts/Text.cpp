@@ -1,7 +1,7 @@
 #include "Text.h"
 
-#include "../Constants.h"
-#include "../TextureManager.h"
+#include "../../Constants.h"
+#include "../../TextureManager.h"
 
 Text::Text(float x, float y, Align align, std::string font, int size, std::string text, SDL_Color color) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadText(font, size, text, color);

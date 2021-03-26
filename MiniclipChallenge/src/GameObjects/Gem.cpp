@@ -6,11 +6,17 @@
 #include <cmath>
 #include <iostream>
 
+const char* Gem::cPath = "res/images/gems.png";
+const int   Gem::cW = 16;
+const int   Gem::cH = 16;
+const int   Gem::cAcceleration = 450;
+const int	Gem::cNumberOfColors = 5;
+
 Gem::Gem(GemColor gemColor, float x, float y, int id) {
 	gemColor_ = gemColor;
 	id_ = id;
 
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_GEMS);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 	
 	int frameRow;
 	switch (gemColor_) {
@@ -27,7 +33,7 @@ Gem::Gem(GemColor gemColor, float x, float y, int id) {
 	addAnimation("Breaking", new Animation(0, 5, frameRow, 40));
 	addAnimation("ToDestroy", new Animation(5, frameRow));
 
-	AnimatedGameObject::Init(x, y, GEM_W, GEM_H, objTexture, "Default", false);
+	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", false);
 }
 
 int Gem::id() { return id_; }
@@ -64,7 +70,7 @@ void Gem::Update(int deltaTime) {
 		else {
 			x_ += moveUnitX;
 			toMoveX_ -= moveUnitX;
-			vx_ += copysign(a_, toMoveX_) * (deltaTime / 1000.0f);
+			vx_ += copysign(cAcceleration, toMoveX_) * (deltaTime / 1000.0f);
 		}
 	}
 	if (toMoveY_ != 0) {
@@ -76,11 +82,11 @@ void Gem::Update(int deltaTime) {
 		else {
 			y_ += moveUnitY;
 			toMoveY_ -= moveUnitY;
-			vy_ += copysign(a_, toMoveY_) * (deltaTime / 1000.0f);
+			vy_ += copysign(cAcceleration, toMoveY_) * (deltaTime / 1000.0f);
 		}
 	}
 
-	if (currentAnimation_->PlayedOnce() && gemState_ == GemState::BREAKING) {
+	if (currentAnimation_->HasPlayedOnce() && gemState_ == GemState::BREAKING) {
 		TransitState(GemState::TO_DESTROY);
 	}
 	AnimatedGameObject::Update(deltaTime);

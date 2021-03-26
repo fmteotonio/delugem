@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AnimatedGameObject.h"
-#include "GameObject.h"
+#include "../AnimatedGameObject.h"
+#include "../GameObject.h"
 
 #include <string>
 #include <vector>

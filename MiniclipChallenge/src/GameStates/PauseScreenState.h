@@ -2,7 +2,7 @@
 
 #include "GameState.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/Button.h"
+#include "../GameObjects/Buttons/Button.h"
 
 #include <vector>
 

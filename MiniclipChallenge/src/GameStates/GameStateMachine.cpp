@@ -1,5 +1,7 @@
 #include "GameStateMachine.h"
 
+#include "../TextureManager.h"
+
 void GameStateMachine::pushState(GameState* state) {
 	gameStates_.push_back(state);
 	gameStates_.back()->Init();

@@ -3,6 +3,10 @@
 class GameManager {
 public:
 	static GameManager* Instance();
+
+	static const int cColumnTime;
+	static const float cColumnTimeMultiplier;
+	static const int cEndGemsMargin;
 	
 	int level();
 	int score();

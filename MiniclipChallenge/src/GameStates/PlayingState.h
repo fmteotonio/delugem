@@ -2,7 +2,7 @@
 
 #include "GameState.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/Button.h"
+#include "../GameObjects/Buttons/Button.h"
 #include "../GameObjects/Board.h"
 #include "../GameObjects/ForegroundStrip.h"
 
@@ -11,20 +11,28 @@
 
 class PlayingState : public GameState {
 public:
+	static const int cBoardX;
+	static const int cBoardY;
+	static const int cEndLineX;
+	static const int cEndLineY;
+
+	static const char* cFillPath;
+	static const char* cPausePath;
+	static const char* cPushPath;
+
 	void Init();
 	void Update(int deltaTime);
 	void Render();
 	void Clean();
 
 private:
-
-	GameObject* scoreValueText_;
 	int displayedScore_;
-	GameObject* levelValueText_;
 	int displayedLevel_;
-	GameObject* fillsText_;
 	int displayedFills_;
-
+	GameObject* scoreValueText_;
+	GameObject* levelValueText_;	
+	GameObject* fillsText_;
+	
 	Board* board_;
 	Button* pauseButton_;
 	Button* pushButton_;

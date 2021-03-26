@@ -3,10 +3,14 @@
 #include "../Constants.h"
 #include "../TextureManager.h"
 
+const char* EndLine::cPath = "res/images/endline.png";
+const int EndLine::cW =      1;
+const int EndLine::cH =      160;
+
 EndLine::EndLine(float x, float y) {
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(SPR_ENDLINE);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 
 	addAnimation("Default", new Animation(0, 3, 0, 60));
 
-	AnimatedGameObject::Init(x, y, ENDLINE_W, ENDLINE_H, objTexture, "Default", true);
+	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", true);
 }

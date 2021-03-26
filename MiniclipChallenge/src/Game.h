@@ -28,8 +28,10 @@ public:
 private:
 	static Game* sGameInstance_;
 	bool bRunning_ = false;
+
 	GameStateMachine* gameStateMachine_;
 	SDL_Window* window_;
 	SDL_Renderer* renderer_;
+
 	AnimatedGameObject* background_;
 }; 

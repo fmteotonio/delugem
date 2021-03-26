@@ -10,12 +10,16 @@
 
 GameManager* GameManager::sGameManagerInstance_ = nullptr;
 
+const int GameManager::cColumnTime = 10000;
+const float GameManager::cColumnTimeMultiplier = 0.95;
+const int GameManager::cEndGemsMargin = 2;
+
 int GameManager::level() { return level_; }
 int GameManager::score() { return score_; }
 int GameManager::fillsLeft() { return fillsLeft_; }
 
 int GameManager::timePerColumn() {
-	return BOARD_COLUMNTIME * pow(BOARD_CTIMEMULTIP, GameManager::Instance()->level() - 1);
+	return cColumnTime * pow(cColumnTimeMultiplier, GameManager::Instance()->level() - 1);
 }
 
 GameManager* GameManager::Instance() {

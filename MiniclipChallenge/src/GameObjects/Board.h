@@ -10,6 +10,9 @@
 
 class Board : public GameObject {
 public:
+	static const int cColumnSize;
+	static const int cStartColumns;
+
 	Board(float x, float y);
 	
 	void Update(int deltaTime);

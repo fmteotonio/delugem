@@ -11,6 +11,9 @@
 //DEBUG
 #include <iostream>
 
+const int Board::cColumnSize = 10;
+const int Board::cStartColumns = 13;
+
 Board::Board(float x, float y) {
 	GameObject::Init(x, y);
 
@@ -19,7 +22,7 @@ Board::Board(float x, float y) {
 
 	columnTimer_ = new Timer(GameManager::Instance()->timePerColumn(), true);
 
-	pushColumn(BOARD_STARTCOLUMNS);
+	pushColumn(cStartColumns);
 }
 
 bool Board::gameLost() {
@@ -52,8 +55,8 @@ void Board::Update(int deltaTime) {
 
 void Board::HandleInput() {
 
-	int conv_x = int(floor((InputHandler::Instance()->mouseX() - x_) / GEM_W));
-	int conv_y = int(floor(BOARD_HEIGHT - (InputHandler::Instance()->mouseY() - y_) / GEM_H));
+	int conv_x = int(floor((InputHandler::Instance()->mouseX() - x_) / Gem::cW));
+	int conv_y = int(floor(cColumnSize - (InputHandler::Instance()->mouseY() - y_) / Gem::cH));
 	bool isHovered = conv_x >= 0 && conv_x < boardGems_.size() && conv_y >= 0 && conv_y < boardGems_.at(conv_x).size();
 
 
@@ -118,17 +121,17 @@ void Board::pushColumn(int n) {
 	SoundManager::Instance()->playSFX("PushColumn",false);
 
 	for (int aux = 0; aux < n; ++aux) {
-		std::uniform_int_distribution<int> distribution(0, GEM_TYPE_NUMBER - 1);
+		std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
 
 		std::vector<Gem*> newColumn;
-		for (int i = 0; i < BOARD_HEIGHT; ++i) {
+		for (int i = 0; i < cColumnSize; ++i) {
 
 			Gem::GemColor color = Gem::GemColor(distribution(generator_));
 
 			Gem* newGem = new Gem(
 				color,
-				x_ + (float)boardGems_.size() * GEM_W,
-				y_ + ((float)BOARD_HEIGHT - i - 1) * GEM_H,
+				x_ + (float)boardGems_.size() * Gem::cW,
+				y_ + ((float)cColumnSize - i - 1) * Gem::cH,
 				getNextGemID()
 			);
 			newColumn.push_back(newGem);
@@ -136,15 +139,15 @@ void Board::pushColumn(int n) {
 		boardGems_.push_back(newColumn);
 	}
 	//Move all gems to the left
-	x_ -= GEM_W * n;
+	x_ -= Gem::cW * n;
 	for (std::vector<Gem*> column : boardGems_) {
 		for (Gem* gem : column) {
-			gem->Move(-GEM_W * n, 0);
+			gem->Move(-Gem::cW * n, 0);
 		}
 	}
 	columnTimer_->ResetTimer(GameManager::Instance()->timePerColumn());
 	
-	if (x_ < ENDLINE_X)
+	if (x_ < GameManager::cEndGemsMargin * Gem::cW)
 		gameLost_ = true;
 }
 
@@ -165,14 +168,14 @@ void Board::fillBoard() {
 				++thisGapHeight;
 				maxGapHeight = std::max(maxGapHeight, thisGapHeight);
 
-				std::uniform_int_distribution<int> distribution(0, GEM_TYPE_NUMBER - 1);
+				std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
 
 				Gem::GemColor color = Gem::GemColor(distribution(generator_));
 
 				Gem* newGem = new Gem(
 					color,
-					x_ + i * GEM_W,
-					y_ + (BOARD_HEIGHT - (float)column.size() - 1) * GEM_H,
+					x_ + i * Gem::cW,
+					y_ + (cColumnSize - (float)column.size() - 1) * Gem::cH,
 					getNextGemID()
 				);
 
@@ -182,8 +185,8 @@ void Board::fillBoard() {
 		}
 		//Vertical offset just enough so they fall from the top
 		for (Gem* gem : createdGems) {
-			gem->setY(gem->y() - maxGapHeight * GEM_H);
-			gem->Move(0, maxGapHeight * GEM_H);
+			gem->setY(gem->y() - maxGapHeight * Gem::cH);
+			gem->Move(0, maxGapHeight * Gem::cH);
 		}
 		if (createdGems.size() > 0) {
 			SoundManager::Instance()->playSFX("Fill", false);
@@ -262,7 +265,7 @@ void Board::eraseGem(int gX, int gY) {
 
 	//Update position for every Gem above
 	for (int i = gY; i < column.size(); ++i) {
-		column.at(i)->Move(0, GEM_H);
+		column.at(i)->Move(0, Gem::cH);
 	}
 
 	//Check if column empty
@@ -270,12 +273,12 @@ void Board::eraseGem(int gX, int gY) {
 		boardGems_.erase(boardGems_.begin() + gX);
 
 		//Move Board Origin
-		x_ += GEM_W;
+		x_ += Gem::cW;
 
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
 			for (Gem* gem : boardGems_.at(i)) {
-				gem->Move(GEM_W, 0);
+				gem->Move(Gem::cW, 0);
 			}
 		}
 	}

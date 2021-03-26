@@ -8,20 +8,20 @@ public:
 	bool isPlaying();
 	int frameRow();
 
-	void Play();
-	int getCurrentFrame();
-	bool PlayedOnce();
-	
 	void Update(int deltaTime);
 
+	void Play();
+	int GetCurrentFrame();
+	bool HasPlayedOnce();
+	
 private:
 	int firstFrame_;
 	int lastFrame_;
 	int frameRow_;
-	int msPerFrame_;
+
+	int startTime_ = 0;
+	int timePassed_ = 0;
+	int timePerFrame;
 
 	bool isPlaying_ = false;
-	int startTime_ = 0;
-
-	int timePassed_ = 0;
 };

@@ -157,15 +157,18 @@
     <ClInclude Include="src\GameManager.h" />
     <ClInclude Include="src\GameObjects\Background.h" />
     <ClInclude Include="src\GameObjects\Board.h" />
-    <ClInclude Include="src\GameObjects\Button.h" />
+    <ClInclude Include="src\GameObjects\Buttons\BigButton.h" />
+    <ClInclude Include="src\GameObjects\Buttons\Button.h" />
+    <ClInclude Include="src\GameObjects\Buttons\SmallButton.h" />
     <ClInclude Include="src\GameObjects\EndLine.h" />
     <ClInclude Include="src\GameObjects\ForegroundStrip.h" />
     <ClInclude Include="src\GameObjects\AnimatedGameObject.h" />
     <ClInclude Include="src\GameObjects\Gem.h" />
     <ClInclude Include="src\GameObjects\GameObject.h" />
-    <ClInclude Include="src\GameObjects\ShadowedText.h" />
-    <ClInclude Include="src\GameObjects\StaticImage.h" />
-    <ClInclude Include="src\GameObjects\Text.h" />
+    <ClInclude Include="src\GameObjects\StaticImages\SmallIcon.h" />
+    <ClInclude Include="src\GameObjects\StaticImages\StaticImage.h" />
+    <ClInclude Include="src\GameObjects\Texts\ShadowedText.h" />
+    <ClInclude Include="src\GameObjects\Texts\Text.h" />
     <ClInclude Include="src\GameStates\GameOverScreenState.h" />
     <ClInclude Include="src\GameStates\GameState.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="src\SoundManager.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Timer.h" />
+    <ClInclude Include="src\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Animation.cpp" />
@@ -183,15 +187,18 @@
     <ClCompile Include="src\GameManager.cpp" />
     <ClCompile Include="src\GameObjects\Background.cpp" />
     <ClCompile Include="src\GameObjects\Board.cpp" />
-    <ClCompile Include="src\GameObjects\Button.cpp" />
+    <ClCompile Include="src\GameObjects\Buttons\BigButton.cpp" />
+    <ClCompile Include="src\GameObjects\Buttons\Button.cpp" />
+    <ClCompile Include="src\GameObjects\Buttons\SmallButton.cpp" />
     <ClCompile Include="src\GameObjects\EndLine.cpp" />
     <ClCompile Include="src\GameObjects\ForegroundStrip.cpp" />
     <ClCompile Include="src\GameObjects\AnimatedGameObject.cpp" />
     <ClCompile Include="src\GameObjects\Gem.cpp" />
     <ClCompile Include="src\GameObjects\GameObject.cpp" />
-    <ClCompile Include="src\GameObjects\ShadowedText.cpp" />
-    <ClCompile Include="src\GameObjects\StaticImage.cpp" />
-    <ClCompile Include="src\GameObjects\Text.cpp" />
+    <ClCompile Include="src\GameObjects\StaticImages\SmallIcon.cpp" />
+    <ClCompile Include="src\GameObjects\StaticImages\StaticImage.cpp" />
+    <ClCompile Include="src\GameObjects\Texts\ShadowedText.cpp" />
+    <ClCompile Include="src\GameObjects\Texts\Text.cpp" />
     <ClCompile Include="src\GameStates\GameOverScreenState.cpp" />
     <ClCompile Include="src\GameStates\GameState.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />

@@ -3,51 +3,60 @@
 #include "../GameObjects/EndLine.h"
 #include "../GameObjects/ForegroundStrip.h"
 #include "../GameObjects/Board.h"
-#include "../GameObjects/Button.h"
-#include "../GameObjects/ShadowedText.h"
-#include "../GameObjects/StaticImage.h"
+#include "../GameObjects/Buttons/SmallButton.h"
+#include "../GameObjects/Texts/ShadowedText.h"
+#include "../GameObjects/StaticImages/SmallIcon.h"
 #include "../GameStates/PauseScreenState.h"
 #include "../GameStates/GameOverScreenState.h"
 #include "../Constants.h"
 #include "../GameManager.h"
 #include "../SoundManager.h"
 #include "../Game.h"
+#include "../UI.h"
 
+#include <algorithm>
+
+const int PlayingState::cBoardX = SCREEN_WIDTH;
+const int PlayingState::cBoardY = 28 + Gem::cH * (10 - Board::cColumnSize);
+
+const int PlayingState::cEndLineX = GameManager::cEndGemsMargin * Gem::cW;
+const int PlayingState::cEndLineY = 28;
 
 void PlayingState::Init() {
 
 	stateID_ = "PLAYING";
 
-	gameObjects_.push_back(board_ = new Board(BOARD_START_X, BOARD_START_Y));
-	gameObjects_.push_back(new EndLine(ENDLINE_X, ENDLINE_Y));
+	gameObjects_.push_back(board_ = new Board(cBoardX, cBoardY));
+	gameObjects_.push_back(new EndLine(cEndLineX, cEndLineY));
 
 	gameObjects_.push_back(foregroundStrip1_ = new ForegroundStrip(0, 0));
-	gameObjects_.push_back(foregroundStrip2_ = new ForegroundStrip(0, SCREEN_HEIGHT - FOREGROUNDSTRIP_H));
+	gameObjects_.push_back(foregroundStrip2_ = new ForegroundStrip(0, SCREEN_HEIGHT - ForegroundStrip::cH));
 	
 	//Static text elements
-	gameObjects_.push_back(new ShadowedText(SCORETEXT_X, SCORETEXT_Y,   Text::Align::MIDLEFT, FNT_M6X11, 16, "SCORE:", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(LEVELTEXT_X, LEVELTEXT_Y,   Text::Align::MIDLEFT, FNT_M6X11, 16, "LEVEL:", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(PUSHTEXT_X,  PUSHTEXT_Y,    Text::Align::MIDLEFT, FNT_M6X11, 16, "PUSH",   WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(FILLTEXT1_X, FILLTEXT1_Y,   Text::Align::MIDLEFT, FNT_M6X11, 16, "FILL (", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(FILLTEXT2_X, FILLTEXT2_Y,   Text::Align::MIDLEFT, FNT_M6X11, 16, "left)",  WHITE, BLACK));
+
+	gameObjects_.push_back(new ShadowedText(UI::cScoreTextX, UI::cTopTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, "SCORE:", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(UI::cLevelTextX, UI::cTopTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, "LEVEL:", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(UI::cPushTextX,  UI::cBotTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, "PUSH",   WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(UI::cFillsTextX, UI::cBotTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, "FILL (", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(UI::cFillsText2X,UI::cBotTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, "left)",  WHITE, BLACK));
 
 	//Buttons
-	gameObjects_.push_back(pauseButton_ = new Button(PAUSEBUTTON_X, PAUSEBUTTON_Y, SMALLBUTTON_W, SMALLBUTTON_H, SPR_SMALLBUTTON));
-	gameObjects_.push_back(pushButton_  = new Button(PUSHBUTTON_X,  PUSHBUTTON_Y,  SMALLBUTTON_W, SMALLBUTTON_H, SPR_SMALLBUTTON));
-	gameObjects_.push_back(fillButton_  = new Button(FILLBUTTON_X,  FILLBUTTON_Y,  SMALLBUTTON_W, SMALLBUTTON_H, SPR_SMALLBUTTON));
+	gameObjects_.push_back(pauseButton_ = new SmallButton(UI::cPauseButtonX, UI::cTopButtonY));
+	gameObjects_.push_back(pushButton_  = new SmallButton(UI::cPushButtonX,  UI::cBotButtonY));
+	gameObjects_.push_back(fillButton_  = new SmallButton(UI::cFillsButtonX, UI::cBotButtonY));
 
 	//Button Icons
-	pauseButton_->AddContent(new StaticImage(PAUSEICON_X, PAUSEICON_Y, ICON_W, ICON_H, SPR_ICONPAUSE));
-	pushButton_ ->AddContent(new StaticImage(PUSHICON_X,  PUSHICON_Y,  ICON_W, ICON_H, SPR_ICONPUSH));
-	fillButton_ ->AddContent(new StaticImage(FILLICON_X,  FILLICON_Y,  ICON_W, ICON_H, SPR_ICONFILL));
+	pauseButton_->AddContent(new SmallIcon(UI::cPauseButtonX + UI::cIconPadding, UI::cTopButtonY + UI::cIconPadding, UI::cPauseIconPath));
+	pushButton_ ->AddContent(new SmallIcon(UI::cPushButtonX  + UI::cIconPadding, UI::cBotButtonY + UI::cIconPadding, UI::cPushIconPath));
+	fillButton_ ->AddContent(new SmallIcon(UI::cFillsButtonX + UI::cIconPadding, UI::cBotButtonY + UI::cIconPadding, UI::cFillIconPath));
 	
 	//Dynamic text elements
 	displayedScore_ = GameManager::Instance()->score();
 	displayedLevel_ = GameManager::Instance()->level();
 	displayedFills_ = GameManager::Instance()->fillsLeft();
-	scoreValueText_ = new ShadowedText(SCOREVALUE_X, SCOREVALUE_Y, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
-	levelValueText_ = new ShadowedText(LEVELVALUE_X, LEVELVALUE_Y, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
-	fillsText_      = new ShadowedText(FILLVALUE_X, FILLVALUE_Y,   Text::Align::MIDLEFT,  FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
+	scoreValueText_ = new ShadowedText(UI::cScoreValueX, UI::cTopTextY, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
+	levelValueText_ = new ShadowedText(UI::cLevelValueX, UI::cTopTextY, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
+	fillsText_      = new ShadowedText(UI::cFillsValueX, UI::cBotTextY, Text::Align::MIDLEFT,  FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
 
 }
 
@@ -58,14 +67,15 @@ void PlayingState::Update(int deltaTime) {
 	if (displayedScore_ != GameManager::Instance()->score()) {
 		displayedScore_ = GameManager::Instance()->score();
 		delete scoreValueText_;
-		scoreValueText_ = new ShadowedText(SCOREVALUE_X, SCOREVALUE_Y, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
+		scoreValueText_ = new ShadowedText(UI::cScoreValueX, UI::cTopTextY, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
 	}
 	//Check if level text needs update
 	if (displayedLevel_ != GameManager::Instance()->level()) {
 		displayedLevel_ = GameManager::Instance()->level();
 		delete levelValueText_;
-		levelValueText_ = new ShadowedText(LEVELVALUE_X, LEVELVALUE_Y, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
+		levelValueText_ = new ShadowedText(UI::cLevelValueX, UI::cTopTextY, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
 
+		//LevelUp animation in foregroundStrips
 		foregroundStrip1_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
 		foregroundStrip2_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
 	}
@@ -73,25 +83,27 @@ void PlayingState::Update(int deltaTime) {
 	if (displayedFills_ != GameManager::Instance()->fillsLeft()) {
 		displayedFills_ = GameManager::Instance()->fillsLeft();
 		delete fillsText_;
-		fillsText_ = new ShadowedText(FILLVALUE_X, FILLVALUE_Y, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
+		fillsText_ = new ShadowedText(UI::cFillsValueX, UI::cBotTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
 	}
 	//Check for actions in push and fill buttons
 	if (pushButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		board_->pushColumn(1);
-	if (fillButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+	else if (fillButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		board_->fillBoard();
-	if (pauseButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+	else if (pauseButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->gameStateMachine()->pushState(new PauseScreenState());
 
+	//Check if fill button should be active
 	if (GameManager::Instance()->fillsLeft() == 0 && fillButton_->buttonState() != Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::INACTIVE);
-	if (GameManager::Instance()->fillsLeft() >  0 && fillButton_->buttonState() == Button::ButtonState::INACTIVE)
+	else if (GameManager::Instance()->fillsLeft() >  0 && fillButton_->buttonState() == Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::DEFAULT);
+	
+	//Check if game is lost
 	if (board_->gameLost()) {
 		Game::Instance()->gameStateMachine()->changeState(new GameOverScreenState());
 		SoundManager::Instance()->playSFX("GameOver", false);
 	}
-		
 }
 
 void PlayingState::Render() {

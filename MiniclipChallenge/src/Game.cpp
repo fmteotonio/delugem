@@ -14,6 +14,15 @@
 #include <SDL_Image.h>
 #include <SDL_ttf.h>
 
+#define MUS_ONLYTRACK		"res/sounds/visager_shoots.mp3"
+#define SND_BREAK			"res/sounds/break.wav"
+#define SND_PUSHCOLUMN		"res/sounds/columnpush.wav"
+#define SND_FILL			"res/sounds/fill.wav"
+#define SND_GAMEOVER		"res/sounds/gameover.wav"
+#define SND_GAMESTART		"res/sounds/gamestart.wav"
+#define SND_LEVELUP			"res/sounds/levelup.wav"
+#define SND_PIECEFALL		"res/sounds/piecefall.wav"
+
 Game* Game::sGameInstance_ = nullptr;
 
 Game* Game::Instance() {
@@ -81,7 +90,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		SoundManager::Instance()->Load(SND_LEVELUP,	  "LevelUp",   SoundManager::soundType::SFX, 8);
 		SoundManager::Instance()->Load(SND_PIECEFALL, "PieceFall", SoundManager::soundType::SFX, 8);
 
-		background_ = new Background(0, 0);
+		background_ = new Background(-15, 0);
 
 		gameStateMachine_ = new GameStateMachine();
 		gameStateMachine_->pushState(new TitleScreenState());

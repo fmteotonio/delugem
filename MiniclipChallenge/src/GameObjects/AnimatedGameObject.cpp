@@ -17,7 +17,7 @@ void AnimatedGameObject::Update(int deltaTime) {
 
 void AnimatedGameObject::Render() { 
 	SDL_Rect src;
-	src.x = currentAnimation_->getCurrentFrame() * w_;
+	src.x = currentAnimation_->GetCurrentFrame() * w_;
 	src.y = currentAnimation_->frameRow() * h_;
 	src.w = w_;
 	src.h = h_;
