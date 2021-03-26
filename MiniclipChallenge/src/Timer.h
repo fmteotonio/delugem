@@ -5,7 +5,7 @@ public:
 	Timer(int milliseconds, bool startNow);
 	void ResetTimer();
 	void ResetTimer(int milliseconds);
-	void ResumeTimer();
+	void StartTimer();
 	void PauseTimer();
 	bool hasRung();
 

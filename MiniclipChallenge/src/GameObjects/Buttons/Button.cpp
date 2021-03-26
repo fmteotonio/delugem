@@ -133,7 +133,7 @@ bool Button::TransitState(ButtonState newButtonState) {
 		case ButtonState::INACTIVE: {
 			buttonState_ = ButtonState::INACTIVE;
 			setAnimation("UnhovPressed", false);
-			break;
+			return true;
 		}
 	}
 	std::cout << "Illegal Button Transition from " << int(buttonState_) << " to " << int(newButtonState) << "\n";

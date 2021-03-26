@@ -41,9 +41,11 @@ void PlayingState::Init() {
 	gameObjects_.push_back(new ShadowedText(UI::cFillsText2X,UI::cBotTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, "left)",  WHITE, BLACK));
 
 	//Buttons
+	gameObjects_.push_back(fillButton_ = new SmallButton(UI::cFillsButtonX, UI::cBotButtonY));
 	gameObjects_.push_back(pauseButton_ = new SmallButton(UI::cPauseButtonX, UI::cTopButtonY));
 	gameObjects_.push_back(pushButton_  = new SmallButton(UI::cPushButtonX,  UI::cBotButtonY));
-	gameObjects_.push_back(fillButton_  = new SmallButton(UI::cFillsButtonX, UI::cBotButtonY));
+
+	pushButtonTimer_ = new Timer(-1, true);
 
 	//Button Icons
 	pauseButton_->AddContent(new SmallIcon(UI::cPauseButtonX + UI::cIconPadding, UI::cTopButtonY + UI::cIconPadding, UI::cPauseIconPath));
@@ -85,20 +87,30 @@ void PlayingState::Update(int deltaTime) {
 		delete fillsText_;
 		fillsText_ = new ShadowedText(UI::cFillsValueX, UI::cBotTextY, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
 	}
-	//Check for actions in push and fill buttons
-	if (pushButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
-		board_->pushColumn(1);
-	else if (fillButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
+
+	//Check for actions in all buttons (and update click delay in push button)
+	if (fillButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		board_->fillBoard();
 	else if (pauseButton_->buttonState() == Button::ButtonState::PRESS_ACTION)
 		Game::Instance()->gameStateMachine()->pushState(new PauseScreenState());
+	else if (pushButton_->buttonState() == Button::ButtonState::PRESS_ACTION) {
+		board_->pushColumn(1);
+		pushButtonTimer_->ResetTimer(100);
+	}
+	pushButtonTimer_->Update(deltaTime);
 
 	//Check if fill button should be active
 	if (GameManager::Instance()->fillsLeft() == 0 && fillButton_->buttonState() != Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::INACTIVE);
 	else if (GameManager::Instance()->fillsLeft() >  0 && fillButton_->buttonState() == Button::ButtonState::INACTIVE)
 		fillButton_->TransitState(Button::ButtonState::DEFAULT);
-	
+
+	//Check if push button should be active
+	if (!pushButtonTimer_->hasRung() && pushButton_->buttonState() != Button::ButtonState::INACTIVE)
+		pushButton_->TransitState(Button::ButtonState::INACTIVE);
+	else if (pushButtonTimer_->hasRung() && pushButton_->buttonState() == Button::ButtonState::INACTIVE)
+		pushButton_->TransitState(Button::ButtonState::DEFAULT);
+
 	//Check if game is lost
 	if (board_->gameLost()) {
 		Game::Instance()->gameStateMachine()->changeState(new GameOverScreenState());
@@ -123,4 +135,6 @@ void PlayingState::Clean() {
 	delete scoreValueText_;
 	delete levelValueText_;
 	delete fillsText_;
+
+	delete pushButtonTimer_;
 }

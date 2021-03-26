@@ -12,7 +12,7 @@ GameManager* GameManager::sGameManagerInstance_ = nullptr;
 
 const int GameManager::cColumnTime = 10000;
 const float GameManager::cColumnTimeMultiplier = 0.95;
-const int GameManager::cEndGemsMargin = 2;
+const int GameManager::cEndGemsMargin = 4;
 
 int GameManager::level() { return level_; }
 int GameManager::score() { return score_; }

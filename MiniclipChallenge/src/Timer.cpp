@@ -16,7 +16,7 @@ void Timer::ResetTimer(int milliseconds) {
 	isRunning_ = true;
 }
 
-void Timer::ResumeTimer() {
+void Timer::StartTimer() {
 	isRunning_ = true;
 }
 
