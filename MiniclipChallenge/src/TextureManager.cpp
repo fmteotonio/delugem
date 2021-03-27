@@ -22,6 +22,10 @@ SDL_Texture* TextureManager::LoadTexture(std::string filename) {
 		std::cout << "Inserted new ObjectTexture: " << filename << "\n";
 
 		SDL_Surface* tempSurface = IMG_Load(filename.c_str());
+		if (!tempSurface) {
+			std::cerr << "Image could not be loaded: " << SDL_GetError() << std::endl;
+			return nullptr;
+		}
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->GetRenderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 
@@ -90,6 +94,10 @@ TTF_Font* TextureManager::LoadFont(std::string filename, int size) {
 		std::cout << "Inserted new Font: " << filename + std::to_string(size) << "\n";
 
 		TTF_Font* font = TTF_OpenFont(filename.c_str(), size);
+		if (!font) {
+			std::cerr << "Font could not be loaded: " << SDL_GetError() << std::endl;
+			return nullptr;
+		}
 		fonts_.insert({ filename + std::to_string(size), font });
 		return font;
 	}

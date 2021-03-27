@@ -9,6 +9,7 @@
 #include "SoundManager.h"
 
 #include <iostream>
+#include <string>
 
 #include <SDL.h>
 #include <SDL_Image.h>
@@ -47,35 +48,31 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		window_ = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
 		if (window_) {
-			std::cout << "Window created successfully.\n";
 			renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
 			if (renderer_) {
-				std::cout << "Renderer created successfully.\n";
 				SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
 			}
 			else {
-				std::cout << "Renderer creation failed.\n";
+				std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
 				return false;
 			}
 		}
 		else {
-			std::cout << "Window creation failed.\n";
+			std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
 			return false;
 		}
-		std::cout << "SDL_Init successful.\n";
 		isGameRunning_ = true;
 
 
 		TextureManager::Instance();
 		if (TTF_Init() != 0) {
-			std::cout << "TTF Init failed.\n";
+			std::cerr << "TTF Init failed: " << SDL_GetError() << std::endl;
 			return false;
 		}
+
 		InputHandler::Instance();
 		SoundManager::Instance();
-
 		GameManager::Instance();
-		
 
 		//SoundManager::Instance()->Load(MUS_ONLYTRACK,"onlyTrack",SoundManager::soundType::MUSIC,4);
 		//SoundManager::Instance()->PlayMusic("onlyTrack", 1);

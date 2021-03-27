@@ -40,10 +40,6 @@ int Gem::GetId() { return id_; }
 Gem::GemColor Gem::GetGemColor()   { return gemColor_; }
 Gem::GemState Gem::GetGemState() { return gemState_; }
 
-float Gem::GetY() {
-	return y_;
-}
-
 void Gem::SetY(float y) {
 	y_ = y;
 }
@@ -124,6 +120,6 @@ bool Gem::TransitState(GemState newGemState) {
 			return true;
 		}
 	}
-	std::cout << "Illegal GemState Transition from " << int(gemState_) << " to " << int(newGemState) << "\n";
+	std::cerr << "Illegal GemState Transition from " << int(gemState_) << " to " << int(newGemState) << "\n";
 	return false;
 }

@@ -6,8 +6,6 @@
 #include "Gem.h"
 #include "GameObject.h"
 #include "../Constants.h"
-#include "../Timer.h"
-#include "PushClock.h"
 
 class Board : public GameObject {
 public:
@@ -34,14 +32,10 @@ private:
 	bool hasClicked_ = false;
 	bool isGameLost_ = false;
 
-	Timer* columnTimer_;
-	int timePassed = 0;
 
 	std::default_random_engine generator_;
 	std::vector<std::vector<Gem*>> boardGems_;
 	std::vector<Gem*> beingDestroyedGems_;
 	Gem* lastHoveredGem_ = nullptr;
 
-	//Should not be Board Dependant
-	PushClock* pushClock_;
 };

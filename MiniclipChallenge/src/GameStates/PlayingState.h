@@ -5,7 +5,10 @@
 #include "../GameObjects/Buttons/Button.h"
 #include "../GameObjects/Board.h"
 #include "../GameObjects/ForegroundStrip.h"
+#include "../GameObjects/EndLine.h"
 #include "../Timer.h"
+#include "../GameObjects/Clock.h"
+
 
 #include <string>
 #include <vector>
@@ -29,9 +32,9 @@ public:
 
 private:
 	Board* board_;
-
 	ForegroundStrip* foregroundStrip1_;
 	ForegroundStrip* foregroundStrip2_;
+	EndLine* endLine_;
 
 	int displayedScore_;
 	int displayedLevel_;
@@ -44,5 +47,7 @@ private:
 	Button* pauseButton_;
 	Button* pushButton_;
 	Timer* pushButtonTimer_;
-	
+
+	Timer* columnTimer_;
+	Clock* pushClock_;
 };

@@ -62,6 +62,6 @@ bool ForegroundStrip::TransitState(ForegroundStripState newForegroundStripState)
 			break;
 		}
 	}
-	std::cout << "Illegal ForegroundStripState Transition from " << int(foregroundStripState_) << " to " << int(newForegroundStripState) << "\n";
+	std::cerr << "Illegal ForegroundStripState Transition from " << int(foregroundStripState_) << " to " << int(newForegroundStripState) << "\n";
 	return false;
 }

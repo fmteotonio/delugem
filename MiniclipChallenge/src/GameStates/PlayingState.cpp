@@ -3,7 +3,7 @@
 #include "../GameObjects/EndLine.h"
 #include "../GameObjects/ForegroundStrip.h"
 #include "../GameObjects/Board.h"
-#include "../GameObjects/PushClock.h"
+#include "../GameObjects/Clock.h"
 #include "../GameObjects/Buttons/SmallButton.h"
 #include "../GameObjects/Texts/ShadowedText.h"
 #include "../GameObjects/Texts/VerticalShadowedText.h"
@@ -33,13 +33,17 @@ void PlayingState::Init() {
 	stateID_ = "PLAYING";
 
 	gameObjects_.push_back(board_ = new Board(cBoardX, cBoardY));
+	columnTimer_ = new Timer(GameManager::Instance()->TimePerColumn(), true);
+	
 
 	
-	gameObjects_.push_back(new EndLine(cEndLineX, cEndLineY));
+	gameObjects_.push_back(endLine_ = new EndLine(cEndLineX, cEndLineY));
 	gameObjects_.push_back(new VerticalShadowedText(cEndTextX, cEndTextY, Text::Align::MID, FNT_M3X6, 16, cEndTextSpacing, "END ZONE", WHITE, BLACK));
 
 	gameObjects_.push_back(foregroundStrip1_ = new ForegroundStrip(0, 0));
 	gameObjects_.push_back(foregroundStrip2_ = new ForegroundStrip(0, SCREEN_H - ForegroundStrip::cH));
+
+	gameObjects_.push_back(pushClock_ = new Clock(UI::cPushTextX - 23, UI::cBotTextY-9, columnTimer_));
 	
 	//Static text elements
 
@@ -74,6 +78,14 @@ void PlayingState::Init() {
 void PlayingState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
+	columnTimer_->Update(deltaTime);
+	pushClock_->Update();
+	if (columnTimer_->HasRung()) {
+		board_->PushColumn(1);
+		pushButtonTimer_->ResetTimer(100);
+		columnTimer_->ResetTimer(GameManager::Instance()->TimePerColumn());
+	}
+
 	//Check if score text needs update
 	if (displayedScore_ != GameManager::Instance()->GetScore()) {
 		displayedScore_ = GameManager::Instance()->GetScore();
@@ -105,23 +117,16 @@ void PlayingState::Update(int deltaTime) {
 	else if (pushButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		board_->PushColumn(1);
 		pushButtonTimer_->ResetTimer(100);
+		columnTimer_->ResetTimer(GameManager::Instance()->TimePerColumn());
 	}
 	pushButtonTimer_->Update(deltaTime);
 
-	//Check if fill button should be active
-	if (GameManager::Instance()->GetFillsLeft() == 0 && fillButton_->GetButtonState() != Button::ButtonState::INACTIVE)
-		fillButton_->TransitState(Button::ButtonState::INACTIVE);
-	else if (GameManager::Instance()->GetFillsLeft() >  0 && fillButton_->GetButtonState() == Button::ButtonState::INACTIVE)
-		fillButton_->TransitState(Button::ButtonState::DEFAULT);
-
-	//Check if push button should be active
-	if (!pushButtonTimer_->HasRung() && pushButton_->GetButtonState() != Button::ButtonState::INACTIVE)
-		pushButton_->TransitState(Button::ButtonState::INACTIVE);
-	else if (pushButtonTimer_->HasRung() && pushButton_->GetButtonState() == Button::ButtonState::INACTIVE)
-		pushButton_->TransitState(Button::ButtonState::DEFAULT);
+	//Check if buttons should be active
+	fillButton_->OnlySetActiveIf(GameManager::Instance()->GetFillsLeft() > 0);
+	pushButton_->OnlySetActiveIf(pushButtonTimer_->HasRung());
 
 	//Check if game is lost
-	if (board_->IsGameLost()) {
+	if (board_->GetX() < endLine_->GetX()) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new GameOverScreenState());
 		SoundManager::Instance()->PlaySFX("GameOver", false);
 	}
@@ -146,4 +151,5 @@ void PlayingState::Clean() {
 	delete fillsText_;
 
 	delete pushButtonTimer_;
+	delete columnTimer_;
 }

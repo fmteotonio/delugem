@@ -23,7 +23,6 @@ public:
 
 	int GetId();
 	GemColor GetGemColor();
-	float GetY();
 	void SetY(float y);
 	void Move(float x, float y);
 	bool isMoving();

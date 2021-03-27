@@ -13,6 +13,9 @@ public:
 	virtual void Render() = 0;
 	virtual void Clean() = 0;
 
+	float GetX();
+	float GetY();
+
 protected:
 	float x_;
 	float y_;

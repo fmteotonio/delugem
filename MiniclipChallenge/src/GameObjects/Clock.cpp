@@ -1,15 +1,15 @@
-#include "PushClock.h"
+#include "Clock.h"
 
 #include "../TextureManager.h"
 
 #include <cmath>
 #include <iostream>
 
-const char* PushClock::cPath = "res/images/pushclock.png";
-const int PushClock::cW = 15;
-const int PushClock::cH = 18;
+const char* Clock::cPath = "res/images/pushclock.png";
+const int Clock::cW = 15;
+const int Clock::cH = 18;
 
-PushClock::PushClock(float x, float y, Timer* timer) {
+Clock::Clock(float x, float y, Timer* timer) {
 	
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 
@@ -21,6 +21,6 @@ PushClock::PushClock(float x, float y, Timer* timer) {
 	connectedTimer_ = timer;
 }
 
-void PushClock::Update() {
+void Clock::Update() {
 	currentAnimation_->SetCurrentFrame(std::floor(connectedTimer_->HowMuchPassed() * 16));
 }

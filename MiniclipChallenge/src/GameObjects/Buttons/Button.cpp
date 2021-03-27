@@ -136,6 +136,13 @@ bool Button::TransitState(ButtonState newButtonState) {
 			return true;
 		}
 	}
-	std::cout << "Illegal Button Transition from " << int(buttonState_) << " to " << int(newButtonState) << "\n";
+	std::cerr << "Illegal Button Transition from " << int(buttonState_) << " to " << int(newButtonState) << "\n";
 	return false;
+}
+
+void Button::OnlySetActiveIf(bool condition) {
+	if (!condition && GetButtonState() != Button::ButtonState::INACTIVE)
+		TransitState(Button::ButtonState::INACTIVE);
+	else if (condition && GetButtonState() == Button::ButtonState::INACTIVE)
+		TransitState(Button::ButtonState::DEFAULT);
 }

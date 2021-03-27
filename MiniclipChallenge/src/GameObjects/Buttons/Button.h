@@ -23,6 +23,7 @@ public:
 
 	ButtonState GetButtonState();
 	bool TransitState(ButtonState newButtonState);
+	void OnlySetActiveIf(bool condition);
 
 private:
 	ButtonState buttonState_ = ButtonState::DEFAULT;

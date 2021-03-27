@@ -125,7 +125,7 @@
     <ClInclude Include="src\GameObjects\Texts\VerticalShadowedText.h">
       <Filter>src\GameObjects\Texts</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObjects\PushClock.h">
+    <ClInclude Include="src\GameObjects\Clock.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -217,7 +217,7 @@
     <ClCompile Include="src\GameObjects\Texts\VerticalShadowedText.cpp">
       <Filter>src\GameObjects\Texts</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObjects\PushClock.cpp">
+    <ClCompile Include="src\GameObjects\Clock.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
