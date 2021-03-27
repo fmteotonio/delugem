@@ -128,6 +128,9 @@
     <ClInclude Include="src\GameObjects\Clock.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Position.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

@@ -9,10 +9,6 @@
 
 class GameOverScreenState : public GameState {
 public:
-	void Init();
-	void Update(int deltaTime);
-
-private:
 	static const int cGameOverTextX;
 	static const int cGameOverTextY;
 	static const char* cGameOverString;
@@ -36,6 +32,11 @@ private:
 	static const int cExitContentY;
 	static const char* cExitString;
 
+	void Init();
+	void Update(int deltaTime);
+
+private:
+	
 	Button* againButton_;
 	Button* exitButton_;
 };

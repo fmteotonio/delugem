@@ -8,10 +8,6 @@
 
 class PauseScreenState : public GameState {
 public:
-	void Init();
-	void Update(int deltaTime);
-
-private:
 	static const int cPausedTextX;
 	static const int cPausedTextY;
 	static const char* cPausedString;
@@ -34,6 +30,11 @@ private:
 	static const int cExitContentX;
 	static const int cExitContentY;
 	static const char* cExitString;
+
+	void Init();
+	void Update(int deltaTime);
+
+private:
 
 	Button* resumeButton_;
 	Button* exitButton_;

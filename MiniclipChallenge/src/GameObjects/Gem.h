@@ -1,8 +1,6 @@
 #pragma once
 
 #include "AnimatedGameObject.h"
-#include "../Animation.h"
-#include "../Constants.h"
 
 class Gem : public AnimatedGameObject{
 public:
@@ -23,11 +21,12 @@ public:
 
 	int GetId();
 	GemColor GetGemColor();
-	void SetY(float y);
-	void Move(float x, float y);
-	bool isMoving();
-
 	GemState GetGemState();
+
+	bool isMoving();
+	void Move(float x, float y);	
+	void MoveFrom(float x, float y);
+	
 	bool TransitState(GemState newGemState);
 
 	void Update(int deltaTime);

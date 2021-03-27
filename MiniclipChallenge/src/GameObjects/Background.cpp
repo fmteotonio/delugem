@@ -5,11 +5,11 @@
 
 #include <iostream>
 
-const char* Background::cPath =        "res/images/background.png";
-const int   Background::cMaxSteps =	15;
+const char* Background::cPath		 =  "res/images/background.png";
+const int   Background::cMaxSteps	 =	15;
 const int   Background::cTimePerStep =	60;
-const int   Background::cW =			SCREEN_W + cMaxSteps;
-const int   Background::cH =			SCREEN_H;
+const int   Background::cW			 =	SCREEN_W + cMaxSteps;
+const int   Background::cH			 =	SCREEN_H;
 
 Background::Background(float x, float y) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);

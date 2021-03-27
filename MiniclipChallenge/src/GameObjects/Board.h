@@ -19,12 +19,14 @@ public:
 	void Render();
 	void Clean();
 
+	std::vector<std::vector<Gem*>> GetBoardGems();
+
 	int NextGemID();
 	void PushColumn(int n);
 	bool FillBoard();
 	int SearchGemGroup(int gX, int gY);
-	void AddColumn();
-	Gem* AddGem(int gX);
+	void AddNewColumns(int numberOfColumns);
+	std::vector<Gem*> AddGem(int gX, int gemNumber);
 	void EraseGem(int gX, int gY, bool compress);
 	void DestroyAllGems();
 	

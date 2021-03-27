@@ -11,6 +11,8 @@
 #include "PlayingState.h"
 #include "TitleScreenState.h"
 
+//........................GameObject Constants........................
+
 const int GameOverScreenState::cGameOverTextX    = SCREEN_W / 2;
 const int GameOverScreenState::cGameOverTextY    = SCREEN_H / 2 - 50;
 const char* GameOverScreenState::cGameOverString = "GAME OVER";
@@ -34,6 +36,8 @@ const int GameOverScreenState::cExitContentX  = cExitButtonX + BigButton::cW / 2
 const int GameOverScreenState::cExitContentY  = cExitButtonY + BigButton::cH / 2;
 const char* GameOverScreenState::cExitString  = "EXIT GAME";
 
+//........................................................................
+
 void GameOverScreenState::Init() {
 
 	stateID_ = "GAMEOVERSCREEN";
@@ -44,6 +48,7 @@ void GameOverScreenState::Init() {
 	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_H- ForegroundStrip::cH));
 
 	//Text to be displayed;
+
 	std::string scoreString = "FINAL SCORE: " + std::to_string(GameManager::Instance()->GetScore());
 
 	gameObjects_.push_back(new ShadowedText(cGameOverTextX, cGameOverTextY, Text::Align::MID, FNT_M6X11, 32, cGameOverString, WHITE, BLACK));

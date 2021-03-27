@@ -10,6 +10,8 @@
 #include "../GameManager.h"
 #include "../SoundManager.h"
 
+//........................GameObject Constants........................
+
 const int PauseScreenState::cPausedTextX   = SCREEN_W / 2;
 const int PauseScreenState::cPausedTextY   = SCREEN_H / 2 - 50;
 const char* PauseScreenState::cPausedString = "GAME PAUSED";
@@ -32,6 +34,8 @@ const int PauseScreenState::cExitButtonY   = 140;
 const int PauseScreenState::cExitContentX = cExitButtonX + BigButton::cW / 2;
 const int PauseScreenState::cExitContentY = cExitButtonY + BigButton::cH / 2;
 const char* PauseScreenState::cExitString = "EXIT GAME";
+
+//........................................................................
 
 void PauseScreenState::Init() {
 

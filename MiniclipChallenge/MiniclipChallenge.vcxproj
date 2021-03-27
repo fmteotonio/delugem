@@ -178,6 +178,7 @@
     <ClInclude Include="src\GameStates\PlayingState.h" />
     <ClInclude Include="src\GameStates\TitleScreenState.h" />
     <ClInclude Include="src\InputHandler.h" />
+    <ClInclude Include="src\Position.h" />
     <ClInclude Include="src\SoundManager.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Timer.h" />

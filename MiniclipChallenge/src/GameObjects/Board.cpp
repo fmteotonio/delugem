@@ -16,6 +16,10 @@ Board::Board(float x, float y, bool isPlayable) {
 	isPlayable_ = isPlayable;
 }
 
+std::vector<std::vector<Gem*>> Board::GetBoardGems() {
+	return boardGems_;
+}
+
 void Board::Update(int deltaTime) {
 	if (isPlayable_)
 		HandleInput();
@@ -100,25 +104,31 @@ int Board::NextGemID() {
 	return ++nextGemID_;
 }
 
-void Board::AddColumn() {
-	std::vector<Gem*> newColumn;
-	boardGems_.push_back(newColumn);
+void Board::AddNewColumns(int numberOfColumns) {
+	for (int i = 0; i < numberOfColumns; i++) {
+		std::vector<Gem*> newColumn;
+		boardGems_.push_back(newColumn);
+	}
 }
 
-Gem* Board::AddGem(int gX){
-	//Adds Random Gem to Column index gX
+std::vector<Gem*> Board::AddGem(int gX, int gemNumber) {
+
 	std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
+	std::vector<Gem*> producedGems;
 
-	Gem::GemColor color = Gem::GemColor(distribution(generator_));
+	for (int i = 0; i < gemNumber; i++) {
+		Gem::GemColor color = Gem::GemColor(distribution(generator_));
 
-	Gem* newGem = new Gem(
-		color,
-		x_ + gX * Gem::cW,
-		y_ + (cColumnSize - boardGems_.at(gX).size() - 1) * Gem::cH,
-		NextGemID()
-	);
-	boardGems_.at(gX).push_back(newGem);
-	return newGem;
+		Gem* newGem = new Gem(
+			color,
+			x_ + gX * Gem::cW,
+			y_ + (cColumnSize - boardGems_.at(gX).size() - 1) * Gem::cH,
+			NextGemID()
+		);
+		boardGems_.at(gX).push_back(newGem);
+		producedGems.push_back(newGem);
+	}
+	return producedGems;
 }
 
 void Board::PushColumn(int n) {
@@ -126,10 +136,8 @@ void Board::PushColumn(int n) {
 	SoundManager::Instance()->PlaySFX("PushColumn",false);
 
 	for (int aux = 0; aux < n; ++aux) {
-		AddColumn();
-		for (int i = 0; i < cColumnSize; ++i) {
-			AddGem(boardGems_.size()-1);
-		}
+		AddNewColumns(1);
+		AddGem(boardGems_.size()-1, cColumnSize);
 	}
 	//Move board and all gems to the left
 	x_ -= Gem::cW * n;
@@ -147,21 +155,18 @@ bool Board::FillBoard() {
 		std::vector<Gem*> createdGems;
 		//Creates gems in their correct places
 		for (int i = 0; i < boardGems_.size(); ++i) {
+			
+			int thisGapHeight = cColumnSize - boardGems_.at(i).size();
+			
+			std::vector<Gem*> newGems = AddGem(i, thisGapHeight);
+			createdGems.insert(createdGems.end(), newGems.begin(), newGems.end());
 
-			int thisGapHeight = 0;
+			maxGapHeight = std::max(maxGapHeight, thisGapHeight);
 
-			while (boardGems_.at(i).size() < 10) {
-				
-				createdGems.push_back(AddGem(i));
-
-				++thisGapHeight;
-				maxGapHeight = std::max(maxGapHeight, thisGapHeight);
-			}
 		}
-		//Vertical offset just enough so they fall from the top
+		//Make new gems fall from over the Board
 		for (Gem* gem : createdGems) {
-			gem->SetY(gem->GetY() - maxGapHeight * Gem::cH);
-			gem->Move(0, static_cast<float>(maxGapHeight * Gem::cH));
+			gem->MoveFrom(0, - maxGapHeight * Gem::cH);
 		}
 	}
 	return maxGapHeight > 0;

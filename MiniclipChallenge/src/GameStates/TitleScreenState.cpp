@@ -1,67 +1,70 @@
 #include "TitleScreenState.h"
 
 #include "../Constants.h"
+#include "../Position.h"
 #include "../GameObjects/ForegroundStrip.h"
 #include "../GameObjects/Buttons/BigButton.h"
 #include "../GameObjects/Texts/ShadowedText.h"
-#include "../Game.h"
-#include "../GameManager.h"
-#include "../SoundManager.h"
 #include "../GameObjects/StaticImages/StaticImage.h"
+#include "../Game.h"
+#include "../SoundManager.h"
 #include "PlayingState.h"
 
+//........................GameObject Constants........................
+
+const int TitleScreenState::cLeftBoardX = 0;
+const int TitleScreenState::cLeftBoardY = 28;
+const int TitleScreenState::cRightBoardX = 240;
+const int TitleScreenState::cRightBoardY = 28;
+
+const int TitleScreenState::cTitleX = 98;
+const int TitleScreenState::cTitleY = 52;
+const int TitleScreenState::cTitleW = 185;
+const int TitleScreenState::cTitleH = 57;
+const char* TitleScreenState::cTitlePath = "res/images/title.png";
+
 const int TitleScreenState::cStartButtonX = SCREEN_W / 2 - BigButton::cW / 2;
-const int TitleScreenState::cStartButtonY = SCREEN_H / 2 - BigButton::cH / 2 + 10;
+const int TitleScreenState::cStartButtonY = SCREEN_H / 2 - BigButton::cH / 2 + 55;
+const int TitleScreenState::cStartContentX = cStartButtonX + BigButton::cW / 2;
+const int TitleScreenState::cStartContentY = cStartButtonY + BigButton::cH / 2;
+const char* TitleScreenState::cStartString = "RESUME";
+
+//........................................................................
 
 void TitleScreenState::Init() {
 
 	stateID_ = "TITLESCREEN";
 
 	//Decorative Boards
-	gameObjects_.push_back(board1_ = new Board(0, 28, false));
-	gameObjects_.push_back(board2_ = new Board(240, 28, false));
+
+	gameObjects_.push_back(leftBoard_ = new Board(cLeftBoardX, cLeftBoardY, false));
+	gameObjects_.push_back(rightBoard_ = new Board(cRightBoardX, cRightBoardY, false));
 	
-	for (int i = 0; i < 9; ++i) {
-		board1_->AddColumn();
-		board2_->AddColumn();
-	}
-	for (int i = 0; i < 10; ++i) {
-		board1_->AddGem(0); board2_->AddGem(8);
-		board1_->AddGem(1); board2_->AddGem(7);
-		board1_->AddGem(2); board2_->AddGem(6);
-		board1_->AddGem(3); board2_->AddGem(5);
-	}
-	for (int i = 0; i < 5; ++i) {
-		board1_->AddGem(4); board2_->AddGem(4);
-	}
+	leftBoard_->AddNewColumns(9); rightBoard_->AddNewColumns(9);
 
-	board1_->AddGem(5); board1_->AddGem(5); board1_->AddGem(5);
-	board2_->AddGem(3); board2_->AddGem(3); board2_->AddGem(3);
-
-	board1_->AddGem(6); board1_->AddGem(6);
-	board2_->AddGem(2); board2_->AddGem(2);
-
-	board1_->AddGem(7);
-	board2_->AddGem(1);
-
-
-
-	for (std::vector<Gem*> column : board1_->boardGems_) {
+	leftBoard_->AddGem(0, 10); rightBoard_->AddGem(8, 10);
+	leftBoard_->AddGem(1, 10); rightBoard_->AddGem(7, 10);
+	leftBoard_->AddGem(2, 10); rightBoard_->AddGem(6, 10);
+	leftBoard_->AddGem(3, 10); rightBoard_->AddGem(5, 10);
+	leftBoard_->AddGem(4,  5); rightBoard_->AddGem(4,  5);
+	leftBoard_->AddGem(5,  3); rightBoard_->AddGem(3,  3);
+	leftBoard_->AddGem(6,  2); rightBoard_->AddGem(2,  2);
+	leftBoard_->AddGem(7,  1); rightBoard_->AddGem(1,  1);
+	
+	for (std::vector<Gem*> column : leftBoard_->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->SetY(gem->GetY() - 10 * Gem::cH - ((10 - column.size()) * Gem::cH));
-			gem->Move(0, 10 * Gem::cH + ((10 - column.size()) * Gem::cH));
+			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cH);
 		}
 	}
-	for (std::vector<Gem*> column : board2_->boardGems_) {
+	for (std::vector<Gem*> column : rightBoard_->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->SetY(gem->GetY() - 10 * Gem::cH - ((10 - column.size()) * Gem::cH));
-			gem->Move(0, 10 * Gem::cH + ((10 - column.size()) * Gem::cH));
+			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cH);
 		}
 	}
 
+	//Title Image
 
-
-	gameObjects_.push_back(new StaticImage(98, 52, 185, 57, "res/images/title.png" ));
+	gameObjects_.push_back(new StaticImage(cTitleX, cTitleY, cTitleW, cTitleH, cTitlePath));
 
 	//Foreground Strips
 
@@ -70,23 +73,16 @@ void TitleScreenState::Init() {
 
 	//Start Game Button
 
-	gameObjects_.push_back(playButton_ = new BigButton(cStartButtonX, cStartButtonY+25));
-	//gameObjects_.push_back(howButton_ = new BigButton(cStartButtonX, cStartButtonY+40));
-	
-	std::string startString = "START GAME!";
+	gameObjects_.push_back(playButton_ = new BigButton(cStartButtonX, cStartButtonY));
+	playButton_->AddContent(new ShadowedText(cStartContentX, cStartContentY, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
 
-	int startContentX = cStartButtonX + BigButton::cW / 2;
-	int startContentY = cStartButtonY + BigButton::cH / 2;
-
-	playButton_->AddContent(new ShadowedText(startContentX, startContentY+25, Text::Align::MID, FNT_M6X11, 16, startString, WHITE, BLACK));
-	//howButton_->AddContent(new ShadowedText(startContentX, startContentY+40, Text::Align::MID, FNT_M6X11, 16, "HOW TO PLAY", WHITE, BLACK));
 }
 
 void TitleScreenState::Update(int deltaTime) {
 	
 	GameState::Update(deltaTime);
 	
-	if (!board1_->boardGems_.at(0).at(0)->isMoving() && !hasPlayedSound_) {
+	if (!leftBoard_->GetBoardGems().at(0).at(0)->isMoving() && !hasPlayedSound_) {
 		SoundManager::Instance()->PlaySFX("GemsFallTitle", false);
 		hasPlayedSound_ = true;
 	}
@@ -97,9 +93,5 @@ void TitleScreenState::Update(int deltaTime) {
 	}
 
 	
-
-}
-
-void TitleScreenState::SetupTitleAnimation() {
 
 }

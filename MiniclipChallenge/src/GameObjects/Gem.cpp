@@ -40,13 +40,15 @@ int Gem::GetId() { return id_; }
 Gem::GemColor Gem::GetGemColor()   { return gemColor_; }
 Gem::GemState Gem::GetGemState() { return gemState_; }
 
-void Gem::SetY(float y) {
-	y_ = y;
-}
-
 void Gem::Move(float x, float y) {
 	toMoveX_ += x;
 	toMoveY_ += y;
+}
+
+void Gem::MoveFrom(float deltaX, float deltaY) {
+	x_ = x_ + deltaX;
+	y_ = y_ + deltaY;
+	Move(-deltaX, -deltaY);
 }
 
 bool Gem::isMoving() {
