@@ -13,6 +13,7 @@ GameManager* GameManager::sGameManagerInstance_ = nullptr;
 const int GameManager::cColumnTime = 10000;
 const float GameManager::cColumnTimeMultiplier = 0.95f;
 const int GameManager::cEndGemsMargin = 4;
+const int GameManager::cStartColumns = 13;
 
 int GameManager::GetLevel() { return level_; }
 int GameManager::GetScore() { return score_; }
@@ -34,7 +35,7 @@ void GameManager::AddScore(int gemNumber) {
 
 	score_ += 10 * pow(2, gemNumber - 1);
 
-	while (score_ >= 1000 * level_ + 100 * (int(pow(2, level_-1))-1) ) {
+	while (score_ >= 1000 * level_ + 100 * (static_cast<int>(pow(2, level_-1))-1) ) {
 		SoundManager::Instance()->PlaySFX("LevelUp", false);
 		++level_;
 		if (fillsLeft_ <= 9) {

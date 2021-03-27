@@ -32,10 +32,14 @@ void PlayingState::Init() {
 
 	stateID_ = "PLAYING";
 
-	gameObjects_.push_back(board_ = new Board(cBoardX, cBoardY));
-	columnTimer_ = new Timer(GameManager::Instance()->TimePerColumn(), true);
-	
+	GameManager::Instance()->Reset();
 
+	gameObjects_.push_back(board_ = new Board(cBoardX, cBoardY, true));
+	board_->PushColumn(GameManager::Instance()->cStartColumns);
+
+	columnTimer_     = new Timer(GameManager::Instance()->TimePerColumn(), true);
+	pushButtonTimer_ = new Timer(-1, true); //Start already ringed.
+	endGameTimer_    = new Timer(500, false);
 	
 	gameObjects_.push_back(endLine_ = new EndLine(cEndLineX, cEndLineY));
 	gameObjects_.push_back(new VerticalShadowedText(cEndTextX, cEndTextY, Text::Align::MID, FNT_M3X6, 16, cEndTextSpacing, "END ZONE", WHITE, BLACK));
@@ -58,8 +62,6 @@ void PlayingState::Init() {
 	gameObjects_.push_back(pauseButton_ = new SmallButton(UI::cPauseButtonX, UI::cTopButtonY));
 	gameObjects_.push_back(pushButton_  = new SmallButton(UI::cPushButtonX,  UI::cBotButtonY));
 
-	pushButtonTimer_ = new Timer(-1, true);
-
 	//Button Icons
 	pauseButton_->AddContent(new SmallIcon(UI::cPauseButtonX + UI::cIconPadding, UI::cTopButtonY + UI::cIconPadding, UI::cPauseIconPath));
 	pushButton_ ->AddContent(new SmallIcon(UI::cPushButtonX  + UI::cIconPadding, UI::cBotButtonY + UI::cIconPadding, UI::cPushIconPath));
@@ -69,17 +71,21 @@ void PlayingState::Init() {
 	displayedScore_ = GameManager::Instance()->GetScore();
 	displayedLevel_ = GameManager::Instance()->GetLevel();
 	displayedFills_ = GameManager::Instance()->GetFillsLeft();
+
 	scoreValueText_ = new ShadowedText(UI::cScoreValueX, UI::cTopTextY, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
 	levelValueText_ = new ShadowedText(UI::cLevelValueX, UI::cTopTextY, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
 	fillsText_      = new ShadowedText(UI::cFillsValueX, UI::cBotTextY, Text::Align::MIDLEFT,  FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
-
 }
 
 void PlayingState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
 	columnTimer_->Update(deltaTime);
-	pushClock_->Update();
+	pushButtonTimer_->Update(deltaTime);
+	endGameTimer_->Update(deltaTime);
+
+	pushClock_->UpdateFrame();
+
 	if (columnTimer_->HasRung()) {
 		board_->PushColumn(1);
 		pushButtonTimer_->ResetTimer(100);
@@ -110,25 +116,35 @@ void PlayingState::Update(int deltaTime) {
 	}
 
 	//Check for actions in all buttons (and update click delay in push button)
-	if (fillButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
-		board_->FillBoard();
-	else if (pauseButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
+	if (fillButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+		if (board_->FillBoard()) {
+			SoundManager::Instance()->PlaySFX("Fill", false);
+			GameManager::Instance()->UseFill();
+		}
+	}
+	else if (pauseButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->PushState(new PauseScreenState());
+		SoundManager::Instance()->PlaySFX("ButtonSelect", false);
+	}
 	else if (pushButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		board_->PushColumn(1);
 		pushButtonTimer_->ResetTimer(100);
 		columnTimer_->ResetTimer(GameManager::Instance()->TimePerColumn());
 	}
-	pushButtonTimer_->Update(deltaTime);
+	
 
 	//Check if buttons should be active
 	fillButton_->OnlySetActiveIf(GameManager::Instance()->GetFillsLeft() > 0);
 	pushButton_->OnlySetActiveIf(pushButtonTimer_->HasRung());
 
 	//Check if game is lost
-	if (board_->GetX() < endLine_->GetX()) {
-		Game::Instance()->GetGameStateMachine()->ChangeState(new GameOverScreenState());
+	if (board_->GetX() < endLine_->GetX() && !endGameTimer_->IsRunning()) {
+		board_->DestroyAllGems();
 		SoundManager::Instance()->PlaySFX("GameOver", false);
+		endGameTimer_->StartTimer();
+	}
+	else if (board_->beingDestroyedGems_.empty() && endGameTimer_->HasRung()) {
+		Game::Instance()->GetGameStateMachine()->ChangeState(new GameOverScreenState());
 	}
 }
 
@@ -152,4 +168,5 @@ void PlayingState::Clean() {
 
 	delete pushButtonTimer_;
 	delete columnTimer_;
+	delete endGameTimer_;
 }

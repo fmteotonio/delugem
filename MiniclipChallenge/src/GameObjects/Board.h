@@ -12,30 +12,34 @@ public:
 	static const int cColumnSize;
 	static const int cStartColumns;
 
-	Board(float x, float y);
+	Board(float x, float y, bool isPlayable);
 	
 	void Update(int deltaTime);
 	void HandleInput();
 	void Render();
 	void Clean();
 
-	bool IsGameLost();
-
 	int NextGemID();
 	void PushColumn(int n);
-	void FillBoard();
-	void SearchGemGroup(int gX, int gY);
-	void EraseGem(int gX, int gY);
+	bool FillBoard();
+	int SearchGemGroup(int gX, int gY);
+	void AddColumn();
+	Gem* AddGem(int gX);
+	void EraseGem(int gX, int gY, bool compress);
+	void DestroyAllGems();
 	
+
+	//TEMP PUBLIC
+	std::vector<std::vector<Gem*>> boardGems_;
+	std::vector<Gem*> beingDestroyedGems_;
+
 private:
 	int nextGemID_ = 0;
 	bool hasClicked_ = false;
-	bool isGameLost_ = false;
-
+	bool isPlayable_ = true;
 
 	std::default_random_engine generator_;
-	std::vector<std::vector<Gem*>> boardGems_;
-	std::vector<Gem*> beingDestroyedGems_;
+	
+	
 	Gem* lastHoveredGem_ = nullptr;
-
 };

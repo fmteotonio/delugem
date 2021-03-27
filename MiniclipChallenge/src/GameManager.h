@@ -7,6 +7,7 @@ public:
 	static const int cColumnTime;
 	static const float cColumnTimeMultiplier;
 	static const int cEndGemsMargin;
+	static const int cStartColumns;
 	
 	int GetLevel();
 	int GetScore();

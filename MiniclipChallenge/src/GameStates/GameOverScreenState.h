@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameState.h"
+#include "../Constants.h"
 #include "../GameObjects/GameObject.h"
 #include "../GameObjects/Buttons/Button.h"
 
@@ -12,7 +13,29 @@ public:
 	void Update(int deltaTime);
 
 private:
+	static const int cGameOverTextX;
+	static const int cGameOverTextY;
+	static const char* cGameOverString;
 
-	Button* playAgainButton_;
+	static const int cFlavorTextX;
+	static const int cFlavorTextY;
+	static const char* cFlavorString;
+
+	static const int cScoreTextX;
+	static const int cScoreTextY;
+
+	static const int cAgainButtonX;
+	static const int cAgainButtonY;
+	static const int cAgainContentX;
+	static const int cAgainContentY;
+	static const char* cAgainString;
+
+	static const int cExitButtonX;
+	static const int cExitButtonY;
+	static const int cExitContentX;
+	static const int cExitContentY;
+	static const char* cExitString;
+
+	Button* againButton_;
 	Button* exitButton_;
 };

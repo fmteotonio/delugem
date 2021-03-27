@@ -50,4 +50,8 @@ private:
 
 	Timer* columnTimer_;
 	Clock* pushClock_;
+
+	Timer* endGameTimer_;
+
+	bool isGameLost_ = false;
 };

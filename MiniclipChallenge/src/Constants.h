@@ -8,6 +8,7 @@
 
 //FONTS
 #define FNT_M6X11	"res/fonts/m6x11.ttf" //Mults. of 16
+#define FNT_M5X7	"res/fonts/m5x7.ttf" //Mults. of 16
 #define FNT_M3X6	"res/fonts/m3x6.ttf"//Mults. of 16
 
 //COLOR PALETTE

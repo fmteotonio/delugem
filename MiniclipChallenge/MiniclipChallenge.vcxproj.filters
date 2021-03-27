@@ -239,12 +239,60 @@
     <Image Include="res\images\gems.png">
       <Filter>res\images</Filter>
     </Image>
-    <Image Include="res\images\playbutton.png">
+    <Image Include="res\images\title.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\smallbutton.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\clock.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\bigbutton.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\endline.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\iconpush.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\iconfill.png">
+      <Filter>res\images</Filter>
+    </Image>
+    <Image Include="res\images\iconpause.png">
       <Filter>res\images</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\sounds\visager_shoots.mp3">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\columnpush.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\fill.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\gameover.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\gamestart.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\levelup.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\piecefall.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\break.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\buttonselect.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\gemsfalltitle.wav">
       <Filter>res\sounds</Filter>
     </Media>
   </ItemGroup>

@@ -221,11 +221,27 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\images\background.png" />
+    <Image Include="res\images\bigbutton.png" />
+    <Image Include="res\images\clock.png" />
+    <Image Include="res\images\endline.png" />
     <Image Include="res\images\foregroundstrip.png" />
     <Image Include="res\images\gems.png" />
-    <Image Include="res\images\playbutton.png" />
+    <Image Include="res\images\iconfill.png" />
+    <Image Include="res\images\iconpause.png" />
+    <Image Include="res\images\iconpush.png" />
+    <Image Include="res\images\smallbutton.png" />
+    <Image Include="res\images\title.png" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="res\sounds\break.wav" />
+    <Media Include="res\sounds\buttonselect.wav" />
+    <Media Include="res\sounds\columnpush.wav" />
+    <Media Include="res\sounds\fill.wav" />
+    <Media Include="res\sounds\gameover.wav" />
+    <Media Include="res\sounds\gamestart.wav" />
+    <Media Include="res\sounds\gemsfalltitle.wav" />
+    <Media Include="res\sounds\levelup.wav" />
+    <Media Include="res\sounds\piecefall.wav" />
     <Media Include="res\sounds\visager_shoots.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

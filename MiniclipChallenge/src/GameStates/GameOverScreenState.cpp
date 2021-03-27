@@ -11,38 +11,64 @@
 #include "PlayingState.h"
 #include "TitleScreenState.h"
 
+const int GameOverScreenState::cGameOverTextX    = SCREEN_W / 2;
+const int GameOverScreenState::cGameOverTextY    = SCREEN_H / 2 - 50;
+const char* GameOverScreenState::cGameOverString = "GAME OVER";
+
+const int GameOverScreenState::cFlavorTextX    = SCREEN_W / 2;
+const int GameOverScreenState::cFlavorTextY    = SCREEN_H / 2 - 30;
+const char* GameOverScreenState::cFlavorString = "The Gems win this time.";
+
+const int GameOverScreenState::cScoreTextX    = SCREEN_W / 2;
+const int GameOverScreenState::cScoreTextY    = 110;
+
+const int GameOverScreenState::cAgainButtonX  = SCREEN_W / 2 - 60 - BigButton::cW / 2;
+const int GameOverScreenState::cAgainButtonY  = 140;
+const int GameOverScreenState::cAgainContentX = cAgainButtonX + BigButton::cW / 2;
+const int GameOverScreenState::cAgainContentY = cAgainButtonY + BigButton::cH / 2;
+const char* GameOverScreenState::cAgainString = "PLAY AGAIN";
+
+const int GameOverScreenState::cExitButtonX   = SCREEN_W / 2 + 60 - BigButton::cW / 2;
+const int GameOverScreenState::cExitButtonY   = 140;
+const int GameOverScreenState::cExitContentX  = cExitButtonX + BigButton::cW / 2;
+const int GameOverScreenState::cExitContentY  = cExitButtonY + BigButton::cH / 2;
+const char* GameOverScreenState::cExitString  = "EXIT GAME";
 
 void GameOverScreenState::Init() {
 
 	stateID_ = "GAMEOVERSCREEN";
 
+	//Foreground Strips
+
 	gameObjects_.push_back(new ForegroundStrip(0, 0));
 	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_H- ForegroundStrip::cH));
 
-	gameObjects_.push_back(new ShadowedText(SCREEN_W/2, SCREEN_H/2-50, Text::Align::MID, FNT_M6X11, 32, "GAME OVER", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(SCREEN_W / 2, SCREEN_H / 2 - 30, Text::Align::MID, FNT_M3X6, 16, "The Gems win this time.", WHITE, BLACK));
-	
-	float bXR = SCREEN_W / 2 - 60 - BigButton::cW /2;
-	float bXE = SCREEN_W / 2 + 60 - BigButton::cW /2;
-	float bY = 140;
+	//Text to be displayed;
+	std::string scoreString = "FINAL SCORE: " + std::to_string(GameManager::Instance()->GetScore());
 
-	gameObjects_.push_back(playAgainButton_ = new BigButton(bXR, bY));
-	playAgainButton_->AddContent(new ShadowedText(bXR + BigButton::cW / 2, bY + BigButton::cH / 2, Text::Align::MID, FNT_M6X11, 16, "PLAY AGAIN", WHITE, BLACK));
-	
-	gameObjects_.push_back(new ShadowedText(SCREEN_W / 2, 110, Text::Align::MID, FNT_M6X11, 16, "FINAL SCORE: "+ std::to_string(GameManager::Instance()->GetScore()), WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cGameOverTextX, cGameOverTextY, Text::Align::MID, FNT_M6X11, 32, cGameOverString, WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cFlavorTextX, cFlavorTextY, Text::Align::MID, FNT_M3X6, 16, cFlavorString, WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cScoreTextX, cScoreTextY, Text::Align::MID, FNT_M6X11, 16, scoreString, WHITE, BLACK));
 
-	gameObjects_.push_back(exitButton_ = new BigButton(bXE, bY));
-	exitButton_->AddContent(new ShadowedText(bXE + BigButton::cW / 2, bY + BigButton::cH / 2, Text::Align::MID, FNT_M6X11, 16, "EXIT GAME", WHITE, BLACK));
+	//Resume and Exit Buttons
+
+	gameObjects_.push_back(againButton_ = new BigButton(cAgainButtonX, cAgainButtonY));
+	gameObjects_.push_back(exitButton_ = new BigButton(cExitButtonX, cExitButtonY));
+
+	againButton_->AddContent(new ShadowedText(cAgainContentX, cAgainContentY, Text::Align::MID, FNT_M6X11, 16, cAgainString, WHITE, BLACK));
+	exitButton_->AddContent(new ShadowedText(cExitContentX, cExitContentY, Text::Align::MID, FNT_M6X11, 16, cExitString, WHITE, BLACK));
 }
 
 void GameOverScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
-	if (playAgainButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+	if (againButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart",false);
-		return;
 	}
-	if (exitButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION)
+	else if (exitButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
+		SoundManager::Instance()->PlaySFX("ButtonSelect", false);
+	}
+		
 }

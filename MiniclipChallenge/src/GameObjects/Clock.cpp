@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-const char* Clock::cPath = "res/images/pushclock.png";
+const char* Clock::cPath = "res/images/clock.png";
 const int Clock::cW = 15;
 const int Clock::cH = 18;
 
@@ -21,6 +21,6 @@ Clock::Clock(float x, float y, Timer* timer) {
 	connectedTimer_ = timer;
 }
 
-void Clock::Update() {
+void Clock::UpdateFrame() {
 	currentAnimation_->SetCurrentFrame(std::floor(connectedTimer_->HowMuchPassed() * 16));
 }

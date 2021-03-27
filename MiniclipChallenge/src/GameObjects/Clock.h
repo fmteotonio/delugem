@@ -11,7 +11,7 @@ public:
 
 	Clock(float x, float y, Timer* timer);
 
-	void Update();
+	void UpdateFrame();
 
 	Timer* connectedTimer_;
 };

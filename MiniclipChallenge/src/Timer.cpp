@@ -5,6 +5,8 @@ Timer::Timer(int milliseconds, bool startNow) {
 	isRunning_ = startNow;
 }
 
+bool Timer::IsRunning() { return isRunning_; }
+
 void Timer::ResetTimer() {
 	timePassed_ = 0;
 	isRunning_ = true;

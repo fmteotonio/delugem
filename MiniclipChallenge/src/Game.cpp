@@ -23,6 +23,9 @@
 #define SND_GAMESTART		"res/sounds/gamestart.wav"
 #define SND_LEVELUP			"res/sounds/levelup.wav"
 #define SND_PIECEFALL		"res/sounds/piecefall.wav"
+#define SND_BUTTONSELECT	"res/sounds/buttonselect.wav"
+#define SND_GEMSFALLTITLE	"res/sounds/gemsfalltitle.wav"
+
 
 Game* Game::sGameInstance_ = nullptr;
 
@@ -86,6 +89,9 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		SoundManager::Instance()->Load(SND_GAMESTART, "GameStart", SoundManager::soundType::SFX, 12);
 		SoundManager::Instance()->Load(SND_LEVELUP,	  "LevelUp",   SoundManager::soundType::SFX, 8);
 		SoundManager::Instance()->Load(SND_PIECEFALL, "PieceFall", SoundManager::soundType::SFX, 8);
+		SoundManager::Instance()->Load(SND_PIECEFALL, "PieceFall", SoundManager::soundType::SFX, 8);
+		SoundManager::Instance()->Load(SND_GEMSFALLTITLE, "GemsFallTitle", SoundManager::soundType::SFX, 14);
+		SoundManager::Instance()->Load(SND_BUTTONSELECT, "ButtonSelect", SoundManager::soundType::SFX, 8);
 
 		background_ = new Background(-15, 0);
 

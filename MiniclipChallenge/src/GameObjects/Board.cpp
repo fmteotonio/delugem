@@ -8,25 +8,17 @@
 #include <chrono>
 #include <functional>
 
-//DEBUG
-#include <iostream>
-
 const int Board::cColumnSize = 10;
-const int Board::cStartColumns = 13;
 
-Board::Board(float x, float y) {
+Board::Board(float x, float y, bool isPlayable) {
 	GameObject::Init(x, y);
-
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
-
-	PushColumn(cStartColumns);
+	isPlayable_ = isPlayable;
 }
 
-bool Board::IsGameLost() { return isGameLost_; }
-
 void Board::Update(int deltaTime) {
-
-	HandleInput();
+	if (isPlayable_)
+		HandleInput();
 
 	for (std::vector<Gem*> column : boardGems_) {
 		for (Gem* gem : column) {
@@ -44,8 +36,8 @@ void Board::Update(int deltaTime) {
 
 void Board::HandleInput() {
 
-	int conv_x = int(floor((InputHandler::Instance()->GetMouseX() - x_) / Gem::cW));
-	int conv_y = int(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - y_) / Gem::cH));
+	int conv_x = static_cast<int>(floor((InputHandler::Instance()->GetMouseX() - x_) / Gem::cW));
+	int conv_y = static_cast<int>(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - y_) / Gem::cH));
 	bool isHovered = conv_x >= 0 && conv_x < boardGems_.size() && conv_y >= 0 && conv_y < boardGems_.at(conv_x).size();
 
 
@@ -64,8 +56,11 @@ void Board::HandleInput() {
 			lastHoveredGem_ = gem;
 		}
 		//Only once per click
-		if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) 
-			SearchGemGroup(conv_x, conv_y);			
+		if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) {
+			int gemsFound = SearchGemGroup(conv_x, conv_y);
+			if (gemsFound > 1)
+				GameManager::Instance()->AddScore(gemsFound);
+		}				
 	}
 	if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) 
 		hasClicked_ = true;
@@ -105,83 +100,82 @@ int Board::NextGemID() {
 	return ++nextGemID_;
 }
 
+void Board::AddColumn() {
+	std::vector<Gem*> newColumn;
+	boardGems_.push_back(newColumn);
+}
+
+Gem* Board::AddGem(int gX){
+	//Adds Random Gem to Column index gX
+	std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
+
+	Gem::GemColor color = Gem::GemColor(distribution(generator_));
+
+	Gem* newGem = new Gem(
+		color,
+		x_ + gX * Gem::cW,
+		y_ + (cColumnSize - boardGems_.at(gX).size() - 1) * Gem::cH,
+		NextGemID()
+	);
+	boardGems_.at(gX).push_back(newGem);
+	return newGem;
+}
+
 void Board::PushColumn(int n) {
 
 	SoundManager::Instance()->PlaySFX("PushColumn",false);
 
 	for (int aux = 0; aux < n; ++aux) {
-		std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
-
-		std::vector<Gem*> newColumn;
+		AddColumn();
 		for (int i = 0; i < cColumnSize; ++i) {
-
-			Gem::GemColor color = Gem::GemColor(distribution(generator_));
-
-			Gem* newGem = new Gem(
-				color,
-				x_ + (float)boardGems_.size() * Gem::cW,
-				y_ + ((float)cColumnSize - i - 1) * Gem::cH,
-				NextGemID()
-			);
-			newColumn.push_back(newGem);
+			AddGem(boardGems_.size()-1);
 		}
-		boardGems_.push_back(newColumn);
 	}
-	//Move all gems to the left
+	//Move board and all gems to the left
 	x_ -= Gem::cW * n;
 	for (std::vector<Gem*> column : boardGems_) {
 		for (Gem* gem : column) {
-			gem->Move(-Gem::cW * n, 0);
+			gem->Move(static_cast<float>(-Gem::cW * n), 0);
 		}
 	}
 }
 
-void Board::FillBoard() {
+bool Board::FillBoard() {
+
+	int maxGapHeight = 0;
 	if (GameManager::Instance()->GetFillsLeft() > 0) {
-
-		int maxGapHeight = 0;
 		std::vector<Gem*> createdGems;
-
 		//Creates gems in their correct places
-		for (int i = 0; i < boardGems_.size(); i++) {
-			std::vector<Gem*>& column = boardGems_.at(i);
+		for (int i = 0; i < boardGems_.size(); ++i) {
 
 			int thisGapHeight = 0;
 
-			while (column.size() < 10) {
+			while (boardGems_.at(i).size() < 10) {
+				
+				createdGems.push_back(AddGem(i));
 
 				++thisGapHeight;
 				maxGapHeight = std::max(maxGapHeight, thisGapHeight);
-
-				std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
-
-				Gem::GemColor color = Gem::GemColor(distribution(generator_));
-
-				Gem* newGem = new Gem(
-					color,
-					x_ + i * Gem::cW,
-					y_ + (cColumnSize - (float)column.size() - 1) * Gem::cH,
-					NextGemID()
-				);
-
-				createdGems.push_back(newGem);
-				column.push_back(newGem);
 			}
 		}
 		//Vertical offset just enough so they fall from the top
 		for (Gem* gem : createdGems) {
 			gem->SetY(gem->GetY() - maxGapHeight * Gem::cH);
-			gem->Move(0, maxGapHeight * Gem::cH);
+			gem->Move(0, static_cast<float>(maxGapHeight * Gem::cH));
 		}
-		if (createdGems.size() > 0) {
-			SoundManager::Instance()->PlaySFX("Fill", false);
-			GameManager::Instance()->UseFill();
+	}
+	return maxGapHeight > 0;
+}
+
+void Board::DestroyAllGems() {
+	for (int i = boardGems_.size() - 1; i >= 0; --i) {
+		for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {
+				EraseGem(i, ii, false);
 		}
-			
 	}
 }
 
-void Board::SearchGemGroup(int gX, int gY) {
+int Board::SearchGemGroup(int gX, int gY) {
 
 	int gemNumber = 0;
 	std::vector<int> toDelete = {};
@@ -232,29 +226,28 @@ void Board::SearchGemGroup(int gX, int gY) {
 		for (int i = boardGems_.size() - 1; i >= 0; --i) {
 			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {
 				if (std::find(toDelete.begin(), toDelete.end(), boardGems_.at(i).at(ii)->GetId()) != toDelete.end()) {
-					EraseGem(i, ii);
+					EraseGem(i, ii, true);
 				}
 			}
 		}
-		//Update Score
-		GameManager::Instance()->AddScore(gemNumber);
 	}
+	return gemNumber;
 }
 
-void Board::EraseGem(int gX, int gY) {
+void Board::EraseGem(int gX, int gY, bool compressEmptyColumns) {
 	std::vector<Gem*>& column = boardGems_.at(gX);
 	
 	beingDestroyedGems_.push_back(column.at(gY));
 	column.at(gY)->TransitState(Gem::GemState::BREAKING);
 	column.erase(column.begin() + gY);
 
-	//Update position for every Gem above
+	//Move every Gem above
 	for (int i = gY; i < column.size(); ++i) {
-		column.at(i)->Move(0, Gem::cH);
+		column.at(i)->Move(0, static_cast<float>(Gem::cH));
 	}
 
 	//Check if column empty
-	if (column.empty()) {
+	if(compressEmptyColumns && column.empty()){
 		boardGems_.erase(boardGems_.begin() + gX);
 
 		//Move Board Origin
@@ -263,7 +256,7 @@ void Board::EraseGem(int gX, int gY) {
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
 			for (Gem* gem : boardGems_.at(i)) {
-				gem->Move(Gem::cW, 0);
+				gem->Move(static_cast<float>(Gem::cW), 0);
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 class Timer {
 public:
 	Timer(int milliseconds, bool startNow);
+	bool IsRunning();
 	void ResetTimer();
 	void ResetTimer(int milliseconds);
 	void StartTimer();

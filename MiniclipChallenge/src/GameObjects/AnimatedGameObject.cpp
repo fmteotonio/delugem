@@ -24,8 +24,8 @@ void AnimatedGameObject::Render() {
 
 	SDL_Rect dest;
 	//Convert to Int before Scale to avoid sub-pixel movement
-	dest.x = int(round(x_)) * GAME_SCALE;
-	dest.y = int(round(y_)) * GAME_SCALE; 
+	dest.x = static_cast<int>(round(x_)) * GAME_SCALE;
+	dest.y = static_cast<int>(round(y_)) * GAME_SCALE;
 	dest.w = w_ * GAME_SCALE;
 	dest.h = h_ * GAME_SCALE;
 	TextureManager::Instance()->Draw(texture_, src, dest);
