@@ -5,9 +5,9 @@
 class ForegroundStrip : public AnimatedGameObject {
 public:
 	static const char* cPath;
-	static const int cW;
-	static const int cH;
 	static const int cSourceW;
+
+	static const Dimensions cDim;
 
 	enum class ForegroundStripState {
 		DEFAULT, LEVELUP

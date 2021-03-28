@@ -1,12 +1,12 @@
 #pragma once
 
 #include "GameState.h"
-#include "../GameObjects/GameObject.h"
-#include "../GameObjects/Buttons/Button.h"
-#include "../GameObjects/Board.h"
-#include "../GameObjects/ForegroundStrip.h"
 #include "../Timer.h"
+#include "../GameObjects/Board.h"
 #include "../GameObjects/Clock.h"
+#include "../GameObjects/GameObject.h"
+#include "../GameObjects/ForegroundStrip.h"
+#include "../GameObjects/Buttons/Button.h"
 
 class PlayingState : public GameState {
 public:

@@ -1,12 +1,10 @@
 #pragma once
 
-#include <vector>
 #include <random>
+#include <vector>
 
 #include "Gem.h"
 #include "GameObject.h"
-#include "../Constants.h"
-#include "../Position.h"
 
 class Board : public GameObject {
 public:
@@ -29,20 +27,17 @@ public:
 	void AddNewColumns(int numberOfColumns);
 	std::vector<Gem*> AddGem(int gX, int gemNumber);
 	void EraseGem(int gX, int gY, bool compress);
-	void DestroyAllGems();
+	void DestroyAllGems(bool compressGems);
 	
-
-	//TEMP PUBLIC
-	std::vector<std::vector<Gem*>> boardGems_;
-	std::vector<Gem*> beingDestroyedGems_;
-
 private:
 	int nextGemID_ = 0;
 	bool hasClicked_ = false;
 	bool isPlayable_ = true;
 
 	std::default_random_engine generator_;
-	
+
+	std::vector<std::vector<Gem*>> boardGems_;
+	std::vector<Gem*> beingDestroyedGems_;
 	
 	Gem* lastHoveredGem_ = nullptr;
 };

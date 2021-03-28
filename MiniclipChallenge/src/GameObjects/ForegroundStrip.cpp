@@ -6,9 +6,9 @@
 #include <iostream>
 
 const char* ForegroundStrip::cPath =    "res/images/foregroundstrip.png";
-const int   ForegroundStrip::cW =       SCREEN_W;
-const int   ForegroundStrip::cH =       28;
 const int   ForegroundStrip::cSourceW = 1;
+
+const Dimensions ForegroundStrip::cDim = { SCREEN_W, 28 };
 
 ForegroundStrip::ForegroundStrip(Position pos) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
@@ -16,7 +16,7 @@ ForegroundStrip::ForegroundStrip(Position pos) {
 	AddAnimation("Default", new Animation(0, 0));
 	AddAnimation("LevelUp", new Animation(0, 16, 0, 30));
 
-	AnimatedGameObject::Init(pos, cW, cH, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, cDim, objTexture, "Default", false);
 }
 
 void ForegroundStrip::Update(int deltaTime) {
@@ -30,16 +30,16 @@ void ForegroundStrip::Update(int deltaTime) {
 void ForegroundStrip::Render() {
 	SDL_Rect src;
 	src.x = currentAnimation_->GetCurrentFrame() * cSourceW;
-	src.y = currentAnimation_->GetFrameRow() * h_;
+	src.y = currentAnimation_->GetFrameRow() * dim_.h;
 	src.w = cSourceW;
-	src.h = h_;
+	src.h = dim_.h;
 
 	SDL_Rect dest;
 	//Convert to Int before Scale to avoid sub-pixel movement
 	dest.x = static_cast<int>(round(pos_.x)) * GAME_SCALE;
 	dest.y = static_cast<int>(round(pos_.y)) * GAME_SCALE;
-	dest.w = w_ * GAME_SCALE;
-	dest.h = h_ * GAME_SCALE;
+	dest.w = dim_.w * GAME_SCALE;
+	dest.h = dim_.h * GAME_SCALE;
 	TextureManager::Instance()->Draw(texture_, src, dest);
 }
 

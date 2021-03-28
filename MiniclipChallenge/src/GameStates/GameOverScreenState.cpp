@@ -7,23 +7,22 @@
 #include "../Game.h"
 #include "../SoundManager.h"
 #include "../GameManager.h"
-#include "../UI.h"
 #include "PlayingState.h"
 #include "TitleScreenState.h"
 
 //........................GameObject Constants........................
 
 const Position GameOverScreenState::cUpperStripPos = { 0,  0 };
-const Position GameOverScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cH };
+const Position GameOverScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cDim.h };
 
 const Position GameOverScreenState::cGameOverTextPos = { SCREEN_W / 2 , SCREEN_H / 2 - 50 };
 const Position GameOverScreenState::cFlavorTextPos =   { SCREEN_W / 2 , SCREEN_H / 2 - 30 };
 const Position GameOverScreenState::cScoreTextPos =    { SCREEN_W / 2 , 110 };
 
-const Position GameOverScreenState::cAgainButtonPos = { SCREEN_W / 2 - BigButton::cW / 2 - 60 , 140 };
-const Position GameOverScreenState::cExitButtonPos = { SCREEN_W / 2 - BigButton::cW / 2 + 60 , 140 };
-const Position GameOverScreenState::cAgainContentPos = { cAgainButtonPos.x + BigButton::cW / 2 , cAgainButtonPos.y + BigButton::cH / 2 };
-const Position GameOverScreenState::cExitContentPos = { cExitButtonPos.x + BigButton::cW / 2 , cExitButtonPos.y + BigButton::cH / 2 };
+const Position GameOverScreenState::cAgainButtonPos = { SCREEN_W / 2 - BigButton::cDim.w / 2 - 60 , 140 };
+const Position GameOverScreenState::cExitButtonPos = { SCREEN_W / 2 - BigButton::cDim.w / 2 + 60 , 140 };
+const Position GameOverScreenState::cAgainContentPos = { cAgainButtonPos.x + BigButton::cDim.w / 2 , cAgainButtonPos.y + BigButton::cDim.h / 2 };
+const Position GameOverScreenState::cExitContentPos = { cExitButtonPos.x + BigButton::cDim.w / 2 , cExitButtonPos.y + BigButton::cDim.h / 2 };
 
 const char* GameOverScreenState::cGameOverString = "GAME OVER";
 const char* GameOverScreenState::cFlavorString = "The Gems win this time.";

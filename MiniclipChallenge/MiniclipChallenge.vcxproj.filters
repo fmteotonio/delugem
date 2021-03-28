@@ -98,9 +98,6 @@
     <ClInclude Include="src\GameObjects\GameObject.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameObjects\Buttons\Button.h">
       <Filter>src\GameObjects\Buttons</Filter>
     </ClInclude>
@@ -129,6 +126,9 @@
       <Filter>src\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\Position.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dimensions.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

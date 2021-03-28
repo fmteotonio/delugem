@@ -30,5 +30,5 @@ Text::Text(Position pos, Align align, std::string font, int size, std::string te
 
 	AddAnimation("Default", new Animation(0, 0));
 
-	AnimatedGameObject::Init({ xAux, yAux }, w, h, objTexture, "Default", false);
+	AnimatedGameObject::Init({ xAux, yAux }, { w, h }, objTexture, "Default", false);
 }

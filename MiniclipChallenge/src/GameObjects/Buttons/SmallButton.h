@@ -5,8 +5,7 @@
 class SmallButton : public Button {
 public:
 	static const char* cPath;
-	static const int cW;
-	static const int cH;
+	static const Dimensions cDim;
 
-	SmallButton(Position pos) : Button(pos, cW, cH, cPath) {}
+	SmallButton(Position pos) : Button(pos, cDim, cPath) {}
 };

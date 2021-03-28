@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AnimatedGameObject.h"
-
 #include <string>
+
+#include "../AnimatedGameObject.h"
 
 class Text : public AnimatedGameObject {
 public:

@@ -1,10 +1,7 @@
 #pragma once
 
 #include "GameState.h"
-#include "../GameObjects/GameObject.h"
 #include "../GameObjects/Buttons/Button.h"
-
-#include <vector>
 
 class PauseScreenState : public GameState {
 public:

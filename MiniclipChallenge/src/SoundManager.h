@@ -1,9 +1,9 @@
 #pragma once
 
-#include <SDL_mixer.h>
-
 #include <map> 
 #include <string>
+
+#include <SDL_mixer.h>
 
 class SoundManager {
 public:

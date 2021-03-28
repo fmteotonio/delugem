@@ -1,9 +1,5 @@
 #pragma once
 
-#include<SDL_image.h>
-#include<map>
-#include<string>
-
 #include "../Position.h"
 
 class GameObject { 

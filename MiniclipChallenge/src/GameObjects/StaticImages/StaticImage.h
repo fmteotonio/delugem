@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../AnimatedGameObject.h"
-
 #include <string>
+
+#include "../AnimatedGameObject.h"
 
 class StaticImage : public AnimatedGameObject {
 public:
-	StaticImage(Position pos, int w, int h, std::string filename);
+	StaticImage(Position pos, Dimensions dim, std::string filename);
 };

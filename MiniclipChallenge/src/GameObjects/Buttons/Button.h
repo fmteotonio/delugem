@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../AnimatedGameObject.h"
-#include "../GameObject.h"
-
 #include <string>
 #include <vector>
+
+#include "../AnimatedGameObject.h"
 
 class Button : public AnimatedGameObject {
 public:
@@ -12,7 +11,7 @@ public:
 		DEFAULT, HOVERED, HOV_PRESSED, UNHOV_PRESSED, PRESS_ACTION, INACTIVE
 	};
 
-	Button(Position pos, int w, int h, std::string filename);
+	Button(Position pos, Dimensions dim, std::string filename);
 
 	void AddContent(GameObject* content);
 

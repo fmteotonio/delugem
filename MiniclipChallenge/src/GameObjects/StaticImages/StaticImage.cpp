@@ -2,10 +2,10 @@
 
 #include "../../TextureManager.h"
 
-StaticImage::StaticImage(Position pos, int w, int h, std::string filename) {
+StaticImage::StaticImage(Position pos, Dimensions dim, std::string filename) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(filename);
 
 	AddAnimation("Default", new Animation(0, 0));
 
-	AnimatedGameObject::Init(pos, w, h, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, dim, objTexture, "Default", false);
 }

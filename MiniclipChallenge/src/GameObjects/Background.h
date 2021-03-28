@@ -2,7 +2,6 @@
 
 #include "AnimatedGameObject.h"
 #include "../Timer.h"
-#include "../Position.h"
 
 class Background : public AnimatedGameObject {
 public:
@@ -11,6 +10,7 @@ public:
 	static const int cTimePerStep;
 	static const int cW;
 	static const int cH;
+	static const Dimensions cDim;
 
 	Background(Position pos);
 

@@ -5,8 +5,7 @@
 class Gem : public AnimatedGameObject{
 public:
 	static const char* cPath;
-	static const int cW;
-	static const int cH;
+	static const Dimensions cDim;
 	static const int cAcceleration;
 	static const int cNumberOfColors;
 

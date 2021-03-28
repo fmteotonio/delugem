@@ -18,10 +18,10 @@
 //..........................GameObject Constants........................
 
 const Position PlayingState::cUpperStripPos = { 0,  0 };
-const Position PlayingState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cH };
+const Position PlayingState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cDim.h };
 
-const Position PlayingState::cBoardPos   = { SCREEN_W , 28 + Gem::cH * (10 - Board::cColumnSize) };
-const Position PlayingState::cEndLinePos = { GameManager::cEndGemsMargin * Gem::cW , 28 };
+const Position PlayingState::cBoardPos   = { SCREEN_W , 28 + Gem::cDim.h * (10 - Board::cColumnSize) };
+const Position PlayingState::cEndLinePos = { GameManager::cEndGemsMargin * Gem::cDim.w , 28 };
 const Position PlayingState::cEndTextPos = { std::round(PlayingState::cEndLinePos.x / 1.1) , 67 };
 const Position PlayingState::cClockPos   = { 290, 193 };
 
@@ -158,6 +158,9 @@ void PlayingState::Update(int deltaTime) {
 		//LevelUp animation in foregroundStrips
 		foregroundStrip1_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
 		foregroundStrip2_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
+
+		board_->DestroyAllGems(true);
+		board_->PushColumn(13);
 	}
 	//Check if fills text needs update
 	if (displayedFills_ != GameManager::Instance()->GetFillsLeft()) {
@@ -190,11 +193,11 @@ void PlayingState::Update(int deltaTime) {
 
 	//Check if game is lost
 	if (board_->GetPos().x < endLine_->GetPos().x && !endGameTimer_->IsRunning()) {
-		board_->DestroyAllGems();
+		board_->DestroyAllGems(false);
 		SoundManager::Instance()->PlaySFX("GameOver", false);
 		endGameTimer_->StartTimer();
 	}
-	else if (board_->beingDestroyedGems_.empty() && endGameTimer_->HasRung()) {
+	else if (endGameTimer_->HasRung()) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new GameOverScreenState());
 	}
 }

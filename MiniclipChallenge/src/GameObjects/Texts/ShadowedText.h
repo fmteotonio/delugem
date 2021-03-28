@@ -1,9 +1,9 @@
 #pragma once
 
+#include <string>
+
 #include "../GameObject.h"
 #include "Text.h"
-
-#include <string>
 
 class ShadowedText : public GameObject {
 public:

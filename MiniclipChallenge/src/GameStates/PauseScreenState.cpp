@@ -13,16 +13,16 @@
 //........................GameObject Constants........................
 
 const Position PauseScreenState::cUpperStripPos = { 0,  0 };
-const Position PauseScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cH };
+const Position PauseScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cDim.h };
 
 const Position PauseScreenState::cPausedTextPos = { SCREEN_W / 2 , SCREEN_H / 2 - 50 };
 const Position PauseScreenState::cFlavorTextPos = { SCREEN_W / 2 , SCREEN_H / 2 - 30 };
 const Position PauseScreenState::cScoreTextPos =  { SCREEN_W / 2 , 110 };
 
-const Position PauseScreenState::cResumeButtonPos  = { SCREEN_W / 2 - BigButton::cW / 2 - 60 , 140 };
-const Position PauseScreenState::cExitButtonPos    = { SCREEN_W / 2 - BigButton::cW / 2 + 60 , 140 };
-const Position PauseScreenState::cResumeContentPos = { cResumeButtonPos.x + BigButton::cW / 2 , cResumeButtonPos.y + BigButton::cH / 2 };
-const Position PauseScreenState::cExitContentPos   = { cExitButtonPos.x + BigButton::cW / 2 , cExitButtonPos.y + BigButton::cH / 2 };
+const Position PauseScreenState::cResumeButtonPos  = { SCREEN_W / 2 - BigButton::cDim.w / 2 - 60 , 140 };
+const Position PauseScreenState::cExitButtonPos    = { SCREEN_W / 2 - BigButton::cDim.w / 2 + 60 , 140 };
+const Position PauseScreenState::cResumeContentPos = { cResumeButtonPos.x + BigButton::cDim.w / 2 , cResumeButtonPos.y + BigButton::cDim.h / 2 };
+const Position PauseScreenState::cExitContentPos   = { cExitButtonPos.x + BigButton::cDim.w / 2 , cExitButtonPos.y + BigButton::cDim.h / 2 };
 
 const char* PauseScreenState::cPausedString = "GAME PAUSED";
 const char* PauseScreenState::cFlavorString = "The Gems don't mind waiting.";

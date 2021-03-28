@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\Dimensions.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameManager.h" />
     <ClInclude Include="src\GameObjects\Background.h" />
@@ -182,7 +183,6 @@
     <ClInclude Include="src\SoundManager.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Timer.h" />
-    <ClInclude Include="src\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Animation.cpp" />

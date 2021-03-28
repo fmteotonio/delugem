@@ -15,14 +15,16 @@
 const Position TitleScreenState::cLeftBoardPos  = {   0, 28 };
 const Position TitleScreenState::cRightBoardPos = { 240, 28 };
 const Position TitleScreenState::cUpperStripPos = {   0,  0 };
-const Position TitleScreenState::cLowerStripPos = {   0, SCREEN_H - ForegroundStrip::cH };
+const Position TitleScreenState::cLowerStripPos = {   0, SCREEN_H - ForegroundStrip::cDim.h };
 
 const Position TitleScreenState::cTitlePos = { 98, 52 };
-const Position TitleScreenState::cStartButtonPos = { SCREEN_W / 2 - BigButton::cW / 2 , 126 };
-const Position TitleScreenState::cStartContentPos = { cStartButtonPos.x + BigButton::cW / 2, cStartButtonPos.y + BigButton::cH / 2 };
+const Position TitleScreenState::cStartButtonPos = { SCREEN_W / 2 - BigButton::cDim.w / 2 , 126 };
+const Position TitleScreenState::cStartContentPos = { cStartButtonPos.x + BigButton::cDim.w / 2, cStartButtonPos.y + BigButton::cDim.h / 2 };
 
-const int TitleScreenState::cTitleW = 185;
-const int TitleScreenState::cTitleH = 57;
+
+const Dimensions TitleScreenState::cTitleDim = { 185,57 };
+
+
 const char* TitleScreenState::cTitlePath = "res/images/title.png";
 
 const char* TitleScreenState::cStartString = "START GAME!";
@@ -49,17 +51,17 @@ void TitleScreenState::Init() {
 
 	for (std::vector<Gem*> column : leftBoard_->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cH);
+			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h);
 		}
 	}
 	for (std::vector<Gem*> column : rightBoard_->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cH);
+			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h);
 		}
 	}
 
 	//Title Image
-	gameObjects_.push_back(new StaticImage(cTitlePos, cTitleW, cTitleH, cTitlePath));
+	gameObjects_.push_back(new StaticImage(cTitlePos, cTitleDim, cTitlePath));
 
 	//Foreground Strips
 	gameObjects_.push_back(new ForegroundStrip(cUpperStripPos));

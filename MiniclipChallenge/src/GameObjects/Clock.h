@@ -9,6 +9,8 @@ public:
 	static const int cW;
 	static const int cH;
 
+	static const Dimensions cDim;
+
 	Clock(Position pos, Timer* timer);
 
 	void UpdateFrame();

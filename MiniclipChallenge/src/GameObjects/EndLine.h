@@ -5,8 +5,7 @@
 class EndLine : public AnimatedGameObject {
 public:
 	static const char* cPath;
-	static const int cW;
-	static const int cH;
+	static const Dimensions cDim;
 
 	EndLine(Position pos);
 };

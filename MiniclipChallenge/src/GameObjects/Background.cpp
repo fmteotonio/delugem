@@ -8,8 +8,7 @@
 const char* Background::cPath		 =  "res/images/background.png";
 const int   Background::cMaxSteps	 =	15;
 const int   Background::cTimePerStep =	60;
-const int   Background::cW			 =	SCREEN_W + cMaxSteps;
-const int   Background::cH			 =	SCREEN_H;
+const Dimensions Background::cDim    = { SCREEN_W + cMaxSteps , SCREEN_H };
 
 Background::Background(Position pos) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
@@ -17,7 +16,7 @@ Background::Background(Position pos) {
 	stepTimer_ = new Timer(cTimePerStep, true);
 
 	AddAnimation("Default", new Animation(0, 0));
-	AnimatedGameObject::Init(pos, cW, cH, objTexture, "Default", true);
+	AnimatedGameObject::Init(pos, cDim, objTexture, "Default", true);
 }
 
 void Background::Update(int deltaTime) {

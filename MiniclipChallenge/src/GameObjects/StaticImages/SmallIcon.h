@@ -1,14 +1,13 @@
 #pragma once
 
-#include "StaticImage.h"
-
 #include <string>
+
+#include "StaticImage.h"
 
 class SmallIcon : public StaticImage {
 public:
-	static const int cW;
-	static const int cH;
+	static const Dimensions cDim;
 
-	SmallIcon(Position pos, std::string filename) : StaticImage(pos, cW, cH, filename) {
+	SmallIcon(Position pos, std::string filename) : StaticImage(pos, cDim, filename) {
 	};
 };

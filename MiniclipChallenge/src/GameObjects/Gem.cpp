@@ -7,8 +7,9 @@
 #include <iostream>
 
 const char* Gem::cPath = "res/images/gems.png";
-const int   Gem::cW = 16;
-const int   Gem::cH = 16;
+
+const Dimensions Gem::cDim = { 16, 16 };
+
 const int   Gem::cAcceleration = 450;
 const int	Gem::cNumberOfColors = 5;
 
@@ -33,7 +34,7 @@ Gem::Gem(GemColor gemColor, Position pos, int id) {
 	AddAnimation("Breaking", new Animation(0, 5, frameRow, 40));
 	AddAnimation("ToDestroy", new Animation(5, frameRow));
 
-	AnimatedGameObject::Init(pos, cW, cH, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, cDim, objTexture, "Default", false);
 }
 
 int Gem::GetId() { return id_; }

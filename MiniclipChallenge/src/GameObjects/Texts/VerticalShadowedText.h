@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../GameObject.h"
-#include "Text.h"
-
 #include <string>
 #include <vector>
+
+#include "../GameObject.h"
+#include "Text.h"
 
 class VerticalShadowedText : public GameObject {
 public:
