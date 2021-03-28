@@ -22,22 +22,10 @@ public:
 	static const Position cExitContentPos;
 
 	static const char* cGameOverString;
-
 	static const char* cFlavorString;
-
-
-	static const float cAgainButtonX;
-	static const float cAgainButtonY;
-	static const float cAgainContentX;
-	static const float cAgainContentY;
 	static const char* cAgainString;
-
-	static const float cExitButtonX;
-	static const float cExitButtonY;
-	static const float cExitContentX;
-	static const float cExitContentY;
 	static const char* cExitString;
-
+	
 	void Init();
 	void Update(int deltaTime);
 

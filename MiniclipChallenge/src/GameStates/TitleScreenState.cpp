@@ -23,7 +23,6 @@ const Position TitleScreenState::cStartContentPos = { cStartButtonPos.x + BigBut
 
 const int TitleScreenState::cTitleW = 185;
 const int TitleScreenState::cTitleH = 57;
-
 const char* TitleScreenState::cTitlePath = "res/images/title.png";
 
 const char* TitleScreenState::cStartString = "START GAME!";
@@ -85,7 +84,4 @@ void TitleScreenState::Update(int deltaTime) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart", false);
 	}
-
-	
-
 }

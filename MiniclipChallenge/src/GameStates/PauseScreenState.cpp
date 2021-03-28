@@ -37,11 +37,8 @@ void PauseScreenState::Init() {
 
 	//Foreground Strips
 
-	Position p1 = { 0,0 };
-	Position p2 = { 0, SCREEN_H - ForegroundStrip::cH };
-
-	gameObjects_.push_back(new ForegroundStrip(p1));
-	gameObjects_.push_back(new ForegroundStrip(p2));
+	gameObjects_.push_back(new ForegroundStrip(cUpperStripPos));
+	gameObjects_.push_back(new ForegroundStrip(cLowerStripPos));
 
 	//Text to be displayed;
 

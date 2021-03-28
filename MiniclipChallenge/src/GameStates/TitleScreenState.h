@@ -9,12 +9,14 @@
 
 class TitleScreenState : public GameState {
 public:
+
 	void Init();
 	void Update(int deltaTime);
+
 private:
+
 	static const Position cLeftBoardPos;
 	static const Position cRightBoardPos;
-
 	static const Position cUpperStripPos;
 	static const Position cLowerStripPos;
 
@@ -28,14 +30,12 @@ private:
 
 	static const char* cStartString;
 
+	Board* leftBoard_;
+	Board* rightBoard_;
 
 	Button* playButton_;
 	Button* howButton_;
 
-	Board* leftBoard_;
-	Board* rightBoard_;
-	
 	bool hasPlayedSound_ = false;
 
-	void SetupTitleAnimation();
 };

@@ -14,18 +14,47 @@
 #include "../GameManager.h"
 #include "../SoundManager.h"
 #include "../Game.h"
-#include "../UI.h"
 
-#include <algorithm>
+//..........................GameObject Constants........................
 
-//........................GameObject Constants........................
+const Position PlayingState::cUpperStripPos = { 0,  0 };
+const Position PlayingState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cH };
 
 const Position PlayingState::cBoardPos   = { SCREEN_W , 28 + Gem::cH * (10 - Board::cColumnSize) };
 const Position PlayingState::cEndLinePos = { GameManager::cEndGemsMargin * Gem::cW , 28 };
 const Position PlayingState::cEndTextPos = { std::round(PlayingState::cEndLinePos.x / 1.1) , 67 };
-const Position PlayingState::cClockPos = { 290, 193 };
+const Position PlayingState::cClockPos   = { 290, 193 };
 
 const int PlayingState::cEndTextSpacing = -4;
+
+//........................UI GameObject Constants........................
+
+const int PlayingState::cTopTextY   = 14;
+const int PlayingState::cBotTextY   = 202;
+const int PlayingState::cTopButtonY = cTopTextY - 12;
+const int PlayingState::cBotButtonY = cBotTextY - 12;
+
+const Position PlayingState::cLevelTextPos  = { 7,  cTopTextY };
+const Position PlayingState::cScoreTextPos  = { 165,  cTopTextY };
+const Position PlayingState::cPushTextPos   = { 313,  cBotTextY };
+const Position PlayingState::cFillsTextPos  = { 7,  cBotTextY };
+const Position PlayingState::cFillsText2Pos = { cFillsTextPos.x + 50, cBotTextY };
+
+const Position PlayingState::cLevelValuePos = { cLevelTextPos.x + 71 , cTopTextY };
+const Position PlayingState::cScoreValuePos = { cScoreTextPos.x + 99 , cTopTextY };
+const Position PlayingState::cFillsValuePos = { cFillsTextPos.x + 38 , cBotTextY };
+
+const Position PlayingState::cPauseButtonPos = { 351 , cTopButtonY };
+const Position PlayingState::cFillsButtonPos = { cFillsTextPos.x + 91, cBotButtonY };
+const Position PlayingState::cPushButtonPos  = { cPushTextPos.x + 38 , cBotButtonY };
+
+const Position PlayingState::cPauseContentPos = { cPauseButtonPos.x + 8 , cPauseButtonPos.y + 8 };
+const Position PlayingState::cFillsContentPos = { cFillsButtonPos.x + 8, cFillsButtonPos.y + 8 };
+const Position PlayingState::cPushContentPos  = { cPushButtonPos.x + 8 , cPushButtonPos.y + 8 };
+
+const char* PlayingState::cFillIconPath  = "res/images/iconfill.png";
+const char* PlayingState::cPauseIconPath = "res/images/iconpause.png";
+const char* PlayingState::cPushIconPath  = "res/images/iconpush.png";
 
 //........................................................................
 
@@ -33,52 +62,70 @@ void PlayingState::Init() {
 
 	stateID_ = "PLAYING";
 
-	GameManager::Instance()->Reset();
-
-	gameObjects_.push_back(board_ = new Board(cBoardPos, true));
-	board_->PushColumn(GameManager::Instance()->cStartColumns);
+	// Timers
+	// columnTimer:		Time until a new column is pushed into the board;
+	// pushButtonTimer: Small delay to consecutive column pushes;
+	// endGameTimer:	Small delay when game is lost;
 
 	columnTimer_ = new Timer(GameManager::Instance()->TimePerColumn(), true);
 	pushButtonTimer_ = new Timer(-1, true);
 	endGameTimer_ = new Timer(500, false);
 
+	//Reset game and init Board
+
+	GameManager::Instance()->Reset();
+
+	gameObjects_.push_back(board_ = new Board(cBoardPos, true));
+	board_->PushColumn(GameManager::Instance()->cStartColumns);
+
+	//End Line and Text
+
 	gameObjects_.push_back(endLine_ = new EndLine(cEndLinePos));
 	gameObjects_.push_back(new VerticalShadowedText(cEndTextPos, Text::Align::MID, FNT_M3X6, 16, cEndTextSpacing, "END ZONE", WHITE, BLACK));
 
-	Position p1 = { 0,0 };
-	Position p2 = { 0, SCREEN_H - ForegroundStrip::cH };
+	//Foreground Strips
 
-	gameObjects_.push_back(foregroundStrip1_ = new ForegroundStrip(p1));
-	gameObjects_.push_back(foregroundStrip2_ = new ForegroundStrip(p2));
+	gameObjects_.push_back(foregroundStrip1_ = new ForegroundStrip(cUpperStripPos));
+	gameObjects_.push_back(foregroundStrip2_ = new ForegroundStrip(cLowerStripPos));
+
+	//Clock displaying ColumnTimer progress
 
 	gameObjects_.push_back(pushClock_ = new Clock(cClockPos, columnTimer_));
 	
+	//Init all text and button objects
+
+	InitUI();
+}
+
+void PlayingState::InitUI() {
+
 	//Static text elements
 
-	gameObjects_.push_back(new ShadowedText(UI::cScoreTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "SCORE:", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(UI::cLevelTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "LEVEL:", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(UI::cPushTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "PUSH", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(UI::cFillsTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "FILL (", WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(UI::cFillsText2Pos, Text::Align::MIDLEFT, FNT_M6X11, 16, "left)", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cScoreTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "SCORE:", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cLevelTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "LEVEL:", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cPushTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "PUSH", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cFillsTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "FILL (", WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cFillsText2Pos, Text::Align::MIDLEFT, FNT_M6X11, 16, "left)", WHITE, BLACK));
 
 	//Buttons
-	gameObjects_.push_back(fillButton_ = new SmallButton(UI::cFillsButtonPos));
-	gameObjects_.push_back(pauseButton_ = new SmallButton(UI::cPauseButtonPos));
-	gameObjects_.push_back(pushButton_ = new SmallButton(UI::cPushButtonPos));
+	gameObjects_.push_back(fillButton_ = new SmallButton(cFillsButtonPos));
+	gameObjects_.push_back(pauseButton_ = new SmallButton(cPauseButtonPos));
+	gameObjects_.push_back(pushButton_ = new SmallButton(cPushButtonPos));
 
 	//Button Icons
-	pauseButton_->AddContent(new SmallIcon(UI::cPauseContentPos, UI::cPauseIconPath));
-	pushButton_->AddContent(new SmallIcon(UI::cPushContentPos, UI::cPushIconPath));
-	fillButton_->AddContent(new SmallIcon(UI::cFillsContentPos, UI::cFillIconPath));
-	
+	pauseButton_->AddContent(new SmallIcon(cPauseContentPos, cPauseIconPath));
+	pushButton_->AddContent(new SmallIcon(cPushContentPos,   cPushIconPath));
+	fillButton_->AddContent(new SmallIcon(cFillsContentPos,  cFillIconPath));
+
 	//Dynamic text elements
 	displayedScore_ = GameManager::Instance()->GetScore();
 	displayedLevel_ = GameManager::Instance()->GetLevel();
 	displayedFills_ = GameManager::Instance()->GetFillsLeft();
 
-	scoreValueText_ = new ShadowedText(UI::cScoreValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
-	levelValueText_ = new ShadowedText(UI::cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
-	fillsText_ = new ShadowedText(UI::cFillsValuePos, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
+	scoreValueText_ = new ShadowedText(cScoreValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
+	levelValueText_ = new ShadowedText(cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
+	fillsText_ = new ShadowedText(cFillsValuePos, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
+
 }
 
 void PlayingState::Update(int deltaTime) {
@@ -100,13 +147,13 @@ void PlayingState::Update(int deltaTime) {
 	if (displayedScore_ != GameManager::Instance()->GetScore()) {
 		displayedScore_ = GameManager::Instance()->GetScore();
 		delete scoreValueText_;
-		scoreValueText_ = new ShadowedText(UI::cScoreValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
+		scoreValueText_ = new ShadowedText(cScoreValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedScore_), WHITE, BLACK);
 	}
 	//Check if level text needs update
 	if (displayedLevel_ != GameManager::Instance()->GetLevel()) {
 		displayedLevel_ = GameManager::Instance()->GetLevel();
 		delete levelValueText_;
-		levelValueText_ = new ShadowedText(UI::cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
+		levelValueText_ = new ShadowedText(cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(displayedLevel_), WHITE, BLACK);
 
 		//LevelUp animation in foregroundStrips
 		foregroundStrip1_->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
@@ -116,7 +163,7 @@ void PlayingState::Update(int deltaTime) {
 	if (displayedFills_ != GameManager::Instance()->GetFillsLeft()) {
 		displayedFills_ = GameManager::Instance()->GetFillsLeft();
 		delete fillsText_;
-		fillsText_ = new ShadowedText(UI::cFillsValuePos, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
+		fillsText_ = new ShadowedText(cFillsValuePos, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(displayedFills_), WHITE, BLACK);
 	}
 
 	//Check for actions in all buttons (and update click delay in push button)

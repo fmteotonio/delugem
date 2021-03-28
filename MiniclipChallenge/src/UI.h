@@ -19,11 +19,11 @@ namespace UI {
 
 	static const Position cPauseButtonPos = { 351 , cTopButtonY };
 	static const Position cFillsButtonPos = { cFillsTextPos.x + 91, cBotButtonY };
-	static const Position cPushButtonPos = { cPushTextPos.x + 38 , cBotButtonY };
+	static const Position cPushButtonPos =  { cPushTextPos.x + 38 , cBotButtonY };
 
 	static const Position cPauseContentPos = { cPauseButtonPos.x + 8 , cPauseButtonPos.y + 8 };
 	static const Position cFillsContentPos = { cFillsButtonPos.x + 8, cFillsButtonPos.y + 8 };
-	static const Position cPushContentPos = { cPushButtonPos.x + 8 , cPushButtonPos.y + 8 };
+	static const Position cPushContentPos =  { cPushButtonPos.x + 8 , cPushButtonPos.y + 8 };
 
 	static const char* cFillIconPath = "res/images/iconfill.png";
 	static const char* cPauseIconPath = "res/images/iconpause.png";

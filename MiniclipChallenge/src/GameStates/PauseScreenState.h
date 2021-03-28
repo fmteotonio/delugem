@@ -32,4 +32,5 @@ private:
 
 	Button* resumeButton_;
 	Button* exitButton_;
+
 };
