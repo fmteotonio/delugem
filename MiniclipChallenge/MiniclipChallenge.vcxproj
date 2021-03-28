@@ -24,6 +24,7 @@
     <ProjectGuid>{cff9be0a-1cb8-437d-adf2-613be4f74205}</ProjectGuid>
     <RootNamespace>MiniclipChallenge</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>delugem</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -244,7 +245,9 @@
     <Media Include="res\sounds\gemsfalltitle.wav" />
     <Media Include="res\sounds\levelup.wav" />
     <Media Include="res\sounds\piecefall.wav" />
-    <Media Include="res\sounds\visager_shoots.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\sounds\m_playing.ogg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

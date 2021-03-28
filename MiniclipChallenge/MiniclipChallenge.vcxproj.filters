@@ -271,9 +271,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="res\sounds\visager_shoots.mp3">
-      <Filter>res\sounds</Filter>
-    </Media>
     <Media Include="res\sounds\columnpush.wav">
       <Filter>res\sounds</Filter>
     </Media>
@@ -301,5 +298,10 @@
     <Media Include="res\sounds\gemsfalltitle.wav">
       <Filter>res\sounds</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\sounds\m_playing.ogg">
+      <Filter>res\sounds</Filter>
+    </None>
   </ItemGroup>
 </Project>
