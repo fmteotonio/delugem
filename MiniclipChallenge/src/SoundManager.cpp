@@ -39,6 +39,10 @@ bool SoundManager::Load(std::string filename, std::string id, SoundManager::soun
 void SoundManager::PlayMusic(std::string id, int loop) {
 	Mix_PlayMusic(_musics.at(id), loop);
 }
+void SoundManager::StopMusic() {
+	Mix_HaltMusic();
+}
+
 void SoundManager::SetMusicPosition(double position) {
 	Mix_SetMusicPosition(position);
 }

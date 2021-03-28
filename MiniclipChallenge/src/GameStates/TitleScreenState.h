@@ -21,6 +21,9 @@ private:
 	static const Position cTitlePos;
 	static const Position cStartButtonPos;
 	static const Position cStartContentPos;
+	static const Position cExitButtonPos;
+	static const Position cExitContentPos;
+	static const char* cExitContentPath;
 	
 	static const Dimensions cTitleDim;
 	static const char* cTitlePath;
@@ -31,6 +34,7 @@ private:
 	Board* _rightBoard;
 
 	Button* _playButton;
+	Button* _exitButton;
 
 	bool _hasPlayedSound = false;
 

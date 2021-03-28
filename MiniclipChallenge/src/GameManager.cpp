@@ -19,7 +19,6 @@ int GameManager::GetLevel() { return _level; }
 int GameManager::GetScore() { return _score; }
 int GameManager::GetFillsLeft() { return _fillsLeft; }
 
-
 int GameManager::TimePerColumn() {
 	return cColumnTime * pow(cColumnTimeMultiplier, GameManager::Instance()->GetLevel() - 1);
 }
@@ -37,15 +36,11 @@ int GameManager::GetScoreToNextLevel() {
 
 void GameManager::AddScore(int gemNumber) {
 
-	//_score += 10 * pow(2, gemNumber - 1);
 	_score += 10 * gemNumber + (10 * (gemNumber - 2));
 
 	while (_score >= GetScoreToNextLevel()) {
 		SoundManager::Instance()->PlaySFX("LevelUp", false);
 		++_level;
-		if (_fillsLeft <= 9) {
-			++_fillsLeft;
-		}
 	}
 }
 
@@ -56,5 +51,5 @@ void GameManager::UseFill() {
 void GameManager::Reset() {
 	_level = 1;
 	_score = 0;
-	_fillsLeft = 2;
+	_fillsLeft = 3;
 }

@@ -15,6 +15,8 @@
 #include "../SoundManager.h"
 #include "../Game.h"
 
+#include <iostream>
+
 //..........................GameObject Constants........................
 
 const Position PlayingState::cUpperStripPos = { 0,  0 };
@@ -63,6 +65,8 @@ const char* PlayingState::cPushIconPath  = "res/images/iconpush.png";
 void PlayingState::Init() {
 
 	stateID_ = "PLAYING";
+
+	SoundManager::Instance()->PlayMusic("Playing", 12);
 
 	// Timers
 	// columnTimer:		Time until a new column is pushed into the board;
@@ -129,7 +133,7 @@ void PlayingState::InitUI() {
 	_scoreValueText = new ShadowedText(cScoreValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedScore), WHITE, BLACK);
 	_levelValueText = new ShadowedText(cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedLevel), WHITE, BLACK);
 	_fillsText = new ShadowedText(cFillsValuePos, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(_displayedFills), WHITE, BLACK);
-	_nextLevelScoreValueText = new ShadowedText(cScoreValue2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedNextLevelScore), WHITE, BLACK);
+	_scoreValue2Text = new ShadowedText(cScoreValue2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedNextLevelScore), WHITE, BLACK);
 
 }
 
@@ -160,12 +164,11 @@ void PlayingState::Update(int deltaTime) {
 		delete _levelValueText;
 		_levelValueText = new ShadowedText(cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedLevel), WHITE, BLACK);
 
-
 		_displayedNextLevelScore = GameManager::Instance()->GetScoreToNextLevel();
-		delete _nextLevelScoreValueText;
-		_nextLevelScoreValueText = new ShadowedText(cScoreValue2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedNextLevelScore), WHITE, BLACK);
+		delete _scoreValue2Text;
+		_scoreValue2Text = new ShadowedText(cScoreValue2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedNextLevelScore), WHITE, BLACK);
 		
-
+		_columnTimer->ResetTimer(GameManager::Instance()->TimePerColumn());
 
 		//LevelUp animation in foregroundStrips
 		_foregroundStrip1->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
@@ -208,6 +211,7 @@ void PlayingState::Update(int deltaTime) {
 		_board->DestroyAllGems(false);
 		SoundManager::Instance()->PlaySFX("GameOver", false);
 		_endGameTimer->StartTimer();
+		SoundManager::Instance()->StopMusic();
 	}
 	else if (_endGameTimer->HasRung()) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new GameOverScreenState());
@@ -220,20 +224,21 @@ void PlayingState::Render() {
 	_scoreValueText->Render();
 	_levelValueText->Render();
 	_fillsText->Render();
-	_nextLevelScoreValueText->Render();
+	_scoreValue2Text->Render();
 }
 
 void PlayingState::Clean() {
+
 	GameState::Clean();
 
 	_scoreValueText->Clean();
 	_levelValueText->Clean();
 	_fillsText->Clean();
-	_nextLevelScoreValueText->Clean();
+	_scoreValue2Text->Clean();
 	delete _scoreValueText;
 	delete _levelValueText;
 	delete _fillsText;
-	delete _nextLevelScoreValueText;
+	delete _scoreValue2Text;
 
 	delete _pushButtonTimer;
 	delete _columnTimer;

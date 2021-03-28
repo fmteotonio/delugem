@@ -15,7 +15,7 @@
 #include <SDL_Image.h>
 #include <SDL_ttf.h>
 
-#define MUS_ONLYTRACK		"res/sounds/visager_shoots.mp3"
+#define MUS_PLAYING			"res/sounds/m_playing.ogg"
 #define SND_BREAK			"res/sounds/break.wav"
 #define SND_PUSHCOLUMN		"res/sounds/columnpush.wav"
 #define SND_FILL			"res/sounds/fill.wav"
@@ -77,9 +77,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		SoundManager::Instance();
 		GameManager::Instance();
 
-		//SoundManager::Instance()->Load(MUS_ONLYTRACK,"onlyTrack",SoundManager::soundType::MUSIC,4);
-		//SoundManager::Instance()->PlayMusic("onlyTrack", 1);
-		//SoundManager::Instance()->SetMusicPosition(33.5);
+		SoundManager::Instance()->Load(MUS_PLAYING,"Playing",SoundManager::soundType::MUSIC,4);
 
 		//Load SFX
 		SoundManager::Instance()->Load(SND_BREAK,     "Break",     SoundManager::soundType::SFX, 8);

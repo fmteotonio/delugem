@@ -2,6 +2,9 @@
 
 #include "../TextureManager.h"
 
+//DEBUG
+#include <iostream>
+
 void GameStateMachine::PushState(GameState* state) {
 	_gameStates.push_back(state);
 	_gameStates.back()->Init();
@@ -10,6 +13,10 @@ void GameStateMachine::PushState(GameState* state) {
 void GameStateMachine::ChangeState(GameState* state) {
 	if (!_gameStates.empty()) {
 		if (_gameStates.back()->GetStateID() != state->GetStateID()){
+
+			std::cout << _gameStates.back()->GetStateID();
+
+			_gameStates.back()->Clean();
 			delete _gameStates.back();
 			_gameStates.pop_back();
 		}

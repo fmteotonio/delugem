@@ -67,6 +67,7 @@ void PauseScreenState::Update(int deltaTime) {
 	}
 		
 	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+		SoundManager::Instance()->StopMusic();
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
 		SoundManager::Instance()->PlaySFX("ButtonSelect", false);
 	}

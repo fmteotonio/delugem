@@ -4,8 +4,10 @@
 #include "../Position.h"
 #include "../GameObjects/ForegroundStrip.h"
 #include "../GameObjects/Buttons/BigButton.h"
+#include "../GameObjects/Buttons/SmallButton.h"
 #include "../GameObjects/Texts/ShadowedText.h"
 #include "../GameObjects/StaticImages/StaticImage.h"
+#include "../GameObjects/StaticImages/SmallIcon.h"
 #include "../Game.h"
 #include "../SoundManager.h"
 #include "PlayingState.h"
@@ -21,10 +23,11 @@ const Position TitleScreenState::cTitlePos = { 98, 52 };
 const Position TitleScreenState::cStartButtonPos = { SCREEN_W / 2 - BigButton::cDim.w / 2 , 126 };
 const Position TitleScreenState::cStartContentPos = { cStartButtonPos.x + BigButton::cDim.w / 2, cStartButtonPos.y + BigButton::cDim.h / 2 };
 
+const Position TitleScreenState::cExitButtonPos = { 351 , 2 };
+const Position TitleScreenState::cExitContentPos = { cExitButtonPos.x + 8 , cExitButtonPos.y + 8 };
+const char* TitleScreenState::cExitContentPath = "res/images/iconexit.png";
 
 const Dimensions TitleScreenState::cTitleDim = { 185,57 };
-
-
 const char* TitleScreenState::cTitlePath = "res/images/title.png";
 
 const char* TitleScreenState::cStartString = "START GAME!";
@@ -72,6 +75,9 @@ void TitleScreenState::Init() {
 	_gameObjects.push_back(_playButton = new BigButton(cStartButtonPos));
 	_playButton->AddContent(new ShadowedText(cStartContentPos, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
 
+	//Exit Button
+	_gameObjects.push_back(_exitButton = new SmallButton(cExitButtonPos));
+	_exitButton->AddContent(new SmallIcon(cExitContentPos, cExitContentPath));
 }
 
 void TitleScreenState::Update(int deltaTime) {
@@ -86,5 +92,8 @@ void TitleScreenState::Update(int deltaTime) {
 	if (_playButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart", false);
+	}
+	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+		Game::Instance()->Quit();
 	}
 }

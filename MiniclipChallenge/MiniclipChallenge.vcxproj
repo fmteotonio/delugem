@@ -227,6 +227,7 @@
     <Image Include="res\images\endline.png" />
     <Image Include="res\images\foregroundstrip.png" />
     <Image Include="res\images\gems.png" />
+    <Image Include="res\images\iconexit.png" />
     <Image Include="res\images\iconfill.png" />
     <Image Include="res\images\iconpause.png" />
     <Image Include="res\images\iconpush.png" />

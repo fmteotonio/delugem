@@ -14,6 +14,7 @@ public:
 
 	bool Load(std::string filename, std::string id, soundType type, int volume);
 	void PlayMusic(std::string id, int loop);
+	void StopMusic();
 	void SetMusicPosition(double position);
 	void SetMusicVolume(int volume);
 	void PlaySFX(std::string id, int loop);

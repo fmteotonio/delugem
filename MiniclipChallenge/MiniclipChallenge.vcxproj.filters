@@ -266,6 +266,9 @@
     <Image Include="res\images\iconpause.png">
       <Filter>res\images</Filter>
     </Image>
+    <Image Include="res\images\iconexit.png">
+      <Filter>res\images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\sounds\visager_shoots.mp3">

@@ -76,7 +76,7 @@ private:
 	GameObject* _scoreValueText;
 	GameObject* _levelValueText;
 	GameObject* _fillsText;
-	GameObject* _nextLevelScoreValueText;
+	GameObject* _scoreValue2Text;
 
 	void InitUI();
 };
