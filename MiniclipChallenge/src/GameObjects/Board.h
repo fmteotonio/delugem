@@ -30,14 +30,14 @@ public:
 	void DestroyAllGems(bool compressGems);
 	
 private:
-	int nextGemID_ = 0;
-	bool hasClicked_ = false;
-	bool isPlayable_ = true;
+	int _nextGemID = 0;
+	bool _hasClicked = false;
+	bool _isPlayable = true;
 
-	std::default_random_engine generator_;
+	std::default_random_engine _generator;
 
-	std::vector<std::vector<Gem*>> boardGems_;
-	std::vector<Gem*> beingDestroyedGems_;
+	std::vector<std::vector<Gem*>> _boardGems;
+	std::vector<Gem*> _beingDestroyedGems;
 	
-	Gem* lastHoveredGem_ = nullptr;
+	Gem* _lastHoveredGem = nullptr;
 };

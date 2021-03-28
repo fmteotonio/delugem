@@ -22,8 +22,8 @@ public:
 	void Clean();
 
 private:
-	static SoundManager* sSoundManagerInstance_;
+	static SoundManager* sSoundManagerInstance;
 
-	std::map<std::string, Mix_Chunk*> sfxs_;
-	std::map<std::string, Mix_Music*> musics_;
+	std::map<std::string, Mix_Chunk*> _sfxs;
+	std::map<std::string, Mix_Music*> _musics;
 };

@@ -26,12 +26,12 @@ public:
 	
 
 private:
-	static Game* sGameInstance_;
-	bool isGameRunning_ = false;
+	static Game* sGameInstance;
+	bool _isGameRunning = false;
 
-	GameStateMachine* gameStateMachine_;
-	SDL_Window* window_;
-	SDL_Renderer* renderer_;
+	GameStateMachine* _gameStateMachine;
+	SDL_Window* _window;
+	SDL_Renderer* _renderer;
 
-	AnimatedGameObject* background_;
+	AnimatedGameObject* _background;
 }; 

@@ -3,15 +3,15 @@
 #include "../TextureManager.h"
 
 void GameStateMachine::PushState(GameState* state) {
-	gameStates_.push_back(state);
-	gameStates_.back()->Init();
+	_gameStates.push_back(state);
+	_gameStates.back()->Init();
 }
 
 void GameStateMachine::ChangeState(GameState* state) {
-	if (!gameStates_.empty()) {
-		if (gameStates_.back()->GetStateID() != state->GetStateID()){
-			delete gameStates_.back();
-			gameStates_.pop_back();
+	if (!_gameStates.empty()) {
+		if (_gameStates.back()->GetStateID() != state->GetStateID()){
+			delete _gameStates.back();
+			_gameStates.pop_back();
 		}
 		else return;
 	}
@@ -19,29 +19,29 @@ void GameStateMachine::ChangeState(GameState* state) {
 }
 
 void GameStateMachine::PopState() {
-	if (!gameStates_.empty()){
-		gameStates_.back()->Clean();
-		delete gameStates_.back();
-		gameStates_.pop_back();
+	if (!_gameStates.empty()){
+		_gameStates.back()->Clean();
+		delete _gameStates.back();
+		_gameStates.pop_back();
 	}
 }
 
 void GameStateMachine::Update(int deltaTime) {
-	if (!gameStates_.empty())
-		gameStates_.back()->Update(deltaTime);
+	if (!_gameStates.empty())
+		_gameStates.back()->Update(deltaTime);
 }
 
 void GameStateMachine::Render() {
-	if (!gameStates_.empty())
-		gameStates_.back()->Render();
+	if (!_gameStates.empty())
+		_gameStates.back()->Render();
 }
 
 void GameStateMachine::Clean() {
-	while (!gameStates_.empty()) {
+	while (!_gameStates.empty()) {
 		PopState();
 	}
 }
 
 bool GameStateMachine::IsEmpty() {
-	return gameStates_.empty();
+	return _gameStates.empty();
 }

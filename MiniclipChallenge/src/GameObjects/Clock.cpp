@@ -16,9 +16,9 @@ Clock::Clock(Position pos, Timer* timer) {
 
 	AnimatedGameObject::Init(pos, cDim, objTexture, "Default", true);
 
-	connectedTimer_ = timer;
+	_connectedTimer = timer;
 }
 
 void Clock::UpdateFrame() {
-	currentAnimation_->SetCurrentFrame(std::floor(connectedTimer_->HowMuchPassed() * 16));
+	_currentAnimation->SetCurrentFrame(std::floor(_connectedTimer->HowMuchPassed() * 16));
 }

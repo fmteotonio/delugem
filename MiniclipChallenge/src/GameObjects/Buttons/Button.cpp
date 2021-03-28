@@ -19,12 +19,12 @@ Button::Button(Position pos, Dimensions dim, std::string filename) {
 }
 
 void Button::AddContent(GameObject* content) {
-	contents_.push_back(content);
+	_contents.push_back(content);
 }
 
 void Button::Update(int deltaTime) {
 	HandleInput();
-	for (GameObject* content : contents_) {
+	for (GameObject* content : _contents) {
 		content->Update(deltaTime);
 	}
 	AnimatedGameObject::Update(deltaTime);
@@ -33,37 +33,37 @@ void Button::Update(int deltaTime) {
 void Button::HandleInput() {
 	int mouseX = InputHandler::Instance()->GetMouseX();
 	int mouseY = InputHandler::Instance()->GetMouseY();
-	bool isHovering = mouseX > pos_.x && mouseX < pos_.x + dim_.w && mouseY > pos_.y && mouseY < pos_.y + dim_.h;
+	bool isHovering = mouseX > _pos.x && mouseX < _pos.x + _dim.w && mouseY > _pos.y && mouseY < _pos.y + _dim.h;
 	bool isClicking = InputHandler::Instance()->GetMouseLeft();
 
 
 
 	// Button States
-	if (buttonState_ == ButtonState::PRESS_ACTION)
+	if (_buttonState == ButtonState::PRESS_ACTION)
 		TransitState(ButtonState::HOVERED);
 	if (isHovering) {
 		if (isClicking) {
-			if (buttonState_ == ButtonState::HOVERED)
+			if (_buttonState == ButtonState::HOVERED)
 				TransitState(ButtonState::HOV_PRESSED);
-			else if (buttonState_ == ButtonState::UNHOV_PRESSED)
+			else if (_buttonState == ButtonState::UNHOV_PRESSED)
 				TransitState(ButtonState::HOV_PRESSED);
 		}
 		else {
-			if (buttonState_ == ButtonState::HOV_PRESSED)
+			if (_buttonState == ButtonState::HOV_PRESSED)
 				TransitState(ButtonState::PRESS_ACTION);
-			if (buttonState_ == ButtonState::DEFAULT)
+			if (_buttonState == ButtonState::DEFAULT)
 				TransitState(ButtonState::HOVERED);
 		}		
 	}
 	else {
 		if (isClicking) {
-			if (buttonState_ == ButtonState::HOV_PRESSED)
+			if (_buttonState == ButtonState::HOV_PRESSED)
 				TransitState(ButtonState::UNHOV_PRESSED);
 		}
 		else {
-			if (buttonState_ == ButtonState::UNHOV_PRESSED)
+			if (_buttonState == ButtonState::UNHOV_PRESSED)
 				TransitState(ButtonState::DEFAULT);
-			if (buttonState_ == ButtonState::HOVERED)
+			if (_buttonState == ButtonState::HOVERED)
 				TransitState(ButtonState::DEFAULT);
 		}
 	}
@@ -72,13 +72,13 @@ void Button::HandleInput() {
 
 void Button::Render() {
 	AnimatedGameObject::Render();
-	for (GameObject* content : contents_) {
+	for (GameObject* content : _contents) {
 		content->Render();
 	}
 }
 
 void Button::Clean() {
-	for (GameObject* content : contents_) {
+	for (GameObject* content : _contents) {
 		content->Clean();
 		delete content;
 	}
@@ -86,57 +86,57 @@ void Button::Clean() {
 }
 
 Button::ButtonState Button::GetButtonState() {
-	return buttonState_;
+	return _buttonState;
 }
 
 bool Button::TransitState(ButtonState newButtonState) {
 	switch (newButtonState) {
 		case ButtonState::DEFAULT:{
-			if (buttonState_ == ButtonState::HOVERED || buttonState_ == ButtonState::UNHOV_PRESSED || buttonState_ == ButtonState::INACTIVE) {
-				buttonState_ = ButtonState::DEFAULT;
+			if (_buttonState == ButtonState::HOVERED || _buttonState == ButtonState::UNHOV_PRESSED || _buttonState == ButtonState::INACTIVE) {
+				_buttonState = ButtonState::DEFAULT;
 				SetAnimation("Default", false);
 				return true;
 			}
 			break;
 		}
 		case ButtonState::HOVERED: {
-			if (buttonState_ == ButtonState::DEFAULT || buttonState_ == ButtonState::PRESS_ACTION) {
-				buttonState_ = ButtonState::HOVERED;
+			if (_buttonState == ButtonState::DEFAULT || _buttonState == ButtonState::PRESS_ACTION) {
+				_buttonState = ButtonState::HOVERED;
 				SetAnimation("Hovered", false);
 				return true;
 			}
 			break;
 		}
 		case ButtonState::HOV_PRESSED:{
-			if (buttonState_ == ButtonState::HOVERED || buttonState_ == ButtonState::UNHOV_PRESSED) {
-				buttonState_ = ButtonState::HOV_PRESSED;
+			if (_buttonState == ButtonState::HOVERED || _buttonState == ButtonState::UNHOV_PRESSED) {
+				_buttonState = ButtonState::HOV_PRESSED;
 				SetAnimation("HovPressed", false);
 				return true;
 			}
 			break;
 		}
 		case ButtonState::UNHOV_PRESSED: {
-			if (buttonState_ == ButtonState::HOV_PRESSED) {
-				buttonState_ = ButtonState::UNHOV_PRESSED;
+			if (_buttonState == ButtonState::HOV_PRESSED) {
+				_buttonState = ButtonState::UNHOV_PRESSED;
 				SetAnimation("UnhovPressed", false);
 				return true;
 			}
 			break;
 		}
 		case ButtonState::PRESS_ACTION: {
-			if (buttonState_ == ButtonState::HOV_PRESSED) {
-				buttonState_ = ButtonState::PRESS_ACTION;
+			if (_buttonState == ButtonState::HOV_PRESSED) {
+				_buttonState = ButtonState::PRESS_ACTION;
 				return true;
 			}
 			break;
 		}
 		case ButtonState::INACTIVE: {
-			buttonState_ = ButtonState::INACTIVE;
+			_buttonState = ButtonState::INACTIVE;
 			SetAnimation("UnhovPressed", false);
 			return true;
 		}
 	}
-	std::cerr << "Illegal Button Transition from " << int(buttonState_) << " to " << int(newButtonState) << "\n";
+	std::cerr << "Illegal Button Transition from " << int(_buttonState) << " to " << int(newButtonState) << "\n";
 	return false;
 }
 

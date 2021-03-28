@@ -21,9 +21,9 @@ public:
 	void AddAnimation(std::string id, Animation* animation);
 	void SetAnimation(std::string id, bool playNow);
 protected:
-	Dimensions dim_;
+	Dimensions _dim;
 
-	SDL_Texture* texture_;
-	Animation* currentAnimation_;
-	std::map<std::string, Animation*> animations_;
+	SDL_Texture* _texture;
+	Animation* _currentAnimation;
+	std::map<std::string, Animation*> _animations;
 };

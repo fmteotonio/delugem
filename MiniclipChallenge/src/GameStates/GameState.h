@@ -16,5 +16,5 @@ public:
 protected:
 	std::string stateID_;
 
-	std::vector<GameObject*> gameObjects_;
+	std::vector<GameObject*> _gameObjects;
 };

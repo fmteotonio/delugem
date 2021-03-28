@@ -27,6 +27,6 @@ public:
 
 private:
 	
-	Button* againButton_;
-	Button* exitButton_;
+	Button* _againButton;
+	Button* _exitButton;
 };

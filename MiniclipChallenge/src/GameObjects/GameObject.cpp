@@ -1,9 +1,9 @@
 #include "GameObject.h"
 
 void GameObject::Init(Position pos) {
-	pos_ = pos;
+	_pos = pos;
 }
 
 Position GameObject::GetPos() {
-	return pos_;
+	return _pos;
 }

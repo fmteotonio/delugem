@@ -27,12 +27,11 @@ private:
 
 	static const char* cStartString;
 
-	Board* leftBoard_;
-	Board* rightBoard_;
+	Board* _leftBoard;
+	Board* _rightBoard;
 
-	Button* playButton_;
-	Button* howButton_;
+	Button* _playButton;
 
-	bool hasPlayedSound_ = false;
+	bool _hasPlayedSound = false;
 
 };

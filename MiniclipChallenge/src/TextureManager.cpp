@@ -4,19 +4,19 @@
 
 #include <iostream>
 
-TextureManager* TextureManager::sTextureManagerInstance_ = nullptr;
+TextureManager* TextureManager::sTextureManagerInstance = nullptr;
 
 TextureManager* TextureManager::Instance() {
-	if (!sTextureManagerInstance_) {
-		sTextureManagerInstance_ = new TextureManager();
+	if (!sTextureManagerInstance) {
+		sTextureManagerInstance = new TextureManager();
 	}
-	return sTextureManagerInstance_;
+	return sTextureManagerInstance;
 }
 
 SDL_Texture* TextureManager::LoadTexture(std::string filename) {
-	textureMap::iterator findResult = objTextures_.find(filename);
+	textureMap::iterator findResult = _objTextures.find(filename);
 
-	if (findResult == objTextures_.end()) {
+	if (findResult == _objTextures.end()) {
 
 		//DEBUG
 		std::cout << "Inserted new ObjectTexture: " << filename << "\n";
@@ -29,7 +29,7 @@ SDL_Texture* TextureManager::LoadTexture(std::string filename) {
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->GetRenderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 
-		objTextures_.insert({ filename , texture });
+		_objTextures.insert({ filename , texture });
 		return texture;
 	}
 	else
@@ -39,9 +39,9 @@ SDL_Texture* TextureManager::LoadTexture(std::string filename) {
 SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::string text, SDL_Color color) {
 	TTF_Font* font = LoadFont(filename, size);
 
-	textureMap::iterator findResult = textTextures_.find(filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b));
+	textureMap::iterator findResult = _textTextures.find(filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b));
 
-	if (findResult == textTextures_.end()) {
+	if (findResult == _textTextures.end()) {
 
 		//DEBUG
 		std::cout << "Inserted new TextTexture: " << filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b) << "\n";
@@ -50,7 +50,7 @@ SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::strin
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::Instance()->GetRenderer(), tempSurface);
 		SDL_FreeSurface(tempSurface);
 
-		textTextures_.insert({ filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b), texture });
+		_textTextures.insert({ filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b), texture });
 		return texture;
 	}
 	else
@@ -62,13 +62,13 @@ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest) {
 }
 
 void TextureManager::Clean(){
-	for (auto textTexturePair : textTextures_) {
+	for (auto textTexturePair : _textTextures) {
 		if (textTexturePair.second != NULL) {
 			std::cout << "Destroyed Texture: " << textTexturePair.first << "\n";
 			SDL_DestroyTexture(textTexturePair.second);
 		}
 	}
-	for (auto objTexturePair : objTextures_) {
+	for (auto objTexturePair : _objTextures) {
 		if (objTexturePair.second != NULL) {
 			std::cout << "Destroyed Texture: " << objTexturePair.first << "\n";
 			SDL_DestroyTexture(objTexturePair.second);
@@ -80,8 +80,8 @@ void TextureManager::Clean(){
 			TTF_CloseFont(fontPair.second);
 		}
 	}
-	textTextures_.clear();
-	objTextures_.clear();
+	_textTextures.clear();
+	_objTextures.clear();
 	fonts_.clear();
 }
 

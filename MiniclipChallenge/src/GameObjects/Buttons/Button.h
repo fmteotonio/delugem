@@ -25,7 +25,7 @@ public:
 	void OnlySetActiveIf(bool condition);
 
 private:
-	ButtonState buttonState_ = ButtonState::DEFAULT;
+	ButtonState _buttonState = ButtonState::DEFAULT;
 
-	std::vector<GameObject*> contents_;
+	std::vector<GameObject*> _contents;
 };

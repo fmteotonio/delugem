@@ -16,10 +16,10 @@ public:
 
 	void Clean();
 private:
-	static TextureManager* sTextureManagerInstance_;
+	static TextureManager* sTextureManagerInstance;
 
-	std::map<std::string, SDL_Texture*> objTextures_;
-	std::map<std::string, SDL_Texture*> textTextures_;
+	std::map<std::string, SDL_Texture*> _objTextures;
+	std::map<std::string, SDL_Texture*> _textTextures;
 	std::map<std::string, TTF_Font*> fonts_;
 	typedef std::map<std::string, SDL_Texture*> textureMap;
 	typedef std::map<std::string, TTF_Font*> fontMap;

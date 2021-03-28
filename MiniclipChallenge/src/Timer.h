@@ -13,7 +13,7 @@ public:
 
 	void Update(int deltaTime);
 private:
-	bool isRunning_ = false;
-	int timeToPass_;
-	int timePassed_ = 0;
+	bool _isRunning = false;
+	int _timeToPass;
+	int _timePassed = 0;
 };

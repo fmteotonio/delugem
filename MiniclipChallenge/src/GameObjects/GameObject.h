@@ -12,5 +12,5 @@ public:
 	Position GetPos();
 
 protected:
-	Position pos_;
+	Position _pos;
 };

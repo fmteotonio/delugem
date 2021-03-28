@@ -37,34 +37,34 @@ void GameOverScreenState::Init() {
 
 	//Foreground Strips
 
-	gameObjects_.push_back(new ForegroundStrip(cUpperStripPos));
-	gameObjects_.push_back(new ForegroundStrip(cLowerStripPos));
+	_gameObjects.push_back(new ForegroundStrip(cUpperStripPos));
+	_gameObjects.push_back(new ForegroundStrip(cLowerStripPos));
 
 	//Text to be displayed;
 
 	std::string scoreString = "FINAL SCORE: " + std::to_string(GameManager::Instance()->GetScore());
 
-	gameObjects_.push_back(new ShadowedText(cGameOverTextPos, Text::Align::MID, FNT_M6X11, 32, cGameOverString, WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(cFlavorTextPos, Text::Align::MID, FNT_M3X6, 16, cFlavorString, WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(cScoreTextPos, Text::Align::MID, FNT_M6X11, 16, scoreString, WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cGameOverTextPos, Text::Align::MID, FNT_M6X11, 32, cGameOverString, WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cFlavorTextPos, Text::Align::MID, FNT_M3X6, 16, cFlavorString, WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cScoreTextPos, Text::Align::MID, FNT_M6X11, 16, scoreString, WHITE, BLACK));
 
 	//Resume and Exit Buttons
 
-	gameObjects_.push_back(againButton_ = new BigButton(cAgainButtonPos));
-	gameObjects_.push_back(exitButton_ = new BigButton(cExitButtonPos));
+	_gameObjects.push_back(_againButton = new BigButton(cAgainButtonPos));
+	_gameObjects.push_back(_exitButton = new BigButton(cExitButtonPos));
 
-	againButton_->AddContent(new ShadowedText(cAgainContentPos, Text::Align::MID, FNT_M6X11, 16, cAgainString, WHITE, BLACK));
-	exitButton_->AddContent(new ShadowedText(cExitContentPos, Text::Align::MID, FNT_M6X11, 16, cExitString, WHITE, BLACK));
+	_againButton->AddContent(new ShadowedText(cAgainContentPos, Text::Align::MID, FNT_M6X11, 16, cAgainString, WHITE, BLACK));
+	_exitButton->AddContent(new ShadowedText(cExitContentPos, Text::Align::MID, FNT_M6X11, 16, cExitString, WHITE, BLACK));
 }
 
 void GameOverScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 
-	if (againButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+	if (_againButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart",false);
 	}
-	else if (exitButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
 		SoundManager::Instance()->PlaySFX("ButtonSelect", false);
 	}

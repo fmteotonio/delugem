@@ -3,18 +3,18 @@
 #include "Constants.h"
 #include "Game.h"
 
-InputHandler* InputHandler::sInputHandlerInstance_ = nullptr;
+InputHandler* InputHandler::sInputHandlerInstance = nullptr;
 
 InputHandler* InputHandler::Instance() {
-	if (!sInputHandlerInstance_) {
-		sInputHandlerInstance_ = new InputHandler();
+	if (!sInputHandlerInstance) {
+		sInputHandlerInstance = new InputHandler();
 	}
-	return sInputHandlerInstance_;
+	return sInputHandlerInstance;
 }
 
-bool   InputHandler::GetMouseLeft() { return mouseLeft_; }
-Sint32 InputHandler::GetMouseX() { return mouseX_ / GAME_SCALE; }
-Sint32 InputHandler::GetMouseY() { return mouseY_ / GAME_SCALE; }
+bool   InputHandler::GetMouseLeft() { return _mouseLeft; }
+Sint32 InputHandler::GetMouseX() { return _mouseX / GAME_SCALE; }
+Sint32 InputHandler::GetMouseY() { return _mouseY / GAME_SCALE; }
 
 void InputHandler::Update() {
 	SDL_Event event;
@@ -25,17 +25,17 @@ void InputHandler::Update() {
 		switch (event.type) {
 		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_LEFT) {
-				mouseLeft_ = true;
+				_mouseLeft = true;
 			}
 			break;
 		case SDL_MOUSEBUTTONUP:
 			if (event.button.button == SDL_BUTTON_LEFT) {
-				mouseLeft_ = false;
+				_mouseLeft = false;
 			}
 			break;
 		case SDL_MOUSEMOTION :
-			mouseX_ = event.motion.x;  
-			mouseY_ = event.motion.y;
+			_mouseX = event.motion.x;  
+			_mouseY = event.motion.y;
 			break;
 		case SDL_QUIT:
 			Game::Instance()->Quit();
@@ -48,11 +48,11 @@ void InputHandler::Update() {
 }
 
 void InputHandler::Clean() {
-	delete sInputHandlerInstance_;
+	delete sInputHandlerInstance;
 }
 
 InputHandler::InputHandler() {
-	mouseLeft_ = false;
-	mouseX_ = 0;
-	mouseY_ = 0;
+	_mouseLeft = false;
+	_mouseX = 0;
+	_mouseY = 0;
 }

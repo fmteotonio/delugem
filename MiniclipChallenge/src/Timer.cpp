@@ -1,40 +1,40 @@
 #include "Timer.h"
 
 Timer::Timer(int milliseconds, bool startNow) {
-	timeToPass_ = milliseconds;
-	isRunning_ = startNow;
+	_timeToPass = milliseconds;
+	_isRunning = startNow;
 }
 
-bool Timer::IsRunning() { return isRunning_; }
+bool Timer::IsRunning() { return _isRunning; }
 
 void Timer::ResetTimer() {
-	timePassed_ = 0;
-	isRunning_ = true;
+	_timePassed = 0;
+	_isRunning = true;
 }
 
 void Timer::ResetTimer(int milliseconds) {
-	timeToPass_ = milliseconds;
-	timePassed_ = 0;
-	isRunning_ = true;
+	_timeToPass = milliseconds;
+	_timePassed = 0;
+	_isRunning = true;
 }
 
 void Timer::StartTimer() {
-	isRunning_ = true;
+	_isRunning = true;
 }
 
 void Timer::PauseTimer() {
-	isRunning_ = false;
+	_isRunning = false;
 }
 
 bool Timer::HasRung() {
-	return (isRunning_ && timePassed_ > timeToPass_);
+	return (_isRunning && _timePassed > _timeToPass);
 }
 
 float Timer::HowMuchPassed() {
-	return timePassed_ / (timeToPass_ * 1.0f);
+	return _timePassed / (_timeToPass * 1.0f);
 }
 
 void Timer::Update(int deltaTime) {
-	if (isRunning_)
-		timePassed_ += deltaTime;
+	if (_isRunning)
+		_timePassed += deltaTime;
 }

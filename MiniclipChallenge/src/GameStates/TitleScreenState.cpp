@@ -36,40 +36,40 @@ void TitleScreenState::Init() {
 	stateID_ = "TITLESCREEN";
 
 	//Decorative Boards
-	gameObjects_.push_back(leftBoard_ = new Board(cLeftBoardPos, false));
-	gameObjects_.push_back(rightBoard_ = new Board(cRightBoardPos, false));
+	_gameObjects.push_back(_leftBoard = new Board(cLeftBoardPos, false));
+	_gameObjects.push_back(_rightBoard = new Board(cRightBoardPos, false));
 
-	leftBoard_->AddNewColumns(9);	rightBoard_->AddNewColumns(9);
-	leftBoard_->AddGem(0, 10);		rightBoard_->AddGem(8, 10);
-	leftBoard_->AddGem(1, 10);		rightBoard_->AddGem(7, 10);
-	leftBoard_->AddGem(2, 10);		rightBoard_->AddGem(6, 10);
-	leftBoard_->AddGem(3, 10);		rightBoard_->AddGem(5, 10);
-	leftBoard_->AddGem(4, 5);		rightBoard_->AddGem(4, 5);
-	leftBoard_->AddGem(5, 3);		rightBoard_->AddGem(3, 3);
-	leftBoard_->AddGem(6, 2);		rightBoard_->AddGem(2, 2);
-	leftBoard_->AddGem(7, 1);		rightBoard_->AddGem(1, 1);
+	_leftBoard->AddNewColumns(9);	_rightBoard->AddNewColumns(9);
+	_leftBoard->AddGem(0, 10);		_rightBoard->AddGem(8, 10);
+	_leftBoard->AddGem(1, 10);		_rightBoard->AddGem(7, 10);
+	_leftBoard->AddGem(2, 10);		_rightBoard->AddGem(6, 10);
+	_leftBoard->AddGem(3, 10);		_rightBoard->AddGem(5, 10);
+	_leftBoard->AddGem(4, 5);		_rightBoard->AddGem(4, 5);
+	_leftBoard->AddGem(5, 3);		_rightBoard->AddGem(3, 3);
+	_leftBoard->AddGem(6, 2);		_rightBoard->AddGem(2, 2);
+	_leftBoard->AddGem(7, 1);		_rightBoard->AddGem(1, 1);
 
-	for (std::vector<Gem*> column : leftBoard_->GetBoardGems()) {
+	for (std::vector<Gem*> column : _leftBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
 			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h);
 		}
 	}
-	for (std::vector<Gem*> column : rightBoard_->GetBoardGems()) {
+	for (std::vector<Gem*> column : _rightBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
 			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h);
 		}
 	}
 
 	//Title Image
-	gameObjects_.push_back(new StaticImage(cTitlePos, cTitleDim, cTitlePath));
+	_gameObjects.push_back(new StaticImage(cTitlePos, cTitleDim, cTitlePath));
 
 	//Foreground Strips
-	gameObjects_.push_back(new ForegroundStrip(cUpperStripPos));
-	gameObjects_.push_back(new ForegroundStrip(cLowerStripPos));
+	_gameObjects.push_back(new ForegroundStrip(cUpperStripPos));
+	_gameObjects.push_back(new ForegroundStrip(cLowerStripPos));
 
 	//Start Button
-	gameObjects_.push_back(playButton_ = new BigButton(cStartButtonPos));
-	playButton_->AddContent(new ShadowedText(cStartContentPos, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
+	_gameObjects.push_back(_playButton = new BigButton(cStartButtonPos));
+	_playButton->AddContent(new ShadowedText(cStartContentPos, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
 
 }
 
@@ -77,12 +77,12 @@ void TitleScreenState::Update(int deltaTime) {
 	
 	GameState::Update(deltaTime);
 	
-	if (!leftBoard_->GetBoardGems().at(0).at(0)->isMoving() && !hasPlayedSound_) {
+	if (!_leftBoard->GetBoardGems().at(0).at(0)->isMoving() && !_hasPlayedSound) {
 		SoundManager::Instance()->PlaySFX("GemsFallTitle", false);
-		hasPlayedSound_ = true;
+		_hasPlayedSound = true;
 	}
 	
-	if (playButton_->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
+	if (_playButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
 		SoundManager::Instance()->PlaySFX("GameStart", false);
 	}

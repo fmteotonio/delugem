@@ -10,7 +10,7 @@ class VerticalShadowedText : public GameObject {
 public:
 	VerticalShadowedText(Position pos, Text::Align align, std::string font, int size, int spacing, std::string text, SDL_Color textColor, SDL_Color shadowColor);
 
-	std::vector<GameObject*> text_;
+	std::vector<GameObject*> _textObjects;
 
 	void Update(int deltaTime);
 	void Render();

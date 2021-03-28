@@ -13,7 +13,7 @@ const Dimensions Background::cDim    = { SCREEN_W + cMaxSteps , SCREEN_H };
 Background::Background(Position pos) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 
-	stepTimer_ = new Timer(cTimePerStep, true);
+	_stepTimer = new Timer(cTimePerStep, true);
 
 	AddAnimation("Default", new Animation(0, 0));
 	AnimatedGameObject::Init(pos, cDim, objTexture, "Default", true);
@@ -21,16 +21,16 @@ Background::Background(Position pos) {
 
 void Background::Update(int deltaTime) {
 	AnimatedGameObject::Update(deltaTime);
-	stepTimer_->Update(deltaTime);
-	if (stepTimer_->HasRung()) {
-		if (steps_ < cMaxSteps) {
-			++steps_;
-			pos_.x += 1;
+	_stepTimer->Update(deltaTime);
+	if (_stepTimer->HasRung()) {
+		if (_steps < cMaxSteps) {
+			++_steps;
+			_pos.x += 1;
 		}
 		else {
-			steps_ = 0;
-			pos_.x -= cMaxSteps;
+			_steps = 0;
+			_pos.x -= cMaxSteps;
 		}
-		stepTimer_->ResetTimer();
+		_stepTimer->ResetTimer();
 	}
 }

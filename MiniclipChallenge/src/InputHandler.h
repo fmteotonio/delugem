@@ -14,11 +14,11 @@ public:
 	void Clean();
 
 private:
-	static InputHandler* sInputHandlerInstance_;
+	static InputHandler* sInputHandlerInstance;
 
-	bool mouseLeft_;
-	Sint32 mouseX_;
-	Sint32 mouseY_;
+	bool _mouseLeft;
+	Sint32 _mouseX;
+	Sint32 _mouseY;
 
 	InputHandler();
 };

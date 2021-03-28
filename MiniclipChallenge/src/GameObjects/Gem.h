@@ -31,13 +31,13 @@ public:
 	void Update(int deltaTime);
 
 private:
-	int id_;
+	int _id;
 
-	float toMoveX_ = 0;
-	float toMoveY_ = 0;
-	float vx_ = 0;
-	float vy_ = 0;
+	float _toMoveX = 0;
+	float _toMoveY = 0;
+	float _vx = 0;
+	float _vy = 0;
 
-	GemColor gemColor_;
-	GemState gemState_ = GemState::DEFAULT;
+	GemColor _gemColor;
+	GemState _gemState = GemState::DEFAULT;
 };

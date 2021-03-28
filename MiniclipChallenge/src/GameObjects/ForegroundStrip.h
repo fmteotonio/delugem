@@ -6,7 +6,6 @@ class ForegroundStrip : public AnimatedGameObject {
 public:
 	static const char* cPath;
 	static const int cSourceW;
-
 	static const Dimensions cDim;
 
 	enum class ForegroundStripState {
@@ -21,5 +20,5 @@ public:
 	bool TransitState(ForegroundStripState newForegroundStripState);
 
 private:
-	ForegroundStripState foregroundStripState_ = ForegroundStripState::DEFAULT;
+	ForegroundStripState _foregroundStripState = ForegroundStripState::DEFAULT;
 };

@@ -53,26 +53,26 @@ public:
 	void Clean();
 
 private:
-	Timer* columnTimer_;
-	Timer* pushButtonTimer_;
-	Timer* endGameTimer_;
+	Timer* _columnTimer;
+	Timer* _pushButtonTimer;
+	Timer* _endGameTimer;
 
-	Board* board_;
-	GameObject* endLine_;
-	ForegroundStrip* foregroundStrip1_;
-	ForegroundStrip* foregroundStrip2_;
-	Clock* pushClock_;
+	Board* _board;
+	GameObject* _endLine;
+	ForegroundStrip* _foregroundStrip1;
+	ForegroundStrip* _foregroundStrip2;
+	Clock* _pushClock;
 
-	Button* fillButton_;
-	Button* pauseButton_;
-	Button* pushButton_;
+	Button* _fillButton;
+	Button* _pauseButton;
+	Button* _pushButton;
 
-	int displayedScore_;
-	int displayedLevel_;
-	int displayedFills_;
-	GameObject* scoreValueText_;
-	GameObject* levelValueText_;
-	GameObject* fillsText_;
+	int _displayedScore;
+	int _displayedLevel;
+	int _displayedFills;
+	GameObject* _scoreValueText;
+	GameObject* _levelValueText;
+	GameObject* _fillsText;
 	
 	void InitUI();
 };

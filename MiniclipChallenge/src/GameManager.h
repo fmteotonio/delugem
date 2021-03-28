@@ -20,9 +20,9 @@ public:
 	void Reset();
 
 private:
-	static GameManager* sGameManagerInstance_;
+	static GameManager* sGameManagerInstance;
 
-	int level_;
-	int score_;
-	int fillsLeft_;
+	int _level;
+	int _score;
+	int _fillsLeft;
 };

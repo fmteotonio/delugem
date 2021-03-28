@@ -8,16 +8,16 @@
 //TEMP INCLUDE 
 #include <iostream>
 
-GameManager* GameManager::sGameManagerInstance_ = nullptr;
+GameManager* GameManager::sGameManagerInstance = nullptr;
 
 const int GameManager::cColumnTime = 10000;
 const float GameManager::cColumnTimeMultiplier = 0.95f;
 const int GameManager::cEndGemsMargin = 4;
 const int GameManager::cStartColumns = 13;
 
-int GameManager::GetLevel() { return level_; }
-int GameManager::GetScore() { return score_; }
-int GameManager::GetFillsLeft() { return fillsLeft_; }
+int GameManager::GetLevel() { return _level; }
+int GameManager::GetScore() { return _score; }
+int GameManager::GetFillsLeft() { return _fillsLeft; }
 
 
 int GameManager::TimePerColumn() {
@@ -25,21 +25,21 @@ int GameManager::TimePerColumn() {
 }
 
 GameManager* GameManager::Instance() {
-	if (!sGameManagerInstance_) {
-		sGameManagerInstance_ = new GameManager();
+	if (!sGameManagerInstance) {
+		sGameManagerInstance = new GameManager();
 	}
-	return sGameManagerInstance_;
+	return sGameManagerInstance;
 }
 
 void GameManager::AddScore(int gemNumber) {
 
-	score_ += 10 * pow(2, gemNumber - 1);
+	_score += 10 * pow(2, gemNumber - 1);
 
-	while (score_ >= 1000 * level_ + 100 * (static_cast<int>(pow(2, level_-1))-1) ) {
+	while (_score >= 1000 * _level + 100 * (static_cast<int>(pow(2, _level-1))-1) ) {
 		SoundManager::Instance()->PlaySFX("LevelUp", false);
-		++level_;
-		if (fillsLeft_ <= 9) {
-			++fillsLeft_;
+		++_level;
+		if (_fillsLeft <= 9) {
+			++_fillsLeft;
 		}
 	}
 		
@@ -55,11 +55,11 @@ void GameManager::AddScore(int gemNumber) {
 }
 
 void GameManager::UseFill() {
-	--fillsLeft_;
+	--_fillsLeft;
 }
 
 void GameManager::Reset() {
-	level_ = 1;
-	score_ = 0;
-	fillsLeft_ = 2;
+	_level = 1;
+	_score = 0;
+	_fillsLeft = 2;
 }

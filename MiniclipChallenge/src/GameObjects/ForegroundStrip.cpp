@@ -22,46 +22,46 @@ ForegroundStrip::ForegroundStrip(Position pos) {
 void ForegroundStrip::Update(int deltaTime) {
 	AnimatedGameObject::Update(deltaTime);
 
-	if (currentAnimation_->HasPlayedOnce() && foregroundStripState_ == ForegroundStripState::LEVELUP) {
+	if (_currentAnimation->HasPlayedOnce() && _foregroundStripState == ForegroundStripState::LEVELUP) {
 		TransitState(ForegroundStripState::DEFAULT);
 	}
 }
 
 void ForegroundStrip::Render() {
 	SDL_Rect src;
-	src.x = currentAnimation_->GetCurrentFrame() * cSourceW;
-	src.y = currentAnimation_->GetFrameRow() * dim_.h;
+	src.x = _currentAnimation->GetCurrentFrame() * cSourceW;
+	src.y = _currentAnimation->GetFrameRow() * _dim.h;
 	src.w = cSourceW;
-	src.h = dim_.h;
+	src.h = _dim.h;
 
 	SDL_Rect dest;
 	//Convert to Int before Scale to avoid sub-pixel movement
-	dest.x = static_cast<int>(round(pos_.x)) * GAME_SCALE;
-	dest.y = static_cast<int>(round(pos_.y)) * GAME_SCALE;
-	dest.w = dim_.w * GAME_SCALE;
-	dest.h = dim_.h * GAME_SCALE;
-	TextureManager::Instance()->Draw(texture_, src, dest);
+	dest.x = static_cast<int>(round(_pos.x)) * GAME_SCALE;
+	dest.y = static_cast<int>(round(_pos.y)) * GAME_SCALE;
+	dest.w = _dim.w * GAME_SCALE;
+	dest.h = _dim.h * GAME_SCALE;
+	TextureManager::Instance()->Draw(_texture, src, dest);
 }
 
 bool ForegroundStrip::TransitState(ForegroundStripState newForegroundStripState) {
 	switch (newForegroundStripState) {
 		case ForegroundStripState::DEFAULT: {
-			if (foregroundStripState_ == ForegroundStripState::LEVELUP) {
-				foregroundStripState_ = newForegroundStripState;
+			if (_foregroundStripState == ForegroundStripState::LEVELUP) {
+				_foregroundStripState = newForegroundStripState;
 				SetAnimation("Default", false);
 				return true;
 			}
 			break;
 		}
 		case ForegroundStripState::LEVELUP: {
-			if (foregroundStripState_ == ForegroundStripState::DEFAULT) {
-				foregroundStripState_ = newForegroundStripState;
+			if (_foregroundStripState == ForegroundStripState::DEFAULT) {
+				_foregroundStripState = newForegroundStripState;
 				SetAnimation("LevelUp", true);
 				return true;
 			}
 			break;
 		}
 	}
-	std::cerr << "Illegal ForegroundStripState Transition from " << int(foregroundStripState_) << " to " << int(newForegroundStripState) << "\n";
+	std::cerr << "Illegal ForegroundStripState Transition from " << int(_foregroundStripState) << " to " << int(newForegroundStripState) << "\n";
 	return false;
 }

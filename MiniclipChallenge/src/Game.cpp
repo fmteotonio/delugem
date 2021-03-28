@@ -27,18 +27,18 @@
 #define SND_GEMSFALLTITLE	"res/sounds/gemsfalltitle.wav"
 
 
-Game* Game::sGameInstance_ = nullptr;
+Game* Game::sGameInstance = nullptr;
 
 Game* Game::Instance() {
-	if (!sGameInstance_) {
-		sGameInstance_ = new Game();
+	if (!sGameInstance) {
+		sGameInstance = new Game();
 	}
-	return sGameInstance_;
+	return sGameInstance;
 }
 
-bool Game::IsGameRunning() { return isGameRunning_; }
-GameStateMachine* Game::GetGameStateMachine() { return gameStateMachine_; }
-SDL_Renderer* Game::GetRenderer() { return renderer_; }
+bool Game::IsGameRunning() { return _isGameRunning; }
+GameStateMachine* Game::GetGameStateMachine() { return _gameStateMachine; }
+SDL_Renderer* Game::GetRenderer() { return _renderer; }
 
 bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 	//INIT WINDOW AND RENDERER
@@ -49,11 +49,11 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		flags = SDL_WINDOW_FULLSCREEN;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-		window_ = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
-		if (window_) {
-			renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
-			if (renderer_) {
-				SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
+		_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+		if (_window) {
+			_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+			if (_renderer) {
+				SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 			}
 			else {
 				std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
@@ -64,7 +64,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 			std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
 			return false;
 		}
-		isGameRunning_ = true;
+		_isGameRunning = true;
 
 
 		TextureManager::Instance();
@@ -93,10 +93,10 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		SoundManager::Instance()->Load(SND_GEMSFALLTITLE, "GemsFallTitle", SoundManager::soundType::SFX, 14);
 		SoundManager::Instance()->Load(SND_BUTTONSELECT, "ButtonSelect", SoundManager::soundType::SFX, 8);
 
-		background_ = new Background({ -15, 0 });
+		_background = new Background({ -15, 0 });
 
-		gameStateMachine_ = new GameStateMachine();
-		gameStateMachine_->PushState(new TitleScreenState());
+		_gameStateMachine = new GameStateMachine();
+		_gameStateMachine->PushState(new TitleScreenState());
 		
 		return true;
 		//----------------------------------
@@ -112,36 +112,36 @@ void Game::HandleEvents() {
 }
 
 void Game::Quit() {
-	isGameRunning_ = false;
+	_isGameRunning = false;
 }
 
 void Game::Update(int deltaTime) {
-	background_->Update(deltaTime);
-	gameStateMachine_->Update(deltaTime);
+	_background->Update(deltaTime);
+	_gameStateMachine->Update(deltaTime);
 }
 
 void Game::Render() {
 
-	SDL_RenderClear(renderer_);
-	background_->Render();
+	SDL_RenderClear(_renderer);
+	_background->Render();
 
-	gameStateMachine_->Render();
+	_gameStateMachine->Render();
 
-	SDL_RenderPresent(renderer_);
+	SDL_RenderPresent(_renderer);
 }
 
 void Game::Clean() {
 	
-	background_->Clean();
+	_background->Clean();
 
 	TextureManager::Instance()->Clean();
 	InputHandler::Instance()->Clean();
 
-	SDL_DestroyWindow(window_);
-	SDL_DestroyRenderer(renderer_);
+	SDL_DestroyWindow(_window);
+	SDL_DestroyRenderer(_renderer);
 	TTF_Quit();
 	SDL_Quit();
 
-	delete gameStateMachine_;
-	delete sGameInstance_;
+	delete _gameStateMachine;
+	delete sGameInstance;
 }

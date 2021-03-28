@@ -16,5 +16,5 @@ public:
 
 	bool IsEmpty();
 private:
-	std::vector<GameState*> gameStates_;
+	std::vector<GameState*> _gameStates;
 };

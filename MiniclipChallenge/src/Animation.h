@@ -16,15 +16,14 @@ public:
 	bool HasPlayedOnce();
 	
 private:
-	int firstFrame_;
-	int lastFrame_;
-	int frameRow_;
+	int _firstFrame;
+	int _lastFrame;
+	int _frameRow;
 
-	int startTime_ = 0;
-	int timePassed_ = 0;
-	int timePerFrame;
+	int _timePassed = 0;
+	int _timePerFrame;
 
-	int currentFrame_;
+	int _currentFrame;
 
-	bool isPlaying_ = false;
+	bool _isPlaying = false;
 };

@@ -12,64 +12,64 @@ const int Board::cColumnSize = 10;
 
 Board::Board(Position pos, bool isPlayable) {
 	GameObject::Init(pos);
-	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
-	isPlayable_ = isPlayable;
+	_generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
+	_isPlayable = isPlayable;
 }
 
 std::vector<std::vector<Gem*>> Board::GetBoardGems() {
-	return boardGems_;
+	return _boardGems;
 }
 
 void Board::Update(int deltaTime) {
-	if (isPlayable_)
+	if (_isPlayable)
 		HandleInput();
 
-	for (std::vector<Gem*> column : boardGems_) {
+	for (std::vector<Gem*> column : _boardGems) {
 		for (Gem* gem : column) {
 			gem->Update(deltaTime);
 		}
 	}
-	for (size_t i = 0; i < beingDestroyedGems_.size(); ++i) {
-		beingDestroyedGems_.at(i)->Update(deltaTime);
-		if (beingDestroyedGems_.at(i)->GetGemState() == Gem::GemState::TO_DESTROY) {
-			delete beingDestroyedGems_.at(i);
-			beingDestroyedGems_.erase(beingDestroyedGems_.begin() + i);
+	for (size_t i = 0; i < _beingDestroyedGems.size(); ++i) {
+		_beingDestroyedGems.at(i)->Update(deltaTime);
+		if (_beingDestroyedGems.at(i)->GetGemState() == Gem::GemState::TO_DESTROY) {
+			delete _beingDestroyedGems.at(i);
+			_beingDestroyedGems.erase(_beingDestroyedGems.begin() + i);
 		}
 	}
 }
 
 void Board::HandleInput() {
 
-	int conv_x = static_cast<int>(floor((InputHandler::Instance()->GetMouseX() - pos_.x) / Gem::cDim.w));
-	int conv_y = static_cast<int>(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - pos_.y) / Gem::cDim.h));
-	bool isHovered = conv_x >= 0 && conv_x < boardGems_.size() && conv_y >= 0 && conv_y < boardGems_.at(conv_x).size();
+	int conv_x = static_cast<int>(floor((InputHandler::Instance()->GetMouseX() - _pos.x) / Gem::cDim.w));
+	int conv_y = static_cast<int>(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - _pos.y) / Gem::cDim.h));
+	bool isHovered = conv_x >= 0 && conv_x < _boardGems.size() && conv_y >= 0 && conv_y < _boardGems.at(conv_x).size();
 
 
 	//Release any previous Highlight
-	if (lastHoveredGem_ != nullptr && lastHoveredGem_->GetGemState() == Gem::GemState::HOVERED) {
-		lastHoveredGem_->TransitState(Gem::GemState::DEFAULT);
-		lastHoveredGem_ = nullptr;
+	if (_lastHoveredGem != nullptr && _lastHoveredGem->GetGemState() == Gem::GemState::HOVERED) {
+		_lastHoveredGem->TransitState(Gem::GemState::DEFAULT);
+		_lastHoveredGem = nullptr;
 	}
 	
 	//If hovering a gem...
 	if (isHovered) {
-		Gem* gem = boardGems_.at(conv_x).at(conv_y);
+		Gem* gem = _boardGems.at(conv_x).at(conv_y);
 		//...highlight if it is stopped.
 		if (gem->GetGemState() == Gem::GemState::DEFAULT && !gem->isMoving()) {
 			gem->TransitState(Gem::GemState::HOVERED);
-			lastHoveredGem_ = gem;
+			_lastHoveredGem = gem;
 		}
 		//Only once per click
-		if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) {
+		if (InputHandler::Instance()->GetMouseLeft() && !_hasClicked) {
 			int gemsFound = SearchGemGroup(conv_x, conv_y);
 			if (gemsFound > 1)
 				GameManager::Instance()->AddScore(gemsFound);
 		}				
 	}
-	if (InputHandler::Instance()->GetMouseLeft() && !hasClicked_) 
-		hasClicked_ = true;
-	if (!InputHandler::Instance()->GetMouseLeft() && hasClicked_)
-		hasClicked_ = false;
+	if (InputHandler::Instance()->GetMouseLeft() && !_hasClicked) 
+		_hasClicked = true;
+	if (!InputHandler::Instance()->GetMouseLeft() && _hasClicked)
+		_hasClicked = false;
 
 	//----------------------------------------------------
 }
@@ -78,36 +78,36 @@ void Board::Render() {
 
 	//Does not render itself
 	
-	for (std::vector<Gem*> column : boardGems_) {
+	for (std::vector<Gem*> column : _boardGems) {
 		for (Gem* gem : column) {
 			gem->Render();
 		}
 	}
-	for (Gem* gem : beingDestroyedGems_) {
+	for (Gem* gem : _beingDestroyedGems) {
 		gem->Render();
 	}
 }
 
 void Board::Clean() {
 	
-	for (std::vector<Gem*> column : boardGems_) {
+	for (std::vector<Gem*> column : _boardGems) {
 		for (Gem* gem : column) {
 			delete gem;
 		}
 	}
-	for (size_t i = 0; i < beingDestroyedGems_.size(); ++i) {
-		delete beingDestroyedGems_.at(i);
+	for (size_t i = 0; i < _beingDestroyedGems.size(); ++i) {
+		delete _beingDestroyedGems.at(i);
 	}
 }
 
 int Board::NextGemID() {
-	return ++nextGemID_;
+	return ++_nextGemID;
 }
 
 void Board::AddNewColumns(int numberOfColumns) {
 	for (int i = 0; i < numberOfColumns; i++) {
 		std::vector<Gem*> newColumn;
-		boardGems_.push_back(newColumn);
+		_boardGems.push_back(newColumn);
 	}
 }
 
@@ -117,15 +117,15 @@ std::vector<Gem*> Board::AddGem(int gX, int gemNumber) {
 	std::vector<Gem*> producedGems;
 
 	for (int i = 0; i < gemNumber; i++) {
-		Gem::GemColor color = Gem::GemColor(distribution(generator_));
+		Gem::GemColor color = Gem::GemColor(distribution(_generator));
 
 		Gem* newGem = new Gem(
 			color,
-			{ pos_.x + gX * Gem::cDim.w,
-			pos_.y + (cColumnSize - boardGems_.at(gX).size() - 1) * Gem::cDim.h },
+			{ _pos.x + gX * Gem::cDim.w,
+			_pos.y + (cColumnSize - _boardGems.at(gX).size() - 1) * Gem::cDim.h },
 			NextGemID()
 		);
-		boardGems_.at(gX).push_back(newGem);
+		_boardGems.at(gX).push_back(newGem);
 		producedGems.push_back(newGem);
 	}
 	return producedGems;
@@ -137,11 +137,11 @@ void Board::PushColumn(int n) {
 
 	for (int aux = 0; aux < n; ++aux) {
 		AddNewColumns(1);
-		AddGem(boardGems_.size()-1, cColumnSize);
+		AddGem(_boardGems.size()-1, cColumnSize);
 	}
 	//Move board and all gems to the left
-	pos_.x -= Gem::cDim.w * n;
-	for (std::vector<Gem*> column : boardGems_) {
+	_pos.x -= Gem::cDim.w * n;
+	for (std::vector<Gem*> column : _boardGems) {
 		for (Gem* gem : column) {
 			gem->Move(static_cast<float>(-Gem::cDim.w * n), 0);
 		}
@@ -154,9 +154,9 @@ bool Board::FillBoard() {
 	if (GameManager::Instance()->GetFillsLeft() > 0) {
 		std::vector<Gem*> createdGems;
 		//Creates gems in their correct places
-		for (int i = 0; i < boardGems_.size(); ++i) {
+		for (int i = 0; i < _boardGems.size(); ++i) {
 			
-			int thisGapHeight = cColumnSize - boardGems_.at(i).size();
+			int thisGapHeight = cColumnSize - _boardGems.at(i).size();
 			
 			std::vector<Gem*> newGems = AddGem(i, thisGapHeight);
 			createdGems.insert(createdGems.end(), newGems.begin(), newGems.end());
@@ -173,8 +173,8 @@ bool Board::FillBoard() {
 }
 
 void Board::DestroyAllGems(bool compressEmptyColumns) {
-	for (int i = boardGems_.size() - 1; i >= 0; --i) {
-		for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {
+	for (int i = _boardGems.size() - 1; i >= 0; --i) {
+		for (int ii = _boardGems.at(i).size() - 1; ii >= 0; --ii) {
 				EraseGem(i, ii, compressEmptyColumns);
 		}
 	}
@@ -196,10 +196,10 @@ int Board::SearchGemGroup(int gX, int gY) {
 		(dir d, Gem::GemColor gemColor, int gX, int gY) {
 
 		//Gem doesn't exist in board
-		if (gX >= 0 && gX < boardGems_.size()) {
-			if (gY >= 0 && gY < boardGems_.at(gX).size()) {
+		if (gX >= 0 && gX < _boardGems.size()) {
+			if (gY >= 0 && gY < _boardGems.at(gX).size()) {
 
-				Gem* this_gem = boardGems_.at(gX).at(gY);
+				Gem* this_gem = _boardGems.at(gX).at(gY);
 
 				//Gem is not same Color - X
 				//Gem is same color but already checked - X
@@ -222,15 +222,15 @@ int Board::SearchGemGroup(int gX, int gY) {
 		return 0;
 	};
 
-	gemNumber = recursion(dir::NONE, boardGems_.at(gX).at(gY)->GetGemColor(), gX, gY);
+	gemNumber = recursion(dir::NONE, _boardGems.at(gX).at(gY)->GetGemColor(), gX, gY);
 
 	if (gemNumber > 1) {
 		
 		SoundManager::Instance()->PlaySFX("Break",0);
 		
-		for (int i = boardGems_.size() - 1; i >= 0; --i) {
-			for (int ii = boardGems_.at(i).size() - 1; ii >= 0; --ii) {
-				if (std::find(toDelete.begin(), toDelete.end(), boardGems_.at(i).at(ii)->GetId()) != toDelete.end()) {
+		for (int i = _boardGems.size() - 1; i >= 0; --i) {
+			for (int ii = _boardGems.at(i).size() - 1; ii >= 0; --ii) {
+				if (std::find(toDelete.begin(), toDelete.end(), _boardGems.at(i).at(ii)->GetId()) != toDelete.end()) {
 					EraseGem(i, ii, true);
 				}
 			}
@@ -240,9 +240,9 @@ int Board::SearchGemGroup(int gX, int gY) {
 }
 
 void Board::EraseGem(int gX, int gY, bool compressEmptyColumns) {
-	std::vector<Gem*>& column = boardGems_.at(gX);
+	std::vector<Gem*>& column = _boardGems.at(gX);
 	
-	beingDestroyedGems_.push_back(column.at(gY));
+	_beingDestroyedGems.push_back(column.at(gY));
 	column.at(gY)->TransitState(Gem::GemState::BREAKING);
 	column.erase(column.begin() + gY);
 
@@ -253,14 +253,14 @@ void Board::EraseGem(int gX, int gY, bool compressEmptyColumns) {
 
 	//Check if column empty
 	if(compressEmptyColumns && column.empty()){
-		boardGems_.erase(boardGems_.begin() + gX);
+		_boardGems.erase(_boardGems.begin() + gX);
 
 		//Move Board Origin
-		pos_.x += Gem::cDim.w;
+		_pos.x += Gem::cDim.w;
 
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
-			for (Gem* gem : boardGems_.at(i)) {
+			for (Gem* gem : _boardGems.at(i)) {
 				gem->Move(static_cast<float>(Gem::cDim.w), 0);
 			}
 		}
