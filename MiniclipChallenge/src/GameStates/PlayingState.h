@@ -15,14 +15,11 @@
 
 class PlayingState : public GameState {
 public:
-	static const int cBoardX;
-	static const int cBoardY;
+	static const Position cBoardPos;
+	static const Position cEndLinePos;
+	static const Position cEndTextPos;
+	static const Position cClockPos;
 
-	static const int cEndLineX;
-	static const int cEndLineY;
-
-	static const int cEndTextX;
-	static const int cEndTextY;
 	static const int cEndTextSpacing;
 
 	void Init();

@@ -2,6 +2,7 @@
 
 #include "AnimatedGameObject.h"
 #include "../Timer.h"
+#include "../Position.h"
 
 class Background : public AnimatedGameObject {
 public:
@@ -11,7 +12,7 @@ public:
 	static const int cW;
 	static const int cH;
 
-	Background(float x, float y);
+	Background(Position pos);
 
 	void Update(int deltaTime);
 private:

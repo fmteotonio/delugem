@@ -1,9 +1,9 @@
 #include "ShadowedText.h"
 
-ShadowedText::ShadowedText(float x, float y, Text::Align align, std::string font, int size, std::string text, SDL_Color textColor, SDL_Color shadowColor) {
-	text_ = new Text(x, y, align, font, size, text, textColor);
-	shadow_ = new Text(x+1, y+1, align, font, size, text, shadowColor);
-	GameObject::Init(x, y);
+ShadowedText::ShadowedText(Position pos, Text::Align align, std::string font, int size, std::string text, SDL_Color textColor, SDL_Color shadowColor) {
+	text_ = new Text(pos, align, font, size, text, textColor);
+	shadow_ = new Text({ pos.x + 1, pos.y + 1 }, align, font, size, text, shadowColor);
+	GameObject::Init(pos);
 }
 
 void ShadowedText::Update(int deltaTime) {

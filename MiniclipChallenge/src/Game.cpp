@@ -93,7 +93,7 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		SoundManager::Instance()->Load(SND_GEMSFALLTITLE, "GemsFallTitle", SoundManager::soundType::SFX, 14);
 		SoundManager::Instance()->Load(SND_BUTTONSELECT, "ButtonSelect", SoundManager::soundType::SFX, 8);
 
-		background_ = new Background(-15, 0);
+		background_ = new Background({ -15, 0 });
 
 		gameStateMachine_ = new GameStateMachine();
 		gameStateMachine_->PushState(new TitleScreenState());

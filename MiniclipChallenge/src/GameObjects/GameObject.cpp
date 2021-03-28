@@ -3,15 +3,10 @@
 #include "../Constants.h"
 #include "../TextureManager.h"
 
-void GameObject::Init(float x, float y) {
-	x_ = x;
-	y_ = y;
+void GameObject::Init(Position pos) {
+	pos_ = pos;
 }
 
-float GameObject::GetX() {
-	return x_;
-}
-
-float GameObject::GetY() {
-	return y_;
+Position GameObject::GetPos() {
+	return pos_;
 }

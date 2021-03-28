@@ -8,5 +8,5 @@ public:
 	static const int cW;
 	static const int cH;
 
-	BigButton(float x, float y) : Button(x, y, cW, cH, cPath) {}
+	BigButton(Position pos) : Button(pos, cW, cH, cPath) {}
 };

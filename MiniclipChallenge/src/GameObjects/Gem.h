@@ -17,7 +17,7 @@ public:
 		PINK, BLUE, ORANGE, GREEN, BEIGE
 	};
 	
-	Gem(GemColor gemColor, float x, float y, int id);
+	Gem(GemColor gemColor, Position pos, int id);
 
 	int GetId();
 	GemColor GetGemColor();

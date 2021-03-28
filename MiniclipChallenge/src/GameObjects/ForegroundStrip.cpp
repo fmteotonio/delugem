@@ -10,13 +10,13 @@ const int   ForegroundStrip::cW =       SCREEN_W;
 const int   ForegroundStrip::cH =       28;
 const int   ForegroundStrip::cSourceW = 1;
 
-ForegroundStrip::ForegroundStrip(float x, float y) {
+ForegroundStrip::ForegroundStrip(Position pos) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
 
 	AddAnimation("Default", new Animation(0, 0));
 	AddAnimation("LevelUp", new Animation(0, 16, 0, 30));
 
-	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, cW, cH, objTexture, "Default", false);
 }
 
 void ForegroundStrip::Update(int deltaTime) {
@@ -36,8 +36,8 @@ void ForegroundStrip::Render() {
 
 	SDL_Rect dest;
 	//Convert to Int before Scale to avoid sub-pixel movement
-	dest.x = static_cast<int>(round(x_)) * GAME_SCALE;
-	dest.y = static_cast<int>(round(y_)) * GAME_SCALE;
+	dest.x = static_cast<int>(round(pos_.x)) * GAME_SCALE;
+	dest.y = static_cast<int>(round(pos_.y)) * GAME_SCALE;
 	dest.w = w_ * GAME_SCALE;
 	dest.h = h_ * GAME_SCALE;
 	TextureManager::Instance()->Draw(texture_, src, dest);

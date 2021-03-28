@@ -6,5 +6,5 @@
 
 class StaticImage : public AnimatedGameObject {
 public:
-	StaticImage(float x, float y, int w, int h, std::string filename);
+	StaticImage(Position pos, int w, int h, std::string filename);
 };

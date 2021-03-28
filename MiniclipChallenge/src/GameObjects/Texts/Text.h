@@ -18,5 +18,5 @@ public:
 		DOWNRIGHT
 	};
 
-	Text(float x, float y, Align align, std::string font, int size, std::string text, SDL_Color color);
+	Text(Position pos, Align align, std::string font, int size, std::string text, SDL_Color color);
 };

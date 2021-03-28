@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Button::Button(float x, float y, int w, int h, std::string filename) {
+Button::Button(Position pos, int w, int h, std::string filename) {
 
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(filename);
 
@@ -15,7 +15,7 @@ Button::Button(float x, float y, int w, int h, std::string filename) {
 	AddAnimation("HovPressed",   new Animation(0, 2));
 	AddAnimation("UnhovPressed", new Animation(0, 3));
 
-	AnimatedGameObject::Init(x, y, w, h, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, w, h, objTexture, "Default", false);
 }
 
 void Button::AddContent(GameObject* content) {
@@ -33,7 +33,7 @@ void Button::Update(int deltaTime) {
 void Button::HandleInput() {
 	int mouseX = InputHandler::Instance()->GetMouseX();
 	int mouseY = InputHandler::Instance()->GetMouseY();
-	bool isHovering = mouseX > x_ && mouseX < x_ + w_ && mouseY > y_ && mouseY < y_ + h_;
+	bool isHovering = mouseX > pos_.x && mouseX < pos_.x + w_ && mouseY > pos_.y && mouseY < pos_.y + h_;
 	bool isClicking = InputHandler::Instance()->GetMouseLeft();
 
 

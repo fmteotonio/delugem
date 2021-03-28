@@ -9,7 +9,7 @@ public:
 	static const int cW;
 	static const int cH;
 
-	Clock(float x, float y, Timer* timer);
+	Clock(Position pos, Timer* timer);
 
 	void UpdateFrame();
 

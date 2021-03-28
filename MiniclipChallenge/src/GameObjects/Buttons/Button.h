@@ -12,7 +12,7 @@ public:
 		DEFAULT, HOVERED, HOV_PRESSED, UNHOV_PRESSED, PRESS_ACTION, INACTIVE
 	};
 
-	Button(float x, float y, int w, int h, std::string filename);
+	Button(Position pos, int w, int h, std::string filename);
 
 	void AddContent(GameObject* content);
 

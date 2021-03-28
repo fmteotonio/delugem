@@ -9,27 +9,33 @@
 
 class GameOverScreenState : public GameState {
 public:
-	static const int cGameOverTextX;
-	static const int cGameOverTextY;
+	static const Position cUpperStripPos;
+	static const Position cLowerStripPos;
+
+	static const Position cGameOverTextPos;
+	static const Position cFlavorTextPos;
+	static const Position cScoreTextPos;
+
+	static const Position cAgainButtonPos;
+	static const Position cExitButtonPos;
+	static const Position cAgainContentPos;
+	static const Position cExitContentPos;
+
 	static const char* cGameOverString;
 
-	static const int cFlavorTextX;
-	static const int cFlavorTextY;
 	static const char* cFlavorString;
 
-	static const int cScoreTextX;
-	static const int cScoreTextY;
 
-	static const int cAgainButtonX;
-	static const int cAgainButtonY;
-	static const int cAgainContentX;
-	static const int cAgainContentY;
+	static const float cAgainButtonX;
+	static const float cAgainButtonY;
+	static const float cAgainContentX;
+	static const float cAgainContentY;
 	static const char* cAgainString;
 
-	static const int cExitButtonX;
-	static const int cExitButtonY;
-	static const int cExitContentX;
-	static const int cExitContentY;
+	static const float cExitButtonX;
+	static const float cExitButtonY;
+	static const float cExitContentX;
+	static const float cExitContentY;
 	static const char* cExitString;
 
 	void Init();

@@ -3,7 +3,7 @@
 #include "../../Constants.h"
 #include "../../TextureManager.h"
 
-Text::Text(float x, float y, Align align, std::string font, int size, std::string text, SDL_Color color) {
+Text::Text(Position pos, Align align, std::string font, int size, std::string text, SDL_Color color) {
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadText(font, size, text, color);
 
 	int w, h;
@@ -13,15 +13,15 @@ Text::Text(float x, float y, Align align, std::string font, int size, std::strin
 	float yAux = 0;
 
 	switch (align) {
-		case Align::UPLEFT:		{ xAux = x;			yAux = y;			break; }
-		case Align::UP:			{ xAux = x - w / 2; yAux = y;			break; }
-		case Align::UPRIGHT:	{ xAux = x - w;		yAux = y;			break; }
-		case Align::MIDLEFT:	{ xAux = x;			yAux = y - h / 2;	break; }
-		case Align::MID:		{ xAux = x - w / 2; yAux = y - h / 2;	break; }
-		case Align::MIDRIGHT:	{ xAux = x - w;		yAux = y - h / 2;	break; }
-		case Align::DOWNLEFT:	{ xAux = x;			yAux = y - h;		break; }
-		case Align::DOWN:		{ xAux = x - w / 2;	yAux = y - h;		break; }
-		case Align::DOWNRIGHT:	{ xAux = x - w;		yAux = y - h;		break; }
+		case Align::UPLEFT:		{ xAux = pos.x;			yAux = pos.y;			break; }
+		case Align::UP:			{ xAux = pos.x - w / 2; yAux = pos.y;			break; }
+		case Align::UPRIGHT:	{ xAux = pos.x - w;		yAux = pos.y;			break; }
+		case Align::MIDLEFT:	{ xAux = pos.x;			yAux = pos.y - h / 2;	break; }
+		case Align::MID:		{ xAux = pos.x - w / 2; yAux = pos.y - h / 2;	break; }
+		case Align::MIDRIGHT:	{ xAux = pos.x - w;		yAux = pos.y - h / 2;	break; }
+		case Align::DOWNLEFT:	{ xAux = pos.x;			yAux = pos.y - h;		break; }
+		case Align::DOWN:		{ xAux = pos.x - w / 2;	yAux = pos.y - h;		break; }
+		case Align::DOWNRIGHT:	{ xAux = pos.x - w;		yAux = pos.y - h;		break; }
 	}
 
 	//Specific Font Fixes
@@ -30,5 +30,5 @@ Text::Text(float x, float y, Align align, std::string font, int size, std::strin
 
 	AddAnimation("Default", new Animation(0, 0));
 
-	AnimatedGameObject::Init(xAux, yAux, w, h, objTexture, "Default", false);
+	AnimatedGameObject::Init({ xAux, yAux }, w, h, objTexture, "Default", false);
 }

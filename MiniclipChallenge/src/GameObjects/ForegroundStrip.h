@@ -13,7 +13,7 @@ public:
 		DEFAULT, LEVELUP
 	};
 
-	ForegroundStrip(float x, float y);
+	ForegroundStrip(Position pos);
 
 	void Update(int deltaTime);
 	void Render();

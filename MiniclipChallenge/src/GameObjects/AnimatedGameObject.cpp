@@ -3,8 +3,8 @@
 #include "../Constants.h"
 #include "../TextureManager.h"
 
-void AnimatedGameObject::Init(float x, float y, int w, int h, SDL_Texture* texture, std::string animationID, bool playNow) {
-	GameObject::Init(x, y);
+void AnimatedGameObject::Init(Position pos, int w, int h, SDL_Texture* texture, std::string animationID, bool playNow) {
+	GameObject::Init(pos);
 	w_ = w;
 	h_ = h;
 	texture_ = texture;
@@ -24,8 +24,8 @@ void AnimatedGameObject::Render() {
 
 	SDL_Rect dest;
 	//Convert to Int before Scale to avoid sub-pixel movement
-	dest.x = static_cast<int>(round(x_)) * GAME_SCALE;
-	dest.y = static_cast<int>(round(y_)) * GAME_SCALE;
+	dest.x = static_cast<int>(round(pos_.x)) * GAME_SCALE;
+	dest.y = static_cast<int>(round(pos_.y)) * GAME_SCALE;
 	dest.w = w_ * GAME_SCALE;
 	dest.h = h_ * GAME_SCALE;
 	TextureManager::Instance()->Draw(texture_, src, dest);

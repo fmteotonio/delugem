@@ -7,7 +7,7 @@
 
 class ShadowedText : public GameObject {
 public:
-	ShadowedText(float x, float y, Text::Align align, std::string font, int size, std::string text, SDL_Color textColor, SDL_Color shadowColor);
+	ShadowedText(Position pos, Text::Align align, std::string font, int size, std::string text, SDL_Color textColor, SDL_Color shadowColor);
 
 	Text* text_;
 	Text* shadow_;

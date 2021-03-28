@@ -12,22 +12,21 @@
 
 //........................GameObject Constants........................
 
-const int TitleScreenState::cLeftBoardX = 0;
-const int TitleScreenState::cLeftBoardY = 28;
-const int TitleScreenState::cRightBoardX = 240;
-const int TitleScreenState::cRightBoardY = 28;
+const Position TitleScreenState::cLeftBoardPos  = {   0, 28 };
+const Position TitleScreenState::cRightBoardPos = { 240, 28 };
+const Position TitleScreenState::cUpperStripPos = {   0,  0 };
+const Position TitleScreenState::cLowerStripPos = {   0, SCREEN_H - ForegroundStrip::cH };
 
-const int TitleScreenState::cTitleX = 98;
-const int TitleScreenState::cTitleY = 52;
+const Position TitleScreenState::cTitlePos = { 98, 52 };
+const Position TitleScreenState::cStartButtonPos = { SCREEN_W / 2 - BigButton::cW / 2 , 126 };
+const Position TitleScreenState::cStartContentPos = { cStartButtonPos.x + BigButton::cW / 2, cStartButtonPos.y + BigButton::cH / 2 };
+
 const int TitleScreenState::cTitleW = 185;
 const int TitleScreenState::cTitleH = 57;
+
 const char* TitleScreenState::cTitlePath = "res/images/title.png";
 
-const int TitleScreenState::cStartButtonX = SCREEN_W / 2 - BigButton::cW / 2;
-const int TitleScreenState::cStartButtonY = SCREEN_H / 2 - BigButton::cH / 2 + 55;
-const int TitleScreenState::cStartContentX = cStartButtonX + BigButton::cW / 2;
-const int TitleScreenState::cStartContentY = cStartButtonY + BigButton::cH / 2;
-const char* TitleScreenState::cStartString = "RESUME";
+const char* TitleScreenState::cStartString = "START GAME!";
 
 //........................................................................
 
@@ -36,21 +35,19 @@ void TitleScreenState::Init() {
 	stateID_ = "TITLESCREEN";
 
 	//Decorative Boards
+	gameObjects_.push_back(leftBoard_ = new Board(cLeftBoardPos, false));
+	gameObjects_.push_back(rightBoard_ = new Board(cRightBoardPos, false));
 
-	gameObjects_.push_back(leftBoard_ = new Board(cLeftBoardX, cLeftBoardY, false));
-	gameObjects_.push_back(rightBoard_ = new Board(cRightBoardX, cRightBoardY, false));
-	
-	leftBoard_->AddNewColumns(9); rightBoard_->AddNewColumns(9);
+	leftBoard_->AddNewColumns(9);	rightBoard_->AddNewColumns(9);
+	leftBoard_->AddGem(0, 10);		rightBoard_->AddGem(8, 10);
+	leftBoard_->AddGem(1, 10);		rightBoard_->AddGem(7, 10);
+	leftBoard_->AddGem(2, 10);		rightBoard_->AddGem(6, 10);
+	leftBoard_->AddGem(3, 10);		rightBoard_->AddGem(5, 10);
+	leftBoard_->AddGem(4, 5);		rightBoard_->AddGem(4, 5);
+	leftBoard_->AddGem(5, 3);		rightBoard_->AddGem(3, 3);
+	leftBoard_->AddGem(6, 2);		rightBoard_->AddGem(2, 2);
+	leftBoard_->AddGem(7, 1);		rightBoard_->AddGem(1, 1);
 
-	leftBoard_->AddGem(0, 10); rightBoard_->AddGem(8, 10);
-	leftBoard_->AddGem(1, 10); rightBoard_->AddGem(7, 10);
-	leftBoard_->AddGem(2, 10); rightBoard_->AddGem(6, 10);
-	leftBoard_->AddGem(3, 10); rightBoard_->AddGem(5, 10);
-	leftBoard_->AddGem(4,  5); rightBoard_->AddGem(4,  5);
-	leftBoard_->AddGem(5,  3); rightBoard_->AddGem(3,  3);
-	leftBoard_->AddGem(6,  2); rightBoard_->AddGem(2,  2);
-	leftBoard_->AddGem(7,  1); rightBoard_->AddGem(1,  1);
-	
 	for (std::vector<Gem*> column : leftBoard_->GetBoardGems()) {
 		for (Gem* gem : column) {
 			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cH);
@@ -63,18 +60,15 @@ void TitleScreenState::Init() {
 	}
 
 	//Title Image
-
-	gameObjects_.push_back(new StaticImage(cTitleX, cTitleY, cTitleW, cTitleH, cTitlePath));
+	gameObjects_.push_back(new StaticImage(cTitlePos, cTitleW, cTitleH, cTitlePath));
 
 	//Foreground Strips
+	gameObjects_.push_back(new ForegroundStrip(cUpperStripPos));
+	gameObjects_.push_back(new ForegroundStrip(cLowerStripPos));
 
-	gameObjects_.push_back(new ForegroundStrip(0, 0));
-	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_H- ForegroundStrip::cH));
-
-	//Start Game Button
-
-	gameObjects_.push_back(playButton_ = new BigButton(cStartButtonX, cStartButtonY));
-	playButton_->AddContent(new ShadowedText(cStartContentX, cStartContentY, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
+	//Start Button
+	gameObjects_.push_back(playButton_ = new BigButton(cStartButtonPos));
+	playButton_->AddContent(new ShadowedText(cStartContentPos, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
 
 }
 

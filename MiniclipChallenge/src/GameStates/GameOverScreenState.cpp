@@ -13,27 +13,21 @@
 
 //........................GameObject Constants........................
 
-const int GameOverScreenState::cGameOverTextX    = SCREEN_W / 2;
-const int GameOverScreenState::cGameOverTextY    = SCREEN_H / 2 - 50;
+const Position GameOverScreenState::cUpperStripPos = { 0,  0 };
+const Position GameOverScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cH };
+
+const Position GameOverScreenState::cGameOverTextPos = { SCREEN_W / 2 , SCREEN_H / 2 - 50 };
+const Position GameOverScreenState::cFlavorTextPos =   { SCREEN_W / 2 , SCREEN_H / 2 - 30 };
+const Position GameOverScreenState::cScoreTextPos =    { SCREEN_W / 2 , 110 };
+
+const Position GameOverScreenState::cAgainButtonPos = { SCREEN_W / 2 - BigButton::cW / 2 - 60 , 140 };
+const Position GameOverScreenState::cExitButtonPos = { SCREEN_W / 2 - BigButton::cW / 2 + 60 , 140 };
+const Position GameOverScreenState::cAgainContentPos = { cAgainButtonPos.x + BigButton::cW / 2 , cAgainButtonPos.y + BigButton::cH / 2 };
+const Position GameOverScreenState::cExitContentPos = { cExitButtonPos.x + BigButton::cW / 2 , cExitButtonPos.y + BigButton::cH / 2 };
+
 const char* GameOverScreenState::cGameOverString = "GAME OVER";
-
-const int GameOverScreenState::cFlavorTextX    = SCREEN_W / 2;
-const int GameOverScreenState::cFlavorTextY    = SCREEN_H / 2 - 30;
 const char* GameOverScreenState::cFlavorString = "The Gems win this time.";
-
-const int GameOverScreenState::cScoreTextX    = SCREEN_W / 2;
-const int GameOverScreenState::cScoreTextY    = 110;
-
-const int GameOverScreenState::cAgainButtonX  = SCREEN_W / 2 - 60 - BigButton::cW / 2;
-const int GameOverScreenState::cAgainButtonY  = 140;
-const int GameOverScreenState::cAgainContentX = cAgainButtonX + BigButton::cW / 2;
-const int GameOverScreenState::cAgainContentY = cAgainButtonY + BigButton::cH / 2;
 const char* GameOverScreenState::cAgainString = "PLAY AGAIN";
-
-const int GameOverScreenState::cExitButtonX   = SCREEN_W / 2 + 60 - BigButton::cW / 2;
-const int GameOverScreenState::cExitButtonY   = 140;
-const int GameOverScreenState::cExitContentX  = cExitButtonX + BigButton::cW / 2;
-const int GameOverScreenState::cExitContentY  = cExitButtonY + BigButton::cH / 2;
 const char* GameOverScreenState::cExitString  = "EXIT GAME";
 
 //........................................................................
@@ -44,24 +38,27 @@ void GameOverScreenState::Init() {
 
 	//Foreground Strips
 
-	gameObjects_.push_back(new ForegroundStrip(0, 0));
-	gameObjects_.push_back(new ForegroundStrip(0, SCREEN_H- ForegroundStrip::cH));
+	Position p1 = { 0,0 };
+	Position p2 = { 0, SCREEN_H - ForegroundStrip::cH };
+
+	gameObjects_.push_back(new ForegroundStrip(p1));
+	gameObjects_.push_back(new ForegroundStrip(p2));
 
 	//Text to be displayed;
 
 	std::string scoreString = "FINAL SCORE: " + std::to_string(GameManager::Instance()->GetScore());
 
-	gameObjects_.push_back(new ShadowedText(cGameOverTextX, cGameOverTextY, Text::Align::MID, FNT_M6X11, 32, cGameOverString, WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(cFlavorTextX, cFlavorTextY, Text::Align::MID, FNT_M3X6, 16, cFlavorString, WHITE, BLACK));
-	gameObjects_.push_back(new ShadowedText(cScoreTextX, cScoreTextY, Text::Align::MID, FNT_M6X11, 16, scoreString, WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cGameOverTextPos, Text::Align::MID, FNT_M6X11, 32, cGameOverString, WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cFlavorTextPos, Text::Align::MID, FNT_M3X6, 16, cFlavorString, WHITE, BLACK));
+	gameObjects_.push_back(new ShadowedText(cScoreTextPos, Text::Align::MID, FNT_M6X11, 16, scoreString, WHITE, BLACK));
 
 	//Resume and Exit Buttons
 
-	gameObjects_.push_back(againButton_ = new BigButton(cAgainButtonX, cAgainButtonY));
-	gameObjects_.push_back(exitButton_ = new BigButton(cExitButtonX, cExitButtonY));
+	gameObjects_.push_back(againButton_ = new BigButton(cAgainButtonPos));
+	gameObjects_.push_back(exitButton_ = new BigButton(cExitButtonPos));
 
-	againButton_->AddContent(new ShadowedText(cAgainContentX, cAgainContentY, Text::Align::MID, FNT_M6X11, 16, cAgainString, WHITE, BLACK));
-	exitButton_->AddContent(new ShadowedText(cExitContentX, cExitContentY, Text::Align::MID, FNT_M6X11, 16, cExitString, WHITE, BLACK));
+	againButton_->AddContent(new ShadowedText(cAgainContentPos, Text::Align::MID, FNT_M6X11, 16, cAgainString, WHITE, BLACK));
+	exitButton_->AddContent(new ShadowedText(cExitContentPos, Text::Align::MID, FNT_M6X11, 16, cExitString, WHITE, BLACK));
 }
 
 void GameOverScreenState::Update(int deltaTime) {

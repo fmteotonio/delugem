@@ -4,19 +4,17 @@
 #include<map>
 #include<string>
 
-#include "../Animation.h"
+#include "../Position.h"
 
 class GameObject { 
 public:
-	virtual void Init(float x, float y);
+	virtual void Init(Position pos);
 	virtual void Update(int deltaTime) = 0;
 	virtual void Render() = 0;
 	virtual void Clean() = 0;
 
-	float GetX();
-	float GetY();
+	Position GetPos();
 
 protected:
-	float x_;
-	float y_;
+	Position pos_;
 };

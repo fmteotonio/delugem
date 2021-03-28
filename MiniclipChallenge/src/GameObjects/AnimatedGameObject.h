@@ -9,7 +9,7 @@
 
 class AnimatedGameObject : public GameObject { 
 public:  
-	virtual void Init(float x, float y, int w, int h, SDL_Texture* texture, std::string animationID, bool playNow);
+	virtual void Init(Position pos, int w, int h, SDL_Texture* texture, std::string animationID, bool playNow);
 	virtual void Update(int deltaTime);
 	virtual void Render();
 	virtual void Clean();

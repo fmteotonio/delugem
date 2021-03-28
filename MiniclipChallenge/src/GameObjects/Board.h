@@ -6,13 +6,14 @@
 #include "Gem.h"
 #include "GameObject.h"
 #include "../Constants.h"
+#include "../Position.h"
 
 class Board : public GameObject {
 public:
 	static const int cColumnSize;
 	static const int cStartColumns;
 
-	Board(float x, float y, bool isPlayable);
+	Board(Position pos, bool isPlayable);
 	
 	void Update(int deltaTime);
 	void HandleInput();

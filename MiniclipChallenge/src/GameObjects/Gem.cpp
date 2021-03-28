@@ -12,7 +12,7 @@ const int   Gem::cH = 16;
 const int   Gem::cAcceleration = 450;
 const int	Gem::cNumberOfColors = 5;
 
-Gem::Gem(GemColor gemColor, float x, float y, int id) {
+Gem::Gem(GemColor gemColor, Position pos, int id) {
 	gemColor_ = gemColor;
 	id_ = id;
 
@@ -33,7 +33,7 @@ Gem::Gem(GemColor gemColor, float x, float y, int id) {
 	AddAnimation("Breaking", new Animation(0, 5, frameRow, 40));
 	AddAnimation("ToDestroy", new Animation(5, frameRow));
 
-	AnimatedGameObject::Init(x, y, cW, cH, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, cW, cH, objTexture, "Default", false);
 }
 
 int Gem::GetId() { return id_; }
@@ -46,8 +46,8 @@ void Gem::Move(float x, float y) {
 }
 
 void Gem::MoveFrom(float deltaX, float deltaY) {
-	x_ = x_ + deltaX;
-	y_ = y_ + deltaY;
+	pos_.x += deltaX;
+	pos_.y += deltaY;
 	Move(-deltaX, -deltaY);
 }
 
@@ -61,24 +61,24 @@ void Gem::Update(int deltaTime) {
 	float moveUnitY = vy_ * (deltaTime / 1000.0f);
 	if (toMoveX_ != 0) {
 		if (abs(toMoveX_) < abs(moveUnitX)) {
-			x_ += toMoveX_;
+			pos_.x += toMoveX_;
 			toMoveX_ -= toMoveX_;
 			vx_ = 0;
 		}
 		else {
-			x_ += moveUnitX;
+			pos_.x += moveUnitX;
 			toMoveX_ -= moveUnitX;
 			vx_ += copysign(cAcceleration, toMoveX_) * (deltaTime / 1000.0f);
 		}
 	}
 	if (toMoveY_ != 0) {
 		if (abs(toMoveY_) < abs(moveUnitY)) {
-			y_ += toMoveY_;
+			pos_.y += toMoveY_;
 			toMoveY_ -= toMoveY_;
 			vy_ = 0;
 		}
 		else {
-			y_ += moveUnitY;
+			pos_.y += moveUnitY;
 			toMoveY_ -= moveUnitY;
 			vy_ += copysign(cAcceleration, toMoveY_) * (deltaTime / 1000.0f);
 		}

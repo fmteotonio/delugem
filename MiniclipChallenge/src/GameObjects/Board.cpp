@@ -10,8 +10,8 @@
 
 const int Board::cColumnSize = 10;
 
-Board::Board(float x, float y, bool isPlayable) {
-	GameObject::Init(x, y);
+Board::Board(Position pos, bool isPlayable) {
+	GameObject::Init(pos);
 	generator_.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	isPlayable_ = isPlayable;
 }
@@ -40,8 +40,8 @@ void Board::Update(int deltaTime) {
 
 void Board::HandleInput() {
 
-	int conv_x = static_cast<int>(floor((InputHandler::Instance()->GetMouseX() - x_) / Gem::cW));
-	int conv_y = static_cast<int>(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - y_) / Gem::cH));
+	int conv_x = static_cast<int>(floor((InputHandler::Instance()->GetMouseX() - pos_.x) / Gem::cW));
+	int conv_y = static_cast<int>(floor(cColumnSize - (InputHandler::Instance()->GetMouseY() - pos_.y) / Gem::cH));
 	bool isHovered = conv_x >= 0 && conv_x < boardGems_.size() && conv_y >= 0 && conv_y < boardGems_.at(conv_x).size();
 
 
@@ -121,8 +121,8 @@ std::vector<Gem*> Board::AddGem(int gX, int gemNumber) {
 
 		Gem* newGem = new Gem(
 			color,
-			x_ + gX * Gem::cW,
-			y_ + (cColumnSize - boardGems_.at(gX).size() - 1) * Gem::cH,
+			{ pos_.x + gX * Gem::cW,
+			pos_.y + (cColumnSize - boardGems_.at(gX).size() - 1) * Gem::cH },
 			NextGemID()
 		);
 		boardGems_.at(gX).push_back(newGem);
@@ -140,7 +140,7 @@ void Board::PushColumn(int n) {
 		AddGem(boardGems_.size()-1, cColumnSize);
 	}
 	//Move board and all gems to the left
-	x_ -= Gem::cW * n;
+	pos_.x -= Gem::cW * n;
 	for (std::vector<Gem*> column : boardGems_) {
 		for (Gem* gem : column) {
 			gem->Move(static_cast<float>(-Gem::cW * n), 0);
@@ -256,7 +256,7 @@ void Board::EraseGem(int gX, int gY, bool compressEmptyColumns) {
 		boardGems_.erase(boardGems_.begin() + gX);
 
 		//Move Board Origin
-		x_ += Gem::cW;
+		pos_.x += Gem::cW;
 
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
