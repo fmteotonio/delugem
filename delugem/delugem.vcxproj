@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{cff9be0a-1cb8-437d-adf2-613be4f74205}</ProjectGuid>
-    <RootNamespace>MiniclipChallenge</RootNamespace>
+    <RootNamespace>delugem</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>delugem</ProjectName>
   </PropertyGroup>
