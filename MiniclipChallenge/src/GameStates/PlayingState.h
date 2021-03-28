@@ -27,12 +27,14 @@ public:
 
 	static const Position cLevelTextPos;
 	static const Position cScoreTextPos;
+	static const Position cScoreText2Pos;
 	static const Position cPushTextPos;
 	static const Position cFillsTextPos;
 	static const Position cFillsText2Pos;
 
 	static const Position cLevelValuePos;
 	static const Position cScoreValuePos;
+	static const Position cScoreValue2Pos;
 	static const Position cFillsValuePos;
 
 	static const Position cPauseButtonPos;
@@ -70,9 +72,11 @@ private:
 	int _displayedScore;
 	int _displayedLevel;
 	int _displayedFills;
+	int _displayedNextLevelScore;
 	GameObject* _scoreValueText;
 	GameObject* _levelValueText;
 	GameObject* _fillsText;
-	
+	GameObject* _nextLevelScoreValueText;
+
 	void InitUI();
 };

@@ -1,3 +1,3 @@
 #include "SmallIcon.h"
 
-const Dimensions SmallIcon::cDim = { 8,8 };
+const Dimensions SmallIcon::cDim = { 9,9 };

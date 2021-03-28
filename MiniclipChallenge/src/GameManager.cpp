@@ -31,27 +31,22 @@ GameManager* GameManager::Instance() {
 	return sGameManagerInstance;
 }
 
+int GameManager::GetScoreToNextLevel() {
+	return 1000 * _level + 100 * (static_cast<int>(pow(2, _level - 1)) - 1);
+}
+
 void GameManager::AddScore(int gemNumber) {
 
-	_score += 10 * pow(2, gemNumber - 1);
+	//_score += 10 * pow(2, gemNumber - 1);
+	_score += 10 * gemNumber + (10 * (gemNumber - 2));
 
-	while (_score >= 1000 * _level + 100 * (static_cast<int>(pow(2, _level-1))-1) ) {
+	while (_score >= GetScoreToNextLevel()) {
 		SoundManager::Instance()->PlaySFX("LevelUp", false);
 		++_level;
 		if (_fillsLeft <= 9) {
 			++_fillsLeft;
 		}
 	}
-		
-	//1 - 1000  = 1000 +     0
-	//2 - 2100  = 2000 +   100
-	//3 - 3200  = 3000 +   200
-	//4 - 4400  = 4000 +   400
-	//5 - 5800  = 5000 +   800
-	//6 - 7600  = 6000 +  1600
-	//7 - 10200 = 7000 +  3200
-	//8 - 14400 = 8000 +  6400
-	//9 - 21800 = 9000 + 12800
 }
 
 void GameManager::UseFill() {

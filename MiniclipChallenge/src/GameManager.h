@@ -11,6 +11,7 @@ public:
 	
 	int GetLevel();
 	int GetScore();
+	int GetScoreToNextLevel();
 	int GetFillsLeft();
 
 	int TimePerColumn();
@@ -19,10 +20,13 @@ public:
 	void UseFill();
 	void Reset();
 
+	void Clean();
+
 private:
 	static GameManager* sGameManagerInstance;
 
 	int _level;
 	int _score;
 	int _fillsLeft;
+
 };

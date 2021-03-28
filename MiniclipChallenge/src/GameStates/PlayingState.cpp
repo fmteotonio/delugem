@@ -36,12 +36,14 @@ const int PlayingState::cBotButtonY = cBotTextY - 12;
 
 const Position PlayingState::cLevelTextPos  = { 7,  cTopTextY };
 const Position PlayingState::cScoreTextPos  = { 165,  cTopTextY };
+const Position PlayingState::cScoreText2Pos = { cScoreTextPos.x + 117, cTopTextY };
 const Position PlayingState::cPushTextPos   = { 313,  cBotTextY };
 const Position PlayingState::cFillsTextPos  = { 7,  cBotTextY };
 const Position PlayingState::cFillsText2Pos = { cFillsTextPos.x + 50, cBotTextY };
 
 const Position PlayingState::cLevelValuePos = { cLevelTextPos.x + 71 , cTopTextY };
 const Position PlayingState::cScoreValuePos = { cScoreTextPos.x + 99 , cTopTextY };
+const Position PlayingState::cScoreValue2Pos = { cScoreTextPos.x + 173, cScoreValuePos.y };
 const Position PlayingState::cFillsValuePos = { cFillsTextPos.x + 38 , cBotTextY };
 
 const Position PlayingState::cPauseButtonPos = { 351 , cTopButtonY };
@@ -106,6 +108,7 @@ void PlayingState::InitUI() {
 	_gameObjects.push_back(new ShadowedText(cPushTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "PUSH", WHITE, BLACK));
 	_gameObjects.push_back(new ShadowedText(cFillsTextPos, Text::Align::MIDLEFT, FNT_M6X11, 16, "FILL (", WHITE, BLACK));
 	_gameObjects.push_back(new ShadowedText(cFillsText2Pos, Text::Align::MIDLEFT, FNT_M6X11, 16, "left)", WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cScoreText2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, " / ", WHITE, BLACK));
 
 	//Buttons
 	_gameObjects.push_back(_fillButton = new SmallButton(cFillsButtonPos));
@@ -121,10 +124,12 @@ void PlayingState::InitUI() {
 	_displayedScore = GameManager::Instance()->GetScore();
 	_displayedLevel = GameManager::Instance()->GetLevel();
 	_displayedFills = GameManager::Instance()->GetFillsLeft();
+	_displayedNextLevelScore = GameManager::Instance()->GetScoreToNextLevel();
 
 	_scoreValueText = new ShadowedText(cScoreValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedScore), WHITE, BLACK);
 	_levelValueText = new ShadowedText(cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedLevel), WHITE, BLACK);
 	_fillsText = new ShadowedText(cFillsValuePos, Text::Align::MIDLEFT, FNT_M6X11, 16, std::to_string(_displayedFills), WHITE, BLACK);
+	_nextLevelScoreValueText = new ShadowedText(cScoreValue2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedNextLevelScore), WHITE, BLACK);
 
 }
 
@@ -154,6 +159,13 @@ void PlayingState::Update(int deltaTime) {
 		_displayedLevel = GameManager::Instance()->GetLevel();
 		delete _levelValueText;
 		_levelValueText = new ShadowedText(cLevelValuePos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedLevel), WHITE, BLACK);
+
+
+		_displayedNextLevelScore = GameManager::Instance()->GetScoreToNextLevel();
+		delete _nextLevelScoreValueText;
+		_nextLevelScoreValueText = new ShadowedText(cScoreValue2Pos, Text::Align::MIDRIGHT, FNT_M6X11, 16, std::to_string(_displayedNextLevelScore), WHITE, BLACK);
+		
+
 
 		//LevelUp animation in foregroundStrips
 		_foregroundStrip1->TransitState(ForegroundStrip::ForegroundStripState::LEVELUP);
@@ -208,6 +220,7 @@ void PlayingState::Render() {
 	_scoreValueText->Render();
 	_levelValueText->Render();
 	_fillsText->Render();
+	_nextLevelScoreValueText->Render();
 }
 
 void PlayingState::Clean() {
@@ -216,9 +229,11 @@ void PlayingState::Clean() {
 	_scoreValueText->Clean();
 	_levelValueText->Clean();
 	_fillsText->Clean();
+	_nextLevelScoreValueText->Clean();
 	delete _scoreValueText;
 	delete _levelValueText;
 	delete _fillsText;
+	delete _nextLevelScoreValueText;
 
 	delete _pushButtonTimer;
 	delete _columnTimer;

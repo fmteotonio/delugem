@@ -55,12 +55,12 @@ void Board::HandleInput() {
 	if (isHovered) {
 		Gem* gem = _boardGems.at(conv_x).at(conv_y);
 		//...highlight if it is stopped.
-		if (gem->GetGemState() == Gem::GemState::DEFAULT && !gem->isMoving()) {
+		if (gem->GetGemState() == Gem::GemState::DEFAULT && !gem->isMoving(true, true)) {
 			gem->TransitState(Gem::GemState::HOVERED);
 			_lastHoveredGem = gem;
 		}
-		//Only once per click
-		if (InputHandler::Instance()->GetMouseLeft() && !_hasClicked) {
+		//Only once per click and if gem is not moving horizontally
+		if (InputHandler::Instance()->GetMouseLeft() && !_hasClicked && !gem->isMoving(true, false)) {
 			int gemsFound = SearchGemGroup(conv_x, conv_y);
 			if (gemsFound > 1)
 				GameManager::Instance()->AddScore(gemsFound);
@@ -143,7 +143,7 @@ void Board::PushColumn(int n) {
 	_pos.x -= Gem::cDim.w * n;
 	for (std::vector<Gem*> column : _boardGems) {
 		for (Gem* gem : column) {
-			gem->Move(static_cast<float>(-Gem::cDim.w * n), 0);
+			gem->Move({ static_cast<float>(-Gem::cDim.w * n), 0 });
 		}
 	}
 }
@@ -166,7 +166,7 @@ bool Board::FillBoard() {
 		}
 		//Make new gems fall from over the Board
 		for (Gem* gem : createdGems) {
-			gem->MoveFrom(0, - maxGapHeight * Gem::cDim.h);
+			gem->MoveFrom({ 0, static_cast<float>(-maxGapHeight * Gem::cDim.h) });
 		}
 	}
 	return maxGapHeight > 0;
@@ -248,7 +248,7 @@ void Board::EraseGem(int gX, int gY, bool compressEmptyColumns) {
 
 	//Move every Gem above
 	for (int i = gY; i < column.size(); ++i) {
-		column.at(i)->Move(0, static_cast<float>(Gem::cDim.h));
+		column.at(i)->Move({ 0, static_cast<float>(Gem::cDim.h) });
 	}
 
 	//Check if column empty
@@ -261,7 +261,7 @@ void Board::EraseGem(int gX, int gY, bool compressEmptyColumns) {
 		//Move all left-hand gems.
 		for (int i = 0; i < gX; ++i) {
 			for (Gem* gem : _boardGems.at(i)) {
-				gem->Move(static_cast<float>(Gem::cDim.w), 0);
+				gem->Move({ static_cast<float>(Gem::cDim.w), 0 });
 			}
 		}
 	}

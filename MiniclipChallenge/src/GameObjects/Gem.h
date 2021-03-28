@@ -22,9 +22,9 @@ public:
 	GemColor GetGemColor();
 	GemState GetGemState();
 
-	bool isMoving();
-	void Move(float x, float y);	
-	void MoveFrom(float x, float y);
+	bool isMoving(bool onXAxis, bool onYAxis);
+	void Move(Position pos);
+	void MoveFrom(Position deltaPos);
 	
 	bool TransitState(GemState newGemState);
 
@@ -33,10 +33,8 @@ public:
 private:
 	int _id;
 
-	float _toMoveX = 0;
-	float _toMoveY = 0;
-	float _vx = 0;
-	float _vy = 0;
+	Position _toMove = { 0,0 };
+	Position _v = { 0,0 };
 
 	GemColor _gemColor;
 	GemState _gemState = GemState::DEFAULT;

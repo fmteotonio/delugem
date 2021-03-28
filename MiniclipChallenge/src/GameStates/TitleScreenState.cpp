@@ -51,12 +51,13 @@ void TitleScreenState::Init() {
 
 	for (std::vector<Gem*> column : _leftBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h);
+			gem->MoveFrom({ 0, 
+				static_cast<float>((-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h) });
 		}
 	}
 	for (std::vector<Gem*> column : _rightBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->MoveFrom(0, (-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h);
+			gem->MoveFrom({ 0, static_cast<float>((-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h) });
 		}
 	}
 
@@ -77,7 +78,7 @@ void TitleScreenState::Update(int deltaTime) {
 	
 	GameState::Update(deltaTime);
 	
-	if (!_leftBoard->GetBoardGems().at(0).at(0)->isMoving() && !_hasPlayedSound) {
+	if (!_leftBoard->GetBoardGems().at(0).at(0)->isMoving(false,true) && !_hasPlayedSound) {
 		SoundManager::Instance()->PlaySFX("GemsFallTitle", false);
 		_hasPlayedSound = true;
 	}
