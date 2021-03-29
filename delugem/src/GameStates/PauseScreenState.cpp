@@ -2,9 +2,9 @@
 
 #include "PlayingState.h"
 #include "TitleScreenState.h"
-#include "../GameObjects/ForegroundStrip.h"
-#include "../GameObjects/Buttons/BigButton.h"
-#include "../GameObjects/Texts/ShadowedText.h"
+#include "../gameObjects/ForegroundStrip.h"
+#include "../gameObjects/buttons/BigButton.h"
+#include "../gameObjects/texts/ShadowedText.h"
 #include "../Constants.h"
 #include "../Game.h"
 #include "../GameManager.h"
@@ -13,7 +13,7 @@
 //........................GameObject Constants........................
 
 const Position PauseScreenState::cUpperStripPos = { 0,  0 };
-const Position PauseScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cDim.h };
+const Position PauseScreenState::cLowerStripPos = { 0, SCREEN_H - ForegroundStrip::cDestDim.h };
 
 const Position PauseScreenState::cPausedTextPos = { SCREEN_W / 2 , SCREEN_H / 2 - 50 };
 const Position PauseScreenState::cFlavorTextPos = { SCREEN_W / 2 , SCREEN_H / 2 - 30 };
@@ -63,13 +63,13 @@ void PauseScreenState::Update(int deltaTime) {
 
 	if (_resumeButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->PopState();
-		SoundManager::Instance()->PlaySFX("ButtonSelect", false);
+		SoundManager::Instance()->PlaySFX("ButtonSelect");
 	}
 		
 	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		SoundManager::Instance()->StopMusic();
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
-		SoundManager::Instance()->PlaySFX("ButtonSelect", false);
+		SoundManager::Instance()->PlaySFX("ButtonSelect");
 	}
 		
 }

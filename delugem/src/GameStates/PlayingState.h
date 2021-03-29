@@ -2,17 +2,18 @@
 
 #include "GameState.h"
 #include "../Timer.h"
-#include "../GameObjects/Board.h"
-#include "../GameObjects/Clock.h"
-#include "../GameObjects/GameObject.h"
-#include "../GameObjects/ForegroundStrip.h"
-#include "../GameObjects/Buttons/Button.h"
+#include "../gameObjects/Board.h"
+#include "../gameObjects/Clock.h"
+#include "../gameObjects/GameObject.h"
+#include "../gameObjects/ForegroundStrip.h"
+#include "../gameObjects/buttons/Button.h"
 
 class PlayingState : public GameState {
 public:
 	static const Position cUpperStripPos;
 	static const Position cLowerStripPos;
 
+	static const int cBoardColumns;
 	static const Position cBoardPos;
 	static const Position cEndLinePos;
 	static const Position cEndTextPos;

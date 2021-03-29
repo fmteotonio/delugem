@@ -5,17 +5,17 @@ Timer::Timer(int milliseconds, bool startNow) {
 	_isRunning = startNow;
 }
 
-bool Timer::IsRunning() { return _isRunning; }
-
-void Timer::ResetTimer() {
-	_timePassed = 0;
-	_isRunning = true;
+bool Timer::IsRunning() {
+	return _isRunning;
 }
 
-void Timer::ResetTimer(int milliseconds) {
-	_timeToPass = milliseconds;
-	_timePassed = 0;
-	_isRunning = true;
+bool Timer::HasEnded() {
+	return (_isRunning && _timePassed > _timeToPass);
+}
+
+/* Returns timer progress from 0 to 1 */
+float Timer::HowMuchPassed() {
+	return _timePassed / static_cast<float>(_timeToPass);
 }
 
 void Timer::StartTimer() {
@@ -26,12 +26,15 @@ void Timer::PauseTimer() {
 	_isRunning = false;
 }
 
-bool Timer::HasRung() {
-	return (_isRunning && _timePassed > _timeToPass);
+void Timer::ResetTimer() {
+	_timePassed = 0;
+	_isRunning = true;
 }
 
-float Timer::HowMuchPassed() {
-	return _timePassed / (_timeToPass * 1.0f);
+void Timer::ResetTimer(int milliseconds) {
+	_timeToPass = milliseconds;
+	_timePassed = 0;
+	_isRunning = true;
 }
 
 void Timer::Update(int deltaTime) {

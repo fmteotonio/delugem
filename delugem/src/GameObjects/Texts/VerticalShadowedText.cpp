@@ -10,12 +10,13 @@ VerticalShadowedText::VerticalShadowedText(Position pos, Text::Align align, std:
 		_textObjects.push_back(new ShadowedText({ pos.x, pos.y + (size + spacing) * i }, align, font, size, characterString, textColor, shadowColor));
 		++i;
 	}
+
 	GameObject::Init(pos);
 }
 
 void VerticalShadowedText::Update(int deltaTime) {
 	for (GameObject* character : _textObjects) {
-		character->Update(deltaTime);
+		character->Update(deltaTime); 
 	}
 }
 

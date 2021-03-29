@@ -1,9 +1,10 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL.h>
 
 class InputHandler {
 public:
+
 	static InputHandler* Instance();
 
 	bool GetMouseLeft();
@@ -14,11 +15,11 @@ public:
 	void Clean();
 
 private:
-	static InputHandler* sInputHandlerInstance;
 
-	bool _mouseLeft;
-	Sint32 _mouseX;
-	Sint32 _mouseY;
+	static InputHandler* _inputHandlerInstance;
 
-	InputHandler();
+	bool _mouseLeft = false;
+	Sint32 _mouseX = 0;
+	Sint32 _mouseY = 0;
+
 };

@@ -26,7 +26,6 @@
 #define SND_BUTTONSELECT	"res/sounds/buttonselect.wav"
 #define SND_GEMSFALLTITLE	"res/sounds/gemsfalltitle.wav"
 
-
 Game* Game::sGameInstance = nullptr;
 
 Game* Game::Instance() {
@@ -40,16 +39,11 @@ bool Game::IsGameRunning() { return _isGameRunning; }
 GameStateMachine* Game::GetGameStateMachine() { return _gameStateMachine; }
 SDL_Renderer* Game::GetRenderer() { return _renderer; }
 
-bool Game::Init(const char* title, int width, int height, bool fullscreen) {
+bool Game::Init(const char* title, int width, int height) {
 	//INIT WINDOW AND RENDERER
 
-	int flags = 0;
-	
-	if (fullscreen)
-		flags = SDL_WINDOW_FULLSCREEN;
-
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-		_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+		_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 		if (_window) {
 			_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			if (_renderer) {
@@ -76,7 +70,8 @@ bool Game::Init(const char* title, int width, int height, bool fullscreen) {
 		InputHandler::Instance();
 		SoundManager::Instance();
 		GameManager::Instance();
-
+		
+		//Load Music
 		SoundManager::Instance()->Load(MUS_PLAYING,"Playing",SoundManager::soundType::MUSIC,4);
 
 		//Load SFX

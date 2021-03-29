@@ -15,7 +15,7 @@ public:
 	GameStateMachine* GetGameStateMachine();
 	SDL_Renderer* GetRenderer();
 
-	bool Init(const char* title, int width, int height, bool fullscreen);
+	bool Init(const char* title, int width, int height);
 
 	void HandleEvents();
 	void Quit();

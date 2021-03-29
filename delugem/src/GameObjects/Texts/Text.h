@@ -6,6 +6,9 @@
 
 class Text : public AnimatedGameObject {
 public:
+
+	static const char* cAnimDefault;
+
 	enum class Align {
 		UPLEFT,
 		UP,

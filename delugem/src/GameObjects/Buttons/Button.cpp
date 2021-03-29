@@ -6,20 +6,89 @@
 
 #include <iostream>
 
-Button::Button(Position pos, Dimensions dim, std::string filename) {
+const char* Button::cAnimDefault      = "Default";
+const char* Button::cAnimHovered      = "Hovered";
+const char* Button::cAnimHovPressed   = "HovPressed";
+const char* Button::cAnimUnhovPressed = "UnhovPressed";
 
+Button::Button(Position pos, Dimensions dim, std::string filename) {
+	
 	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(filename);
 
-	AddAnimation("Default",	     new Animation(0, 0));
-	AddAnimation("Hovered",      new Animation(0, 1));
-	AddAnimation("HovPressed",   new Animation(0, 2));
-	AddAnimation("UnhovPressed", new Animation(0, 3));
+	AddAnimation(cAnimDefault,	    new Animation(0, 0));
+	AddAnimation(cAnimHovered,      new Animation(0, 1));
+	AddAnimation(cAnimHovPressed,   new Animation(0, 2));
+	AddAnimation(cAnimUnhovPressed, new Animation(0, 3));
 
-	AnimatedGameObject::Init(pos, dim, objTexture, "Default", false);
+	AnimatedGameObject::Init(pos, dim, objTexture, cAnimDefault, false);
+}
+
+Button::ButtonState Button::GetButtonState() {
+	return _buttonState;
 }
 
 void Button::AddContent(GameObject* content) {
 	_contents.push_back(content);
+}
+
+bool Button::TransitState(ButtonState newButtonState) {
+	switch (newButtonState) {
+		case ButtonState::DEFAULT:{
+			if (_buttonState == ButtonState::HOVERED || _buttonState == ButtonState::UNHOV_PRESSED || _buttonState == ButtonState::INACTIVE) {
+				_buttonState = ButtonState::DEFAULT;
+				SetAnimation(cAnimDefault, false);
+				return true;
+			}
+			break;
+		}
+		case ButtonState::HOVERED: {
+			if (_buttonState == ButtonState::DEFAULT || _buttonState == ButtonState::PRESS_ACTION) {
+				_buttonState = ButtonState::HOVERED;
+				SetAnimation(cAnimHovered, false);
+				return true;
+			}
+			break;
+		}
+		case ButtonState::HOV_PRESSED:{
+			if (_buttonState == ButtonState::HOVERED || _buttonState == ButtonState::UNHOV_PRESSED) {
+				_buttonState = ButtonState::HOV_PRESSED;
+				SetAnimation(cAnimHovPressed, false);
+				return true;
+			}
+			break;
+		}
+		//Unhovered pressed state to allow click cancelling by releasing outside range
+		case ButtonState::UNHOV_PRESSED: {
+			if (_buttonState == ButtonState::HOV_PRESSED) {
+				_buttonState = ButtonState::UNHOV_PRESSED;
+				SetAnimation(cAnimUnhovPressed, false);
+				return true;
+			}
+			break;
+		}
+		case ButtonState::PRESS_ACTION: {
+			if (_buttonState == ButtonState::HOV_PRESSED) {
+				_buttonState = ButtonState::PRESS_ACTION;
+				return true;
+			}
+			break;
+		}
+		case ButtonState::INACTIVE: {
+			_buttonState = ButtonState::INACTIVE;
+			SetAnimation(cAnimUnhovPressed, false);
+			return true;
+		}
+	}
+	std::cerr << "Illegal Button Transition from " << int(_buttonState) << " to " << int(newButtonState) << "\n";
+	return false;
+}
+
+/* Sets button active if condition verifies, or inactive otherwise */
+void Button::OnlySetActiveIf(bool condition) {
+	if (!condition && GetButtonState() != Button::ButtonState::INACTIVE)
+		TransitState(Button::ButtonState::INACTIVE);
+	else if (condition && GetButtonState() == Button::ButtonState::INACTIVE)
+		TransitState(Button::ButtonState::DEFAULT);
 }
 
 void Button::Update(int deltaTime) {
@@ -33,12 +102,10 @@ void Button::Update(int deltaTime) {
 void Button::HandleInput() {
 	int mouseX = InputHandler::Instance()->GetMouseX();
 	int mouseY = InputHandler::Instance()->GetMouseY();
-	bool isHovering = mouseX > _pos.x && mouseX < _pos.x + _dim.w && mouseY > _pos.y && mouseY < _pos.y + _dim.h;
+	bool isHovering = mouseX > _pos.x && mouseX < _pos.x + _destDim.w && mouseY > _pos.y && mouseY < _pos.y + _destDim.h;
 	bool isClicking = InputHandler::Instance()->GetMouseLeft();
 
-
-
-	// Button States
+	// Handling State Transitions
 	if (_buttonState == ButtonState::PRESS_ACTION)
 		TransitState(ButtonState::HOVERED);
 	if (isHovering) {
@@ -53,7 +120,7 @@ void Button::HandleInput() {
 				TransitState(ButtonState::PRESS_ACTION);
 			if (_buttonState == ButtonState::DEFAULT)
 				TransitState(ButtonState::HOVERED);
-		}		
+		}
 	}
 	else {
 		if (isClicking) {
@@ -67,7 +134,6 @@ void Button::HandleInput() {
 				TransitState(ButtonState::DEFAULT);
 		}
 	}
-	
 }
 
 void Button::Render() {
@@ -83,66 +149,4 @@ void Button::Clean() {
 		delete content;
 	}
 	AnimatedGameObject::Clean();
-}
-
-Button::ButtonState Button::GetButtonState() {
-	return _buttonState;
-}
-
-bool Button::TransitState(ButtonState newButtonState) {
-	switch (newButtonState) {
-		case ButtonState::DEFAULT:{
-			if (_buttonState == ButtonState::HOVERED || _buttonState == ButtonState::UNHOV_PRESSED || _buttonState == ButtonState::INACTIVE) {
-				_buttonState = ButtonState::DEFAULT;
-				SetAnimation("Default", false);
-				return true;
-			}
-			break;
-		}
-		case ButtonState::HOVERED: {
-			if (_buttonState == ButtonState::DEFAULT || _buttonState == ButtonState::PRESS_ACTION) {
-				_buttonState = ButtonState::HOVERED;
-				SetAnimation("Hovered", false);
-				return true;
-			}
-			break;
-		}
-		case ButtonState::HOV_PRESSED:{
-			if (_buttonState == ButtonState::HOVERED || _buttonState == ButtonState::UNHOV_PRESSED) {
-				_buttonState = ButtonState::HOV_PRESSED;
-				SetAnimation("HovPressed", false);
-				return true;
-			}
-			break;
-		}
-		case ButtonState::UNHOV_PRESSED: {
-			if (_buttonState == ButtonState::HOV_PRESSED) {
-				_buttonState = ButtonState::UNHOV_PRESSED;
-				SetAnimation("UnhovPressed", false);
-				return true;
-			}
-			break;
-		}
-		case ButtonState::PRESS_ACTION: {
-			if (_buttonState == ButtonState::HOV_PRESSED) {
-				_buttonState = ButtonState::PRESS_ACTION;
-				return true;
-			}
-			break;
-		}
-		case ButtonState::INACTIVE: {
-			_buttonState = ButtonState::INACTIVE;
-			SetAnimation("UnhovPressed", false);
-			return true;
-		}
-	}
-	std::cerr << "Illegal Button Transition from " << int(_buttonState) << " to " << int(newButtonState) << "\n";
-	return false;
-}
-
-void Button::OnlySetActiveIf(bool condition) {
-	if (!condition && GetButtonState() != Button::ButtonState::INACTIVE)
-		TransitState(Button::ButtonState::INACTIVE);
-	else if (condition && GetButtonState() == Button::ButtonState::INACTIVE)
-		TransitState(Button::ButtonState::DEFAULT);
 }

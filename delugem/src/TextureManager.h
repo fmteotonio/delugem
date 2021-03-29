@@ -15,8 +15,9 @@ public:
 	void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 
 	void Clean();
+
 private:
-	static TextureManager* sTextureManagerInstance;
+	static TextureManager* _textureManagerInstance;
 
 	std::map<std::string, SDL_Texture*> _objTextures;
 	std::map<std::string, SDL_Texture*> _textTextures;

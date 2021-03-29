@@ -2,28 +2,29 @@
 
 class GameManager {
 public:
-	static GameManager* Instance();
 
 	static const int cColumnTime;
 	static const float cColumnTimeMultiplier;
 	static const int cEndGemsMargin;
 	static const int cStartColumns;
-	
+
+	static GameManager* Instance();
+
 	int GetLevel();
 	int GetScore();
-	int GetScoreToNextLevel();
 	int GetFillsLeft();
-
-	int TimePerColumn();
+	int GetScoreToNextLevel();
+	int GetTimePerColumn();
 
 	void AddScore(int gemNumber);
 	void UseFill();
-	void Reset();
+	void ResetGame();
 
 	void Clean();
 
 private:
-	static GameManager* sGameManagerInstance;
+
+	static GameManager* _gameManagerInstance;
 
 	int _level;
 	int _score;

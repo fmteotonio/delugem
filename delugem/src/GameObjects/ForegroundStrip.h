@@ -4,9 +4,13 @@
 
 class ForegroundStrip : public AnimatedGameObject {
 public:
+
 	static const char* cPath;
-	static const int cSourceW;
-	static const Dimensions cDim;
+	static const Dimensions cSrcDim;
+	static const Dimensions cDestDim;
+
+	static const char* cAnimDefault;
+	static const char* cAnimLevelUp;
 
 	enum class ForegroundStripState {
 		DEFAULT, LEVELUP
@@ -14,11 +18,12 @@ public:
 
 	ForegroundStrip(Position pos);
 
-	void Update(int deltaTime);
-	void Render();
-
 	bool TransitState(ForegroundStripState newForegroundStripState);
 
+	void Update(int deltaTime);
+
 private:
+	
 	ForegroundStripState _foregroundStripState = ForegroundStripState::DEFAULT;
+
 };

@@ -2,18 +2,24 @@
 
 class Timer {
 public:
+
 	Timer(int milliseconds, bool startNow);
+
 	bool IsRunning();
-	void ResetTimer();
-	void ResetTimer(int milliseconds);
-	void StartTimer();
-	void PauseTimer();
-	bool HasRung();
+	bool HasEnded();
 	float HowMuchPassed();
 
+	void StartTimer();
+	void PauseTimer();
+	void ResetTimer();
+	void ResetTimer(int milliseconds);
+
 	void Update(int deltaTime);
+
 private:
+
 	bool _isRunning = false;
-	int _timeToPass;
 	int _timePassed = 0;
+	int _timeToPass;
+
 };

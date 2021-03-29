@@ -3,29 +3,31 @@
 #include "../TextureManager.h"
 #include "../Constants.h"
 
-#include <iostream>
-
 const char* Background::cPath		 =  "res/images/background.png";
 const int   Background::cMaxSteps	 =	15;
 const int   Background::cTimePerStep =	60;
 const Dimensions Background::cDim    = { SCREEN_W + cMaxSteps , SCREEN_H };
 
-Background::Background(Position pos) {
-	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
+const char* Background::cAnimDefault = "Default";
 
+Background::Background(Position pos) {
 	_stepTimer = new Timer(cTimePerStep, true);
 
-	AddAnimation("Default", new Animation(0, 0));
-	AnimatedGameObject::Init(pos, cDim, objTexture, "Default", true);
+	SDL_Texture* objTexture = TextureManager::Instance()->LoadTexture(cPath);
+
+	AddAnimation(cAnimDefault, new Animation(0, 0));
+
+	AnimatedGameObject::Init(pos, cDim, objTexture, cAnimDefault, true);
 }
 
 void Background::Update(int deltaTime) {
 	AnimatedGameObject::Update(deltaTime);
 	_stepTimer->Update(deltaTime);
-	if (_stepTimer->HasRung()) {
+
+	if (_stepTimer->HasEnded()) {
 		if (_steps < cMaxSteps) {
 			++_steps;
-			_pos.x += 1;
+			++_pos.x;
 		}
 		else {
 			_steps = 0;
@@ -33,4 +35,9 @@ void Background::Update(int deltaTime) {
 		}
 		_stepTimer->ResetTimer();
 	}
+}
+
+void Background::Clean() {
+	AnimatedGameObject::Clean();
+	delete _stepTimer;
 }

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "GameState.h"
-#include "../GameObjects/Board.h"
-#include "../GameObjects/GameObject.h"
-#include "../GameObjects/Buttons/Button.h"
+#include "../gameObjects/Board.h"
+#include "../gameObjects/GameObject.h"
+#include "../gameObjects/buttons/Button.h"
 
 class TitleScreenState : public GameState {
 public:
@@ -15,6 +15,7 @@ private:
 
 	static const Position cLeftBoardPos;
 	static const Position cRightBoardPos;
+	static const int      cBoardColumns;
 	static const Position cUpperStripPos;
 	static const Position cLowerStripPos;
 
@@ -23,10 +24,10 @@ private:
 	static const Position cStartContentPos;
 	static const Position cExitButtonPos;
 	static const Position cExitContentPos;
-	static const char* cExitContentPath;
+	static const char*    cExitContentPath;
 	
 	static const Dimensions cTitleDim;
-	static const char* cTitlePath;
+	static const char*      cTitlePath;
 
 	static const char* cStartString;
 

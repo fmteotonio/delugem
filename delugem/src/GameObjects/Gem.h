@@ -6,8 +6,13 @@ class Gem : public AnimatedGameObject{
 public:
 	static const char* cPath;
 	static const Dimensions cDim;
-	static const int cAcceleration;
+	static const float cAcceleration;
 	static const int cNumberOfColors;
+
+	static const char* cAnimDefault;
+	static const char* cAnimHovered;
+	static const char* cAnimBreaking;
+	static const char* cAnimToDestroy;
 
 	enum class GemState {
 		DEFAULT, HOVERED, BREAKING, TO_DESTROY
@@ -16,16 +21,15 @@ public:
 		PINK, BLUE, ORANGE, GREEN, BEIGE
 	};
 	
-	Gem(GemColor gemColor, Position pos, int id);
+	Gem(Position pos, GemColor gemColor, int id);
 
 	int GetId();
 	GemColor GetGemColor();
 	GemState GetGemState();
-
 	bool isMoving(bool onXAxis, bool onYAxis);
-	void Move(Position pos);
-	void MoveFrom(Position deltaPos);
 	
+	void MoveTo(Position deltaPos);
+	void MoveFrom(Position deltaPos);
 	bool TransitState(GemState newGemState);
 
 	void Update(int deltaTime);

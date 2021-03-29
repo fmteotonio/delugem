@@ -1,13 +1,13 @@
 #include "TitleScreenState.h"
 
 #include "../Constants.h"
-#include "../Position.h"
-#include "../GameObjects/ForegroundStrip.h"
-#include "../GameObjects/Buttons/BigButton.h"
-#include "../GameObjects/Buttons/SmallButton.h"
-#include "../GameObjects/Texts/ShadowedText.h"
-#include "../GameObjects/StaticImages/StaticImage.h"
-#include "../GameObjects/StaticImages/SmallIcon.h"
+#include "../structs/Position.h"
+#include "../gameObjects/ForegroundStrip.h"
+#include "../gameObjects/buttons/BigButton.h"
+#include "../gameObjects/buttons/SmallButton.h"
+#include "../gameObjects/texts/ShadowedText.h"
+#include "../gameObjects/staticImages/StaticImage.h"
+#include "../gameObjects/staticImages/SmallIcon.h"
 #include "../Game.h"
 #include "../SoundManager.h"
 #include "PlayingState.h"
@@ -16,8 +16,9 @@
 
 const Position TitleScreenState::cLeftBoardPos  = {   0, 28 };
 const Position TitleScreenState::cRightBoardPos = { 240, 28 };
+const int      TitleScreenState::cBoardColumns  = 10;
 const Position TitleScreenState::cUpperStripPos = {   0,  0 };
-const Position TitleScreenState::cLowerStripPos = {   0, SCREEN_H - ForegroundStrip::cDim.h };
+const Position TitleScreenState::cLowerStripPos = {   0, SCREEN_H - ForegroundStrip::cDestDim.h };
 
 const Position TitleScreenState::cTitlePos = { 98, 52 };
 const Position TitleScreenState::cStartButtonPos = { SCREEN_W / 2 - BigButton::cDim.w / 2 , 126 };
@@ -39,28 +40,29 @@ void TitleScreenState::Init() {
 	stateID_ = "TITLESCREEN";
 
 	//Decorative Boards
-	_gameObjects.push_back(_leftBoard = new Board(cLeftBoardPos, false));
-	_gameObjects.push_back(_rightBoard = new Board(cRightBoardPos, false));
+
+	_gameObjects.push_back(_leftBoard = new Board(cLeftBoardPos, cBoardColumns, false));
+	_gameObjects.push_back(_rightBoard = new Board(cRightBoardPos, cBoardColumns, false));
 
 	_leftBoard->AddNewColumns(9);	_rightBoard->AddNewColumns(9);
-	_leftBoard->AddGem(0, 10);		_rightBoard->AddGem(8, 10);
-	_leftBoard->AddGem(1, 10);		_rightBoard->AddGem(7, 10);
-	_leftBoard->AddGem(2, 10);		_rightBoard->AddGem(6, 10);
-	_leftBoard->AddGem(3, 10);		_rightBoard->AddGem(5, 10);
-	_leftBoard->AddGem(4, 5);		_rightBoard->AddGem(4, 5);
-	_leftBoard->AddGem(5, 3);		_rightBoard->AddGem(3, 3);
-	_leftBoard->AddGem(6, 2);		_rightBoard->AddGem(2, 2);
-	_leftBoard->AddGem(7, 1);		_rightBoard->AddGem(1, 1);
+	_leftBoard->AddGems(0, 10);		_rightBoard->AddGems(8, 10);
+	_leftBoard->AddGems(1, 10);		_rightBoard->AddGems(7, 10);
+	_leftBoard->AddGems(2, 10);		_rightBoard->AddGems(6, 10);
+	_leftBoard->AddGems(3, 10);		_rightBoard->AddGems(5, 10);
+	_leftBoard->AddGems(4, 5);		_rightBoard->AddGems(4, 5);
+	_leftBoard->AddGems(5, 3);		_rightBoard->AddGems(3, 3);
+	_leftBoard->AddGems(6, 2);		_rightBoard->AddGems(2, 2);
+	_leftBoard->AddGems(7, 1);		_rightBoard->AddGems(1, 1);
 
 	for (std::vector<Gem*> column : _leftBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
 			gem->MoveFrom({ 0, 
-				static_cast<float>((-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h) });
+				static_cast<float>((-2 * cBoardColumns + static_cast<int>(column.size())) * Gem::cDim.h) });
 		}
 	}
 	for (std::vector<Gem*> column : _rightBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->MoveFrom({ 0, static_cast<float>((-2 * Board::cColumnSize + static_cast<int>(column.size())) * Gem::cDim.h) });
+			gem->MoveFrom({ 0, static_cast<float>((-2 * cBoardColumns + static_cast<int>(column.size())) * Gem::cDim.h) });
 		}
 	}
 
@@ -85,13 +87,13 @@ void TitleScreenState::Update(int deltaTime) {
 	GameState::Update(deltaTime);
 	
 	if (!_leftBoard->GetBoardGems().at(0).at(0)->isMoving(false,true) && !_hasPlayedSound) {
-		SoundManager::Instance()->PlaySFX("GemsFallTitle", false);
+		SoundManager::Instance()->PlaySFX("GemsFallTitle");
 		_hasPlayedSound = true;
 	}
 	
 	if (_playButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
-		SoundManager::Instance()->PlaySFX("GameStart", false);
+		SoundManager::Instance()->PlaySFX("GameStart");
 	}
 	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->Quit();

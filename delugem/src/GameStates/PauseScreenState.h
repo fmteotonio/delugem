@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameState.h"
-#include "../GameObjects/Buttons/Button.h"
+#include "../gameObjects/buttons/Button.h"
 
 class PauseScreenState : public GameState {
 public:

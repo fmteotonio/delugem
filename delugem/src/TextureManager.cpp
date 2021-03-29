@@ -4,13 +4,13 @@
 
 #include <iostream>
 
-TextureManager* TextureManager::sTextureManagerInstance = nullptr;
+TextureManager* TextureManager::_textureManagerInstance = nullptr;
 
 TextureManager* TextureManager::Instance() {
-	if (!sTextureManagerInstance) {
-		sTextureManagerInstance = new TextureManager();
+	if (!_textureManagerInstance) {
+		_textureManagerInstance = new TextureManager();
 	}
-	return sTextureManagerInstance;
+	return _textureManagerInstance;
 }
 
 SDL_Texture* TextureManager::LoadTexture(std::string filename) {
@@ -80,9 +80,7 @@ void TextureManager::Clean(){
 			TTF_CloseFont(fontPair.second);
 		}
 	}
-	_textTextures.clear();
-	_objTextures.clear();
-	fonts_.clear();
+	delete _textureManagerInstance;
 }
 
 TTF_Font* TextureManager::LoadFont(std::string filename, int size) {

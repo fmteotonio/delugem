@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameState.h"
-#include "../GameObjects/Buttons/Button.h"
+#include "../gameObjects/buttons/Button.h"
 
 class GameOverScreenState : public GameState {
 public:
@@ -19,6 +19,7 @@ public:
 
 	static const char* cGameOverString;
 	static const char* cFlavorString;
+	static const char* cScorePartialString;
 	static const char* cAgainString;
 	static const char* cExitString;
 	

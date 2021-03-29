@@ -12,26 +12,29 @@
     <Filter Include="res\images">
       <UniqueIdentifier>{efdacea8-0294-4bbd-8e87-b6c297d320a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GameObjects">
-      <UniqueIdentifier>{9a87590a-dac8-4316-a4ac-b95e2dde3370}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\GameStates">
-      <UniqueIdentifier>{eaa015ed-e420-4269-b6a2-cc60320ee20a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="res\fonts">
       <UniqueIdentifier>{8f615dc1-95d4-4c6d-9cca-36694d8514c3}</UniqueIdentifier>
     </Filter>
     <Filter Include="res\sounds">
       <UniqueIdentifier>{9ab3b015-d799-41df-b9f7-29f3c50cddfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GameObjects\Buttons">
+    <Filter Include="src\gameObjects">
+      <UniqueIdentifier>{9a87590a-dac8-4316-a4ac-b95e2dde3370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gameObjects\buttons">
       <UniqueIdentifier>{3db1ce4b-2021-4e0d-ac7e-b76fe36c6532}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GameObjects\StaticImages">
+    <Filter Include="src\gameObjects\texts">
+      <UniqueIdentifier>{870b3ae5-2974-4e90-93a2-a61a7136796c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gameStates">
+      <UniqueIdentifier>{eaa015ed-e420-4269-b6a2-cc60320ee20a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gameObjects\staticImages">
       <UniqueIdentifier>{d2d8f37d-ccb4-42de-8306-3e3a340f215f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GameObjects\Texts">
-      <UniqueIdentifier>{870b3ae5-2974-4e90-93a2-a61a7136796c}</UniqueIdentifier>
+    <Filter Include="src\structs">
+      <UniqueIdentifier>{0b92871f-6238-4500-bbf6-0583ce4408fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,28 +51,28 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\AnimatedGameObject.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Gem.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Background.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Board.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameStates\GameState.h">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClInclude>
     <ClInclude Include="src\GameStates\TitleScreenState.h">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClInclude>
     <ClInclude Include="src\GameStates\PlayingState.h">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClInclude>
     <ClInclude Include="src\GameStates\GameStateMachine.h">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClInclude>
     <ClInclude Include="src\Animation.h">
       <Filter>src</Filter>
@@ -81,55 +84,55 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\ForegroundStrip.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\EndLine.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameStates\PauseScreenState.h">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClInclude>
     <ClInclude Include="src\GameStates\GameOverScreenState.h">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClInclude>
     <ClInclude Include="src\SoundManager.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\GameObject.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Buttons\Button.h">
-      <Filter>src\GameObjects\Buttons</Filter>
+      <Filter>src\gameObjects\buttons</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Buttons\BigButton.h">
-      <Filter>src\GameObjects\Buttons</Filter>
+      <Filter>src\gameObjects\buttons</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Buttons\SmallButton.h">
-      <Filter>src\GameObjects\Buttons</Filter>
+      <Filter>src\gameObjects\buttons</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Texts\ShadowedText.h">
-      <Filter>src\GameObjects\Texts</Filter>
+      <Filter>src\gameObjects\texts</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Texts\Text.h">
-      <Filter>src\GameObjects\Texts</Filter>
+      <Filter>src\gameObjects\texts</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\StaticImages\StaticImage.h">
-      <Filter>src\GameObjects\StaticImages</Filter>
+      <Filter>src\gameObjects\staticImages</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\StaticImages\SmallIcon.h">
-      <Filter>src\GameObjects\StaticImages</Filter>
+      <Filter>src\gameObjects\staticImages</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Texts\VerticalShadowedText.h">
-      <Filter>src\GameObjects\Texts</Filter>
+      <Filter>src\gameObjects\texts</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObjects\Clock.h">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="src\Position.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\structs\Position.h">
+      <Filter>src\structs</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dimensions.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\structs\Dimensions.h">
+      <Filter>src\structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,25 +149,25 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\AnimatedGameObject.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Gem.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Background.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Board.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStates\TitleScreenState.cpp">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStates\PlayingState.cpp">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStates\GameStateMachine.cpp">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClCompile>
     <ClCompile Include="src\Animation.cpp">
       <Filter>src</Filter>
@@ -176,52 +179,52 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\ForegroundStrip.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\EndLine.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStates\PauseScreenState.cpp">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStates\GameOverScreenState.cpp">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClCompile>
     <ClCompile Include="src\SoundManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\GameObject.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStates\GameState.cpp">
-      <Filter>src\GameStates</Filter>
+      <Filter>src\gameStates</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Buttons\Button.cpp">
-      <Filter>src\GameObjects\Buttons</Filter>
+      <Filter>src\gameObjects\buttons</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Buttons\BigButton.cpp">
-      <Filter>src\GameObjects\Buttons</Filter>
+      <Filter>src\gameObjects\buttons</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Buttons\SmallButton.cpp">
-      <Filter>src\GameObjects\Buttons</Filter>
+      <Filter>src\gameObjects\buttons</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Texts\Text.cpp">
-      <Filter>src\GameObjects\Texts</Filter>
+      <Filter>src\gameObjects\texts</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Texts\ShadowedText.cpp">
-      <Filter>src\GameObjects\Texts</Filter>
+      <Filter>src\gameObjects\texts</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\StaticImages\StaticImage.cpp">
-      <Filter>src\GameObjects\StaticImages</Filter>
+      <Filter>src\gameObjects\staticImages</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\StaticImages\SmallIcon.cpp">
-      <Filter>src\GameObjects\StaticImages</Filter>
+      <Filter>src\gameObjects\staticImages</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Texts\VerticalShadowedText.cpp">
-      <Filter>src\GameObjects\Texts</Filter>
+      <Filter>src\gameObjects\texts</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObjects\Clock.cpp">
-      <Filter>src\GameObjects</Filter>
+      <Filter>src\gameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
