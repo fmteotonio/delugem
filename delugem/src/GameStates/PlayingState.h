@@ -5,21 +5,25 @@
 #include "../gameObjects/Board.h"
 #include "../gameObjects/Clock.h"
 #include "../gameObjects/GameObject.h"
+#include "../gameObjects/Background.h"
 #include "../gameObjects/ForegroundStrip.h"
 #include "../gameObjects/buttons/Button.h"
 
 class PlayingState : public GameState {
 public:
+
 	static const Position cUpperStripPos;
 	static const Position cLowerStripPos;
 
-	static const int cBoardColumns;
 	static const Position cBoardPos;
+	static const int cBoardColumns;
+
 	static const Position cEndLinePos;
 	static const Position cEndTextPos;
-	static const Position cClockPos;
-
+	static const char* cEndTextString;
 	static const int cEndTextSpacing;
+
+	static const Position cClockPos;
 
 	static const int cTopTextY;
 	static const int cBotTextY;
@@ -50,18 +54,23 @@ public:
 	static const char* cPauseIconPath;
 	static const char* cPushIconPath;
 
+	static const int cEndGameTimerValue;
+	static const int cPushButtonTimerValue;
+
 	void Init();
 	void Update(int deltaTime);
 	void Render();
 	void Clean();
 
 private:
+
 	Timer* _columnTimer;
 	Timer* _pushButtonTimer;
 	Timer* _endGameTimer;
 
 	Board* _board;
 	GameObject* _endLine;
+	Background* _background;
 	ForegroundStrip* _foregroundStrip1;
 	ForegroundStrip* _foregroundStrip2;
 	Clock* _pushClock;
@@ -80,4 +89,9 @@ private:
 	GameObject* _scoreValue2Text;
 
 	void InitUI();
+	void CheckScore();
+	void CheckLevel();
+	void CheckFills();
+	void CheckButtons();
+	void CheckGameOver();
 };

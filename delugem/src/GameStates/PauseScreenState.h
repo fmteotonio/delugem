@@ -19,6 +19,7 @@ public:
 
 	static const char* cPausedString;
 	static const char* cFlavorString;
+	static const char* cScorePartialString;
 	static const char* cResumeString;
 	static const char* cExitString;
 

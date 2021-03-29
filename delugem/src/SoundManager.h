@@ -19,7 +19,7 @@ public:
 	static SoundManager* Instance();
 
 	void Load(std::string filename, std::string id, soundType type, int volume);
-	void PlayMusic(std::string id, int loop);
+	void PlayMusic(std::string id, int loops);
 	void StopMusic();
 	void SetMusicVolume(int volume);
 	void PlaySFX(std::string id);

@@ -5,6 +5,7 @@
 
 class GameOverScreenState : public GameState {
 public:
+
 	static const Position cUpperStripPos;
 	static const Position cLowerStripPos;
 
@@ -30,4 +31,5 @@ private:
 	
 	Button* _againButton;
 	Button* _exitButton;
+
 };

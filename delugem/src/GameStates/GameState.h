@@ -7,14 +7,17 @@
 
 class GameState {
 public:
+
+	virtual std::string GetStateID();
+
 	virtual void Init() = 0;
 	virtual void Update(int deltaTime);
 	virtual void Render();  
 	virtual void Clean();
 
-	virtual std::string GetStateID();
 protected:
-	std::string stateID_;
 
+	std::string stateID_;
 	std::vector<GameObject*> _gameObjects;
+
 };

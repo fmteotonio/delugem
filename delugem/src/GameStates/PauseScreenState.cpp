@@ -2,9 +2,10 @@
 
 #include "PlayingState.h"
 #include "TitleScreenState.h"
-#include "../gameObjects/ForegroundStrip.h"
 #include "../gameObjects/buttons/BigButton.h"
 #include "../gameObjects/texts/ShadowedText.h"
+#include "../gameObjects/Background.h"
+#include "../gameObjects/ForegroundStrip.h"
 #include "../Constants.h"
 #include "../Game.h"
 #include "../GameManager.h"
@@ -26,6 +27,7 @@ const Position PauseScreenState::cExitContentPos   = { cExitButtonPos.x + BigBut
 
 const char* PauseScreenState::cPausedString = "GAME PAUSED";
 const char* PauseScreenState::cFlavorString = "The Gems don't mind waiting.";
+const char* PauseScreenState::cScorePartialString = "CURRENT SCORE: ";
 const char* PauseScreenState::cResumeString = "RESUME";
 const char* PauseScreenState::cExitString = "EXIT GAME";
 
@@ -35,30 +37,30 @@ void PauseScreenState::Init() {
 
 	stateID_ = "PAUSESCREEN";
 
-	//Foreground Strips
+	//Background & Foreground Strips
 
+	_gameObjects.push_back(new Background());
 	_gameObjects.push_back(new ForegroundStrip(cUpperStripPos));
 	_gameObjects.push_back(new ForegroundStrip(cLowerStripPos));
 
 	//Text to be displayed;
 
-	std::string scoreString  = "CURRENT SCORE: " + std::to_string(GameManager::Instance()->GetScore());
+	std::string scoreString  = cScorePartialString + std::to_string(GameManager::Instance()->GetScore());
 
-	_gameObjects.push_back(new ShadowedText(cPausedTextPos, Text::Align::MID, FNT_M6X11, 32, cPausedString, WHITE, BLACK));
-	_gameObjects.push_back(new ShadowedText(cFlavorTextPos, Text::Align::MID, FNT_M3X6, 16, cFlavorString, WHITE, BLACK));
-	_gameObjects.push_back(new ShadowedText(cScoreTextPos, Text::Align::MID, FNT_M6X11, 16, scoreString, WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cPausedTextPos, Text::Align::MID, FNT_M6X11, FNT_LARGE, cPausedString, WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cFlavorTextPos, Text::Align::MID, FNT_M3X6, FNT_SMALL, cFlavorString, WHITE, BLACK));
+	_gameObjects.push_back(new ShadowedText(cScoreTextPos, Text::Align::MID, FNT_M6X11, FNT_SMALL, scoreString, WHITE, BLACK));
 
 	//Resume and Exit Buttons
 	
 	_gameObjects.push_back(_resumeButton = new BigButton(cResumeButtonPos));
 	_gameObjects.push_back(_exitButton = new BigButton(cExitButtonPos));
 	
-	_resumeButton->AddContent(new ShadowedText(cResumeContentPos, Text::Align::MID, FNT_M6X11, 16, cResumeString, WHITE, BLACK));
-	_exitButton->AddContent(new ShadowedText(cExitContentPos, Text::Align::MID, FNT_M6X11, 16, cExitString, WHITE, BLACK));
+	_resumeButton->AddContent(new ShadowedText(cResumeContentPos, Text::Align::MID, FNT_M6X11, FNT_SMALL, cResumeString, WHITE, BLACK));
+	_exitButton->AddContent(new ShadowedText(cExitContentPos, Text::Align::MID, FNT_M6X11, FNT_SMALL, cExitString, WHITE, BLACK));
 }
 
 void PauseScreenState::Update(int deltaTime) {
-
 	GameState::Update(deltaTime);
 
 	if (_resumeButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
@@ -71,5 +73,4 @@ void PauseScreenState::Update(int deltaTime) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
 		SoundManager::Instance()->PlaySFX("ButtonSelect");
 	}
-		
 }

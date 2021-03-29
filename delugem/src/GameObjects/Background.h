@@ -13,14 +13,15 @@ public:
 
 	static const char* cAnimDefault;
 
-	Background(Position pos);
+	Background();
 
 	void Update(int deltaTime);
+	void Render();
 	void Clean();
 
 private:
 
-	int _steps = 0;
-	Timer* _stepTimer;
+	static int _steps;
+	static Timer _stepTimer;
 
 };

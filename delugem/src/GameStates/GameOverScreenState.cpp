@@ -4,6 +4,7 @@
 #include "TitleScreenState.h"
 #include "../gameObjects/buttons/BigButton.h"
 #include "../gameObjects/texts/ShadowedText.h"
+#include "../gameObjects/Background.h"
 #include "../gameObjects/ForegroundStrip.h"
 #include "../Constants.h"
 #include "../Game.h"
@@ -38,6 +39,7 @@ void GameOverScreenState::Init() {
 
 	//Foreground Strips
 
+	_gameObjects.push_back(new Background());
 	_gameObjects.push_back(new ForegroundStrip(cUpperStripPos));
 	_gameObjects.push_back(new ForegroundStrip(cLowerStripPos));
 

@@ -6,6 +6,9 @@
 
 class GameStateMachine {
 public:
+
+	bool IsEmpty();
+
 	void PushState(GameState* state);
 	void ChangeState(GameState* state);
 	void PopState();
@@ -14,7 +17,8 @@ public:
 	void Render();
 	void Clean();
 
-	bool IsEmpty();
 private:
+
 	std::vector<GameState*> _gameStates;
+
 };
