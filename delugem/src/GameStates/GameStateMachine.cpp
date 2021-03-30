@@ -1,7 +1,5 @@
 #include "GameStateMachine.h"
 
-#include "../TextureManager.h"
-
 bool GameStateMachine::IsEmpty() {
 	return _gameStates.empty();
 }

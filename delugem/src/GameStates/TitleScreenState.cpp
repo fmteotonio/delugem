@@ -52,7 +52,7 @@ void TitleScreenState::Init() {
 
 	//Start Button
 	_gameObjects.push_back(_playButton = new BigButton(cStartButtonPos));
-	_playButton->AddContent(new ShadowedText(cStartContentPos, Text::Align::MID, FNT_M6X11, 16, cStartString, WHITE, BLACK));
+	_playButton->AddContent(new ShadowedText(cStartContentPos, Text::Align::MID, FNT_M6X11, FNT_SMALL, cStartString, WHITE, BLACK));
 
 	//Exit Button
 	_gameObjects.push_back(_exitButton = new SmallButton(cExitButtonPos));

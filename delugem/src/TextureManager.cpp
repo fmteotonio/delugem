@@ -54,6 +54,7 @@ SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::strin
 		return texture;
 	}
 	else
+		
 		return findResult->second;
 }
 
@@ -61,25 +62,64 @@ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest) {
 	SDL_RenderCopy(Game::Instance()->GetRenderer(), tex, &src, &dest);
 }
 
-void TextureManager::Clean(){
-	for (auto textTexturePair : _textTextures) {
-		if (textTexturePair.second != NULL) {
-			std::cout << "Destroyed Texture: " << textTexturePair.first << "\n";
-			SDL_DestroyTexture(textTexturePair.second);
-		}
+void TextureManager::CleanTexture(std::string textureID) {
+	auto findResult = _objTextures.find(textureID);
+	if (findResult != _objTextures.end()) {
+		std::cout << "Destroyed Texture: " << findResult->first << "\n";
+		SDL_DestroyTexture(findResult->second);
+		_objTextures.erase(findResult);
 	}
+}
+
+void TextureManager::CleanText(std::string textID) {
+	auto findResult = _textTextures.find(textID);
+	if (findResult != _textTextures.end()) {
+		std::cout << "Destroyed Text: " << findResult->first << "\n";
+		SDL_DestroyTexture(findResult->second);
+		_textTextures.erase(findResult);
+	}
+}
+
+void TextureManager::CleanFont(std::string fontID) {
+	auto findResult = fonts_.find(fontID);
+	if (findResult != fonts_.end()) {
+		std::cout << "Destroyed Font: " << findResult->first << "\n";
+		TTF_CloseFont(findResult->second);
+		fonts_.erase(findResult);
+	}
+}
+
+void TextureManager::CleanAllTextures() {
 	for (auto objTexturePair : _objTextures) {
 		if (objTexturePair.second != NULL) {
 			std::cout << "Destroyed Texture: " << objTexturePair.first << "\n";
 			SDL_DestroyTexture(objTexturePair.second);
+			_objTextures.erase(objTexturePair.first);
 		}
 	}
+}
+void TextureManager::CleanAllText() {
+	for (auto textTexturePair : _textTextures) {
+		if (textTexturePair.second != NULL) {
+			std::cout << "Destroyed Texture: " << textTexturePair.first << "\n";
+			SDL_DestroyTexture(textTexturePair.second);
+			_textTextures.erase(textTexturePair.first);
+		}
+	}
+}
+void TextureManager::CleanAllFonts() {
 	for (auto fontPair : fonts_) {
 		if (fontPair.second != NULL) {
 			std::cout << "Destroyed Font: " << fontPair.first << "\n";
 			TTF_CloseFont(fontPair.second);
 		}
 	}
+}
+
+void TextureManager::CleanAll(){
+	CleanAllTextures();
+	CleanAllText();
+	CleanAllFonts();
 	delete _textureManagerInstance;
 }
 

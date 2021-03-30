@@ -14,7 +14,14 @@ public:
 
 	void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 
-	void Clean();
+	void CleanTexture(std::string textureID);
+	void CleanText(std::string textID);
+	void CleanFont(std::string fontID);
+	void CleanAllTextures();
+	void CleanAllText();
+	void CleanAllFonts();
+	void CleanAll();
+	
 
 private:
 	static TextureManager* _textureManagerInstance;

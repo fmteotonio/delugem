@@ -7,7 +7,7 @@
 
 GameManager* GameManager::_gameManagerInstance = nullptr;
 
-const int GameManager::cColumnTime = 10000;
+const int GameManager::cColumnTime = 9500;
 const float GameManager::cColumnTimeMultiplier = 0.95f;
 const int GameManager::cEndGemsMargin = 4;
 const int GameManager::cStartColumns = 13;
@@ -32,7 +32,7 @@ int GameManager::GetFillsLeft() {
 }
 
 int GameManager::GetScoreToNextLevel() {
-	return 1000 * _level + 100 * (static_cast<int>(pow(2, _level - 1)) - 1);
+	return 1000 * _level + 100 * (static_cast<int>(pow(2, _level)));
 }
 
 int GameManager::GetTimePerColumn() {

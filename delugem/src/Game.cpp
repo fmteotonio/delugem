@@ -99,7 +99,7 @@ void Game::Render() {
 }
 
 void Game::Clean() {
-	TextureManager::Instance()->Clean();
+	TextureManager::Instance()->CleanAll();
 	InputHandler::Instance()->Clean();
 
 	SDL_DestroyWindow(_window);
