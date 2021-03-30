@@ -23,6 +23,8 @@ public:
 	static const char* cResumeString;
 	static const char* cExitString;
 
+	static const char* cID;
+
 	void Init();
 	void Update(int deltaTime);
 

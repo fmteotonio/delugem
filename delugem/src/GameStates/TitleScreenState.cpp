@@ -35,9 +35,11 @@ const char* TitleScreenState::cExitContentPath = "res/images/iconexit.png";
 
 //........................................................................
 
+const char* TitleScreenState::cID = "TITLESCREEN";
+
 void TitleScreenState::Init() {
 
-	stateID_ = "TITLESCREEN";
+	stateID_ = cID;
 
 	_gameObjects.push_back(new Background());
 
@@ -65,12 +67,12 @@ void TitleScreenState::Update(int deltaTime) {
 	
 	// When first gem stops, play title sound 
 	if (!_leftBoard->GetBoardGems().at(0).at(0)->isMoving(false,true) && !_hasPlayedSound) {
-		SoundManager::Instance()->PlaySFX("GemsFallTitle");
+		SoundManager::Instance()->PlaySFX(SoundManager::cTitleFallSound);
 		_hasPlayedSound = true;
 	}
 	if (_playButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
-		SoundManager::Instance()->PlaySFX("GameStart");
+		SoundManager::Instance()->PlaySFX(SoundManager::cStartSound);
 	}
 	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->Quit();

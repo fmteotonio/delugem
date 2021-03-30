@@ -2,6 +2,16 @@
 
 #include <iostream>
 
+const Sound SoundManager::cGameMusic      ={ "Game" ,     "res/sounds/game.ogg",      Sound::Type::MUSIC, 8 };
+const Sound SoundManager::cBreakSound     ={ "Break" ,    "res/sounds/break.wav",     Sound::Type::SFX,   8 };
+const Sound SoundManager::cPushSound      ={ "Push" ,     "res/sounds/push.wav",      Sound::Type::SFX,   8 };
+const Sound SoundManager::cFillSound      ={ "Fill" ,     "res/sounds/fill.wav",      Sound::Type::SFX,  12 };
+const Sound SoundManager::cLoseSound      ={ "Lose" ,     "res/sounds/lose.wav",      Sound::Type::SFX,  16 };
+const Sound SoundManager::cStartSound     ={ "Start" ,    "res/sounds/start.wav",     Sound::Type::SFX,  12 };
+const Sound SoundManager::cLevelUpSound   ={ "LevelUp" ,  "res/sounds/levelup.wav",   Sound::Type::SFX,  12 };
+const Sound SoundManager::cSelectSound    ={ "Select" ,   "res/sounds/select.wav",    Sound::Type::SFX,   8 };
+const Sound SoundManager::cTitleFallSound ={ "TitleFall", "res/sounds/titlefall.wav", Sound::Type::SFX,  14 };
+
 const int SoundManager::cAudioFrequency = 66150;
 const int SoundManager::cAudioChannelNumber = 2;
 const int SoundManager::cAudioChunkSize = 4096;
@@ -16,29 +26,28 @@ SoundManager* SoundManager::Instance() {
 	return _soundManagerInstance;
 }
 
-void SoundManager::Load(std::string filename, std::string id, SoundManager::soundType type, int volume) {
-	if (type == SoundManager::soundType::MUSIC) {
-		Mix_Music* pMusic = Mix_LoadMUS(filename.c_str());
-		if (pMusic) {
-			_musics.insert({ id, pMusic });
-			SetMusicVolume(volume);
-		}
+void SoundManager::Load(Sound sound) {
+	if (sound.type == Sound::Type::MUSIC) {
+		Mix_Music* pMusic = Mix_LoadMUS(sound.path.c_str());
+		if (pMusic)
+			_musics.insert({ sound.id, pMusic });
 		else
 			std::cerr << "Music could not be loaded: " << SDL_GetError() << std::endl;
 	}
-	else if (type == SoundManager::soundType::SFX) {
-		Mix_Chunk* pSFX = Mix_LoadWAV(filename.c_str());
+	else if (sound.type == Sound::Type::SFX) {
+		Mix_Chunk* pSFX = Mix_LoadWAV(sound.path.c_str());
 		if (pSFX) {
-			_sfxs.insert({ id, pSFX });
-			SetSFXVolume(id, volume);
+			_sfxs.insert({ sound.id, pSFX });
+			SetSFXVolume(sound.id, sound.volume);
 		}
 		else
 			std::cerr << "SFX could not be loaded: " << SDL_GetError() << std::endl;
 	}
 }
 
-void SoundManager::PlayMusic(std::string id, int loops) {
-	Mix_PlayMusic(_musics.at(id), loops);
+void SoundManager::PlayMusic(Sound music, int loops) {
+	Mix_PlayMusic(_musics.at(music.id), loops);
+	SetMusicVolume(music.volume);
 }
 
 void SoundManager::StopMusic() {
@@ -49,8 +58,8 @@ void SoundManager::SetMusicVolume(int volume) {
 	Mix_VolumeMusic(volume);
 }
 
-void SoundManager::PlaySFX(std::string id) {
-	Mix_PlayChannel(-1, _sfxs.at(id), false);
+void SoundManager::PlaySFX(Sound sfx) {
+	Mix_PlayChannel(-1, _sfxs.at(sfx.id), false);
 }
 
 void SoundManager::SetSFXVolume(std::string id, int volume) {
@@ -60,4 +69,19 @@ void SoundManager::SetSFXVolume(std::string id, int volume) {
 void SoundManager::Clean() {
 	Mix_CloseAudio();
 	delete _soundManagerInstance;
+}
+
+void SoundManager::LoadSound() {
+	//Load Music
+	Load(cGameMusic);
+
+	//Load SFX
+	Load(cBreakSound);
+	Load(cPushSound);
+	Load(cFillSound);
+	Load(cLoseSound);
+	Load(cStartSound);
+	Load(cLevelUpSound);
+	Load(cTitleFallSound);
+	Load(cSelectSound);
 }

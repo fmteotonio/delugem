@@ -71,11 +71,13 @@ const int PlayingState::cPushButtonTimerValue = 100;
 
 //........................................................................
 
+const char* PlayingState::cID = "PLAYING";
+
 void PlayingState::Init() {
 
-	stateID_ = "PLAYING";
+	stateID_ = cID;
 
-	SoundManager::Instance()->PlayMusic("Playing", -1);
+	SoundManager::Instance()->PlayMusic(SoundManager::cGameMusic, -1);
 
 	/*
 	columnTimer:	 Time between columns being pushed into the board;
@@ -86,23 +88,27 @@ void PlayingState::Init() {
 	_pushButtonTimer = new Timer(-1, true);
 	_endGameTimer = new Timer(cEndGameTimerValue, false);
 
-	//Reset game and init Board
+	GameManager::Instance()->ResetGame();
+
+	//Background
 
 	_gameObjects.push_back(_background = new Background());
-	GameManager::Instance()->ResetGame();
+
+	//Board & End Zone
+
 	_gameObjects.push_back(_board = new Board(cBoardPos, cBoardColumns, true));
 	_board->PushColumns(GameManager::Instance()->cStartColumns);
 
-	//End Line and Text
-
 	_gameObjects.push_back(_endLine = new EndLine(cEndLinePos));
 	_gameObjects.push_back(new VerticalShadowedText(cEndTextPos, Text::Align::MID, FNT_M3X6, FNT_SMALL, cEndTextSpacing, cEndTextString, WHITE, BLACK));
+
+	//Foreground Strips & Visual Clock
+
 	_gameObjects.push_back(_foregroundStrip1 = new ForegroundStrip(cUpperStripPos));
 	_gameObjects.push_back(_foregroundStrip2 = new ForegroundStrip(cLowerStripPos));
 	_gameObjects.push_back(_pushClock = new Clock(cClockPos, _columnTimer));
 	
-	//Init all text and button objects
-
+	//All Text and Buttons
 	InitUI();
 }
 
@@ -233,7 +239,7 @@ void PlayingState::CheckLevel() {
 		_board->BreakAllGems(true);
 		_board->PushColumns(GameManager::Instance()->cStartColumns);
 
-		SoundManager::Instance()->PlaySFX("LevelUp");
+		SoundManager::Instance()->PlaySFX(SoundManager::cLevelUpSound);
 	}
 
 }
@@ -254,13 +260,13 @@ void PlayingState::CheckButtons() {
 
 	if (_fillButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		if (_board->FillBoard()) {
-			SoundManager::Instance()->PlaySFX("Fill");
+			SoundManager::Instance()->PlaySFX(SoundManager::cFillSound);
 			GameManager::Instance()->UseFill();
 		}
 	}
 	else if (_pauseButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->PushState(new PauseScreenState());
-		SoundManager::Instance()->PlaySFX("ButtonSelect");
+		SoundManager::Instance()->PlaySFX(SoundManager::cSelectSound);
 	}
 	
 	else if (_pushButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
@@ -279,7 +285,7 @@ void PlayingState::CheckGameOver() {
 	if (_board->GetPos().x < _endLine->GetPos().x && !_endGameTimer->IsRunning()) {
 		_board->BreakAllGems(false);
 		SoundManager::Instance()->StopMusic();
-		SoundManager::Instance()->PlaySFX("GameOver");
+		SoundManager::Instance()->PlaySFX(SoundManager::cLoseSound);
 		_endGameTimer->StartTimer();
 	}
 	else if (_endGameTimer->HasEnded()) {

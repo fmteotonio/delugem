@@ -61,7 +61,7 @@ std::vector<Gem*> Board::AddGems(int gX, int gemNumber) {
 /* Adds n new columns to right side of the board and moves all gems to the left*/
 void Board::PushColumns(int n) {
 
-	SoundManager::Instance()->PlaySFX("PushColumn");
+	SoundManager::Instance()->PlaySFX(SoundManager::cPushSound);
 
 	for (int aux = 0; aux < n; ++aux) {
 		AddNewColumns(1);
@@ -243,7 +243,7 @@ void Board::HandleInput() {
 			std::vector<int> gemsFoundIds = SearchGemGroup(convX, convY);
 			if (gemsFoundIds.size() > 1) {
 				GameManager::Instance()->AddScore(gemsFoundIds.size());
-				SoundManager::Instance()->PlaySFX("Break");
+				SoundManager::Instance()->PlaySFX(SoundManager::cBreakSound);
 				BreakGems(gemsFoundIds, true);
 			}
 		}

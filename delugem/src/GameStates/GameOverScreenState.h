@@ -23,6 +23,8 @@ public:
 	static const char* cScorePartialString;
 	static const char* cAgainString;
 	static const char* cExitString;
+
+	static const char* cID;
 	
 	void Init();
 	void Update(int deltaTime);

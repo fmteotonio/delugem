@@ -57,6 +57,8 @@ public:
 	static const int cEndGameTimerValue;
 	static const int cPushButtonTimerValue;
 
+	static const char* cID;
+
 	void Init();
 	void Update(int deltaTime);
 	void Render();

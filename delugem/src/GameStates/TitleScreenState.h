@@ -25,6 +25,8 @@ public:
 	static const Position cExitContentPos;
 	static const char* cExitContentPath;
 
+	static const char* cID;
+
 	void Init();
 	void Update(int deltaTime);
 

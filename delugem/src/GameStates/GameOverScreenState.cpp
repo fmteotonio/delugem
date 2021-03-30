@@ -33,9 +33,11 @@ const char* GameOverScreenState::cExitString  =        "EXIT GAME";
 
 //........................................................................
 
+const char* GameOverScreenState::cID = "GAMEOVERSCREEN";
+
 void GameOverScreenState::Init() {
 
-	stateID_ = "GAMEOVERSCREEN";
+	stateID_ = cID;
 
 	//Foreground Strips
 
@@ -43,7 +45,7 @@ void GameOverScreenState::Init() {
 	_gameObjects.push_back(new ForegroundStrip(cUpperStripPos));
 	_gameObjects.push_back(new ForegroundStrip(cLowerStripPos));
 
-	//Text to be displayed;
+	//Displayed Text
 
 	std::string scoreString = cScorePartialString + std::to_string(GameManager::Instance()->GetScore());
 
@@ -65,10 +67,10 @@ void GameOverScreenState::Update(int deltaTime) {
 
 	if (_againButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new PlayingState());
-		SoundManager::Instance()->PlaySFX("GameStart");
+		SoundManager::Instance()->PlaySFX(SoundManager::cStartSound);
 	}
 	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
-		SoundManager::Instance()->PlaySFX("ButtonSelect");
+		SoundManager::Instance()->PlaySFX(SoundManager::cSelectSound);
 	}		
 }

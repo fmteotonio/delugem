@@ -15,17 +15,6 @@
 #include <SDL_Image.h>
 #include <SDL_ttf.h>
 
-#define MUS_PLAYING			"res/sounds/m_playing.ogg"
-#define SND_BREAK			"res/sounds/break.wav"
-#define SND_PUSHCOLUMN		"res/sounds/columnpush.wav"
-#define SND_FILL			"res/sounds/fill.wav"
-#define SND_GAMEOVER		"res/sounds/gameover.wav"
-#define SND_GAMESTART		"res/sounds/gamestart.wav"
-#define SND_LEVELUP			"res/sounds/levelup.wav"
-#define SND_PIECEFALL		"res/sounds/piecefall.wav"
-#define SND_BUTTONSELECT	"res/sounds/buttonselect.wav"
-#define SND_GEMSFALLTITLE	"res/sounds/gemsfalltitle.wav"
-
 Game* Game::_gameInstance = nullptr;
 
 Game* Game::Instance() {
@@ -65,14 +54,13 @@ bool Game::Init(const char* title, int width, int height) {
 
 		InputHandler::Instance();
 		SoundManager::Instance();
+		SoundManager::Instance()->LoadSound();
 		GameManager::Instance();
-		LoadSound();
 
 		_gameStateMachine = new GameStateMachine();
 		_gameStateMachine->PushState(new TitleScreenState());
 		
 		return true;
-		//----------------------------------
 	}
 	else {
 		std::cout << "SDL_Init failed.\n";
@@ -99,8 +87,12 @@ void Game::Render() {
 }
 
 void Game::Clean() {
-	TextureManager::Instance()->ReleaseAll();
+	_gameStateMachine->Clean();
+
+	TextureManager::Instance()->Clean();
 	InputHandler::Instance()->Clean();
+	SoundManager::Instance()->Clean();
+	GameManager::Instance()->Clean();
 
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
@@ -109,21 +101,4 @@ void Game::Clean() {
 
 	delete _gameStateMachine;
 	delete _gameInstance;
-}
-
-void Game::LoadSound() {
-	//Load Music
-	SoundManager::Instance()->Load(MUS_PLAYING, "Playing", SoundManager::soundType::MUSIC, 8);
-
-	//Load SFX
-	SoundManager::Instance()->Load(SND_BREAK, "Break", SoundManager::soundType::SFX, 8);
-	SoundManager::Instance()->Load(SND_PUSHCOLUMN, "PushColumn", SoundManager::soundType::SFX, 8);
-	SoundManager::Instance()->Load(SND_FILL, "Fill", SoundManager::soundType::SFX, 12);
-	SoundManager::Instance()->Load(SND_GAMEOVER, "GameOver", SoundManager::soundType::SFX, 16);
-	SoundManager::Instance()->Load(SND_GAMESTART, "GameStart", SoundManager::soundType::SFX, 12);
-	SoundManager::Instance()->Load(SND_LEVELUP, "LevelUp", SoundManager::soundType::SFX, 12);
-	SoundManager::Instance()->Load(SND_PIECEFALL, "PieceFall", SoundManager::soundType::SFX, 8);
-	SoundManager::Instance()->Load(SND_PIECEFALL, "PieceFall", SoundManager::soundType::SFX, 8);
-	SoundManager::Instance()->Load(SND_GEMSFALLTITLE, "GemsFallTitle", SoundManager::soundType::SFX, 14);
-	SoundManager::Instance()->Load(SND_BUTTONSELECT, "ButtonSelect", SoundManager::soundType::SFX, 8);
 }

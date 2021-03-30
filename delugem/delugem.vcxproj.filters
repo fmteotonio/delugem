@@ -134,6 +134,9 @@
     <ClInclude Include="src\structs\Dimensions.h">
       <Filter>src\structs</Filter>
     </ClInclude>
+    <ClInclude Include="src\structs\Sound.h">
+      <Filter>src\structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -274,37 +277,34 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="res\sounds\columnpush.wav">
+    <None Include="res\sounds\game.ogg">
       <Filter>res\sounds</Filter>
-    </Media>
-    <Media Include="res\sounds\fill.wav">
-      <Filter>res\sounds</Filter>
-    </Media>
-    <Media Include="res\sounds\gameover.wav">
-      <Filter>res\sounds</Filter>
-    </Media>
-    <Media Include="res\sounds\gamestart.wav">
-      <Filter>res\sounds</Filter>
-    </Media>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Media Include="res\sounds\levelup.wav">
       <Filter>res\sounds</Filter>
     </Media>
-    <Media Include="res\sounds\piecefall.wav">
+    <Media Include="res\sounds\lose.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\push.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\select.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\start.wav">
+      <Filter>res\sounds</Filter>
+    </Media>
+    <Media Include="res\sounds\titlefall.wav">
       <Filter>res\sounds</Filter>
     </Media>
     <Media Include="res\sounds\break.wav">
       <Filter>res\sounds</Filter>
     </Media>
-    <Media Include="res\sounds\buttonselect.wav">
+    <Media Include="res\sounds\fill.wav">
       <Filter>res\sounds</Filter>
     </Media>
-    <Media Include="res\sounds\gemsfalltitle.wav">
-      <Filter>res\sounds</Filter>
-    </Media>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\sounds\m_playing.ogg">
-      <Filter>res\sounds</Filter>
-    </None>
   </ItemGroup>
 </Project>

@@ -182,6 +182,7 @@
     <ClInclude Include="src\SoundManager.h" />
     <ClInclude Include="src\structs\Dimensions.h" />
     <ClInclude Include="src\structs\Position.h" />
+    <ClInclude Include="src\structs\Sound.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Timer.h" />
   </ItemGroup>
@@ -236,18 +237,17 @@
     <Image Include="res\images\title.png" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="res\sounds\break.wav" />
-    <Media Include="res\sounds\buttonselect.wav" />
-    <Media Include="res\sounds\columnpush.wav" />
-    <Media Include="res\sounds\fill.wav" />
-    <Media Include="res\sounds\gameover.wav" />
-    <Media Include="res\sounds\gamestart.wav" />
-    <Media Include="res\sounds\gemsfalltitle.wav" />
-    <Media Include="res\sounds\levelup.wav" />
-    <Media Include="res\sounds\piecefall.wav" />
+    <None Include="res\sounds\game.ogg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\sounds\m_playing.ogg" />
+    <Media Include="res\sounds\break.wav" />
+    <Media Include="res\sounds\fill.wav" />
+    <Media Include="res\sounds\levelup.wav" />
+    <Media Include="res\sounds\lose.wav" />
+    <Media Include="res\sounds\push.wav" />
+    <Media Include="res\sounds\select.wav" />
+    <Media Include="res\sounds\start.wav" />
+    <Media Include="res\sounds\titlefall.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

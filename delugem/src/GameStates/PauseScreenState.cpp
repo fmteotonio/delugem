@@ -33,9 +33,11 @@ const char* PauseScreenState::cExitString = "EXIT GAME";
 
 //........................................................................
 
+const char* PauseScreenState::cID = "PAUSESCREEN";
+
 void PauseScreenState::Init() {
 
-	stateID_ = "PAUSESCREEN";
+	stateID_ = cID;
 
 	//Background & Foreground Strips
 
@@ -43,7 +45,7 @@ void PauseScreenState::Init() {
 	_gameObjects.push_back(new ForegroundStrip(cUpperStripPos));
 	_gameObjects.push_back(new ForegroundStrip(cLowerStripPos));
 
-	//Text to be displayed;
+	//Displayed Text
 
 	std::string scoreString  = cScorePartialString + std::to_string(GameManager::Instance()->GetScore());
 
@@ -65,12 +67,12 @@ void PauseScreenState::Update(int deltaTime) {
 
 	if (_resumeButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		Game::Instance()->GetGameStateMachine()->PopState();
-		SoundManager::Instance()->PlaySFX("ButtonSelect");
+		SoundManager::Instance()->PlaySFX(SoundManager::cSelectSound);
 	}
 		
 	else if (_exitButton->GetButtonState() == Button::ButtonState::PRESS_ACTION) {
 		SoundManager::Instance()->StopMusic();
 		Game::Instance()->GetGameStateMachine()->ChangeState(new TitleScreenState());
-		SoundManager::Instance()->PlaySFX("ButtonSelect");
+		SoundManager::Instance()->PlaySFX(SoundManager::cSelectSound);
 	}
 }
