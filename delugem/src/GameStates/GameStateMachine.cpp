@@ -1,5 +1,7 @@
 #include "GameStateMachine.h"
 
+#include "../TextureManager.h"
+
 bool GameStateMachine::IsEmpty() {
 	return _gameStates.empty();
 }
@@ -13,6 +15,7 @@ void GameStateMachine::ChangeState(GameState* state) {
 	if (!_gameStates.empty()) {
 		if (_gameStates.back()->GetStateID() != state->GetStateID()){
 			_gameStates.back()->Clean();
+			TextureManager::Instance()->ReleaseAll();
 			delete _gameStates.back();
 			_gameStates.pop_back();
 		}

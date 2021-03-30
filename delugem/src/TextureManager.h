@@ -14,13 +14,12 @@ public:
 
 	void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 
-	void CleanTexture(std::string textureID);
-	void CleanText(std::string textID);
-	void CleanFont(std::string fontID);
-	void CleanAllTextures();
-	void CleanAllText();
-	void CleanAllFonts();
-	void CleanAll();
+	void ReleaseTextures();
+	void ReleaseTexts();
+	void ReleaseFonts();
+	void ReleaseAll();
+
+	void Clean();
 	
 
 private:
@@ -28,7 +27,7 @@ private:
 
 	std::map<std::string, SDL_Texture*> _objTextures;
 	std::map<std::string, SDL_Texture*> _textTextures;
-	std::map<std::string, TTF_Font*> fonts_;
+	std::map<std::string, TTF_Font*> _fonts;
 	typedef std::map<std::string, SDL_Texture*> textureMap;
 	typedef std::map<std::string, TTF_Font*> fontMap;
 
