@@ -45,7 +45,6 @@ bool Game::Init(const char* title, int width, int height) {
 		}
 		_isGameRunning = true;
 
-
 		TextureManager::Instance();
 		if (TTF_Init() != 0) {
 			std::cerr << "TTF Init failed: " << SDL_GetError() << std::endl;
@@ -53,8 +52,7 @@ bool Game::Init(const char* title, int width, int height) {
 		}
 
 		InputHandler::Instance();
-		SoundManager::Instance();
-		SoundManager::Instance()->LoadSound();
+		SoundManager::Instance()->LoadAllSound();
 		GameManager::Instance();
 
 		_gameStateMachine = new GameStateMachine();
@@ -70,10 +68,6 @@ bool Game::Init(const char* title, int width, int height) {
 
 void Game::HandleEvents() {
 	InputHandler::Instance()->Update();
-}
-
-void Game::Quit() {
-	_isGameRunning = false;
 }
 
 void Game::Update(int deltaTime) {
@@ -101,4 +95,8 @@ void Game::Clean() {
 
 	delete _gameStateMachine;
 	delete _gameInstance;
+}
+
+void Game::Quit() {
+	_isGameRunning = false;
 }

@@ -4,6 +4,7 @@
 
 class Gem : public AnimatedGameObject{
 public:
+
 	static const char* cPath;
 	static const Dimensions cDim;
 	static const float cAcceleration;
@@ -35,6 +36,7 @@ public:
 	void Update(int deltaTime);
 
 private:
+
 	int _id;
 
 	Position _toMove = { 0,0 };
@@ -42,4 +44,5 @@ private:
 
 	GemColor _gemColor;
 	GemState _gemState = GemState::DEFAULT;
+
 };

@@ -58,7 +58,7 @@ void AnimatedGameObject::Render() {
 }
 
 void AnimatedGameObject::Clean() { 
-	for (auto animationPair : _animations) {
+	for (std::pair<std::string, Animation*> animationPair : _animations) {
 		delete animationPair.second;
 	}
 }

@@ -12,7 +12,7 @@ Board::Board(Position pos, int columnSize, bool isPlayable) {
 	_columnSize = columnSize;
 	_isPlayable = isPlayable;
 
-	_generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
+	_generator.seed(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
 
 	GameObject::Init(pos);
 }
@@ -28,7 +28,7 @@ std::vector<std::vector<Gem*>> Board::GetBoardGems() {
 
 /* Adds new empty column to board */
 void Board::AddNewColumns(int numberOfColumns) {
-	for (int i = 0; i < numberOfColumns; i++) {
+	for (int i = 0; i < numberOfColumns; ++i) {
 		std::vector<Gem*> newColumn;
 		_boardGems.push_back(newColumn);
 	}
@@ -40,7 +40,7 @@ std::vector<Gem*> Board::AddGems(int gX, int gemNumber) {
 	std::uniform_int_distribution<int> distribution(0, Gem::cNumberOfColors - 1);
 	std::vector<Gem*> producedGems;
 
-	for (int i = 0; i < gemNumber; i++) {
+	for (int i = 0; i < gemNumber; ++i) {
 		Gem::GemColor color = Gem::GemColor(distribution(_generator));
 
 		Gem* newGem = new Gem(
@@ -65,7 +65,7 @@ void Board::PushColumns(int n) {
 
 	for (int aux = 0; aux < n; ++aux) {
 		AddNewColumns(1);
-		AddGems(_boardGems.size()-1, _columnSize);
+		AddGems(static_cast<int>(_boardGems.size())-1, _columnSize);
 	}
 
 	//Move left
@@ -86,7 +86,7 @@ bool Board::FillBoard() {
 		//Creates gems in their correct places
 		for (int i = 0; i < _boardGems.size(); ++i) {
 			
-			int thisGapHeight = _columnSize - _boardGems.at(i).size();
+			int thisGapHeight = _columnSize - static_cast<int>(_boardGems.at(i).size());
 			
 			std::vector<Gem*> newGems = AddGems(i, thisGapHeight);
 			createdGems.insert(createdGems.end(), newGems.begin(), newGems.end());
@@ -135,8 +135,8 @@ void Board::BreakGem(int gX, int gY, bool compressEmptyColumns) {
    Can check and delete empty columns afterwards*/
 void Board::BreakGems(std::vector<int> gemIDs, bool compressEmptyColumns) {
 	
-	for (int gX = _boardGems.size() - 1; gX >= 0; --gX) {
-		for (int gY = _boardGems.at(gX).size() - 1; gY >= 0; --gY) {
+	for (int gX = static_cast<int>(_boardGems.size()) - 1; gX >= 0; --gX) {
+		for (int gY = static_cast<int>(_boardGems.at(gX).size()) - 1; gY >= 0; --gY) {
 			
 			std::vector<int>::iterator findResult = std::find(gemIDs.begin(), gemIDs.end(), _boardGems.at(gX).at(gY)->GetId());
 
@@ -150,8 +150,8 @@ void Board::BreakGems(std::vector<int> gemIDs, bool compressEmptyColumns) {
 
 /* Sets all gems in for destruction. Can check and delete empty columns afterwards*/
 void Board::BreakAllGems(bool compressEmptyColumns) {
-	for (int i = _boardGems.size() - 1; i >= 0; --i) {
-		for (int ii = _boardGems.at(i).size() - 1; ii >= 0; --ii) {
+	for (int i = static_cast<int>(_boardGems.size()) - 1; i >= 0; --i) {
+		for (int ii = static_cast<int>(_boardGems.at(i).size()) - 1; ii >= 0; --ii) {
 				BreakGem(i, ii, compressEmptyColumns);
 		}
 	}
@@ -242,7 +242,7 @@ void Board::HandleInput() {
 		if (InputHandler::Instance()->GetMouseLeft() && !_hasClicked && !gem->isMoving(true, false)) {
 			std::vector<int> gemsFoundIds = SearchGemGroup(convX, convY);
 			if (gemsFoundIds.size() > 1) {
-				GameManager::Instance()->AddScore(gemsFoundIds.size());
+				GameManager::Instance()->AddScore(static_cast<int>(gemsFoundIds.size()));
 				SoundManager::Instance()->PlaySFX(SoundManager::cBreakSound);
 				BreakGems(gemsFoundIds, true);
 			}

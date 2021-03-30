@@ -40,7 +40,6 @@ void Animation::SetCurrentFrame(int frame) {
 	_currentFrame = frame;
 }
 
-
 void Animation::Play() {
 	_timePassed = 0;
 	_isPlaying = true;

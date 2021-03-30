@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
 	
 	if (Game::Instance()->Init("delugem", SCREEN_W * GAME_SCALE, SCREEN_H * GAME_SCALE)) {
 		while (Game::Instance()->IsGameRunning()) {
-			frameStart = SDL_GetTicks();
 
+			frameStart = SDL_GetTicks();
 			int deltaTime = frameStart - lastFrameStart;
 
 			Game::Instance()->HandleEvents();
@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
 				SDL_Delay(frameDelay - frameTime);
 			lastFrameStart = frameStart;
 		}
-
 		Game::Instance()->Clean();
 		return 0;
 	}

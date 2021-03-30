@@ -14,7 +14,7 @@ TextureManager* TextureManager::Instance() {
 }
 
 SDL_Texture* TextureManager::LoadTexture(std::string filename) {
-	textureMap::iterator findResult = _objTextures.find(filename);
+	std::map<std::string, SDL_Texture*>::iterator findResult = _objTextures.find(filename);
 
 	if (findResult == _objTextures.end()) {
 
@@ -36,7 +36,8 @@ SDL_Texture* TextureManager::LoadTexture(std::string filename) {
 SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::string text, SDL_Color color) {
 	TTF_Font* font = LoadFont(filename, size);
 
-	textureMap::iterator findResult = _textTextures.find(filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b));
+	std::map<std::string, SDL_Texture*>::iterator findResult = 
+		_textTextures.find(filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b));
 
 	if (findResult == _textTextures.end()) {
 
@@ -47,8 +48,7 @@ SDL_Texture* TextureManager::LoadText(std::string filename, int size, std::strin
 		_textTextures.insert({ filename + std::to_string(size) + text + std::to_string(color.r) + std::to_string(color.g) + std::to_string(color.b), texture });
 		return texture;
 	}
-	else
-		
+	else		
 		return findResult->second;
 }
 
@@ -57,23 +57,25 @@ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest) {
 }
 
 void TextureManager::ReleaseTextures() {
-	for (auto objTexturePair : _objTextures) {
+	for (std::pair<std::string, SDL_Texture*> objTexturePair : _objTextures) {
 		if (objTexturePair.second != NULL) {
 			SDL_DestroyTexture(objTexturePair.second);
 			_objTextures.erase(objTexturePair.first);
 		}
 	}
 }
+
 void TextureManager::ReleaseTexts() {
-	for (auto textTexturePair : _textTextures) {
+	for (std::pair<std::string, SDL_Texture*> textTexturePair : _textTextures) {
 		if (textTexturePair.second != NULL) {
 			SDL_DestroyTexture(textTexturePair.second);
 			_textTextures.erase(textTexturePair.first);
 		}
 	}
 }
+
 void TextureManager::ReleaseFonts() {
-	for (auto fontPair : _fonts) {
+	for (std::pair<std::string, TTF_Font*> fontPair : _fonts) {
 		if (fontPair.second != NULL) {
 			TTF_CloseFont(fontPair.second);
 			_fonts.erase(fontPair.first);
@@ -93,7 +95,7 @@ void TextureManager::Clean() {
 }
 
 TTF_Font* TextureManager::LoadFont(std::string filename, int size) {
-	fontMap::iterator findResult = _fonts.find(filename + std::to_string(size));
+	std::map<std::string,TTF_Font*>::iterator findResult = _fonts.find(filename + std::to_string(size));
 
 	if (findResult == _fonts.end()) {
 		TTF_Font* font = TTF_OpenFont(filename.c_str(), size);

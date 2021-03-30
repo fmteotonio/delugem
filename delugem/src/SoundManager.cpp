@@ -2,19 +2,19 @@
 
 #include <iostream>
 
-const Sound SoundManager::cGameMusic      ={ "Game" ,     "res/sounds/game.ogg",      Sound::Type::MUSIC, 8 };
-const Sound SoundManager::cBreakSound     ={ "Break" ,    "res/sounds/break.wav",     Sound::Type::SFX,   8 };
-const Sound SoundManager::cPushSound      ={ "Push" ,     "res/sounds/push.wav",      Sound::Type::SFX,   8 };
-const Sound SoundManager::cFillSound      ={ "Fill" ,     "res/sounds/fill.wav",      Sound::Type::SFX,  12 };
-const Sound SoundManager::cLoseSound      ={ "Lose" ,     "res/sounds/lose.wav",      Sound::Type::SFX,  16 };
-const Sound SoundManager::cStartSound     ={ "Start" ,    "res/sounds/start.wav",     Sound::Type::SFX,  12 };
-const Sound SoundManager::cLevelUpSound   ={ "LevelUp" ,  "res/sounds/levelup.wav",   Sound::Type::SFX,  12 };
-const Sound SoundManager::cSelectSound    ={ "Select" ,   "res/sounds/select.wav",    Sound::Type::SFX,   8 };
-const Sound SoundManager::cTitleFallSound ={ "TitleFall", "res/sounds/titlefall.wav", Sound::Type::SFX,  14 };
+const Sound SoundManager::cGameMusic      ={ "Game" ,     "res/sounds/game.ogg",      Sound::Type::MUSIC, 16 };
+const Sound SoundManager::cBreakSound     ={ "Break" ,    "res/sounds/break.wav",     Sound::Type::SFX,   16 };
+const Sound SoundManager::cFillSound      ={ "Fill" ,     "res/sounds/fill.wav",      Sound::Type::SFX,   24 };
+const Sound SoundManager::cLevelUpSound   ={ "LevelUp" ,  "res/sounds/levelup.wav",   Sound::Type::SFX,   20 };
+const Sound SoundManager::cLoseSound      ={ "Lose" ,     "res/sounds/lose.wav",      Sound::Type::SFX,   32 };
+const Sound SoundManager::cPushSound      ={ "Push" ,     "res/sounds/push.wav",      Sound::Type::SFX,   16 };
+const Sound SoundManager::cSelectSound    ={ "Select" ,   "res/sounds/select.wav",    Sound::Type::SFX,   16 };
+const Sound SoundManager::cStartSound     ={ "Start" ,    "res/sounds/start.wav",     Sound::Type::SFX,   24 };
+const Sound SoundManager::cTitleFallSound ={ "TitleFall", "res/sounds/titlefall.wav", Sound::Type::SFX,   28 };
 
-const int SoundManager::cAudioFrequency = 66150;
+const int SoundManager::cAudioFrequency     = 66150;
 const int SoundManager::cAudioChannelNumber = 2;
-const int SoundManager::cAudioChunkSize = 4096;
+const int SoundManager::cAudioChunkSize     = 4096;
 
 SoundManager* SoundManager::_soundManagerInstance = nullptr;
 
@@ -45,6 +45,21 @@ void SoundManager::Load(Sound sound) {
 	}
 }
 
+void SoundManager::LoadAllSound() {
+	//Load Music
+	Load(cGameMusic);
+
+	//Load SFX
+	Load(cBreakSound);
+	Load(cFillSound);
+	Load(cLevelUpSound);
+	Load(cLoseSound);
+	Load(cPushSound);
+	Load(cSelectSound);
+	Load(cStartSound);
+	Load(cTitleFallSound);
+}
+
 void SoundManager::PlayMusic(Sound music, int loops) {
 	Mix_PlayMusic(_musics.at(music.id), loops);
 	SetMusicVolume(music.volume);
@@ -69,19 +84,4 @@ void SoundManager::SetSFXVolume(std::string id, int volume) {
 void SoundManager::Clean() {
 	Mix_CloseAudio();
 	delete _soundManagerInstance;
-}
-
-void SoundManager::LoadSound() {
-	//Load Music
-	Load(cGameMusic);
-
-	//Load SFX
-	Load(cBreakSound);
-	Load(cPushSound);
-	Load(cFillSound);
-	Load(cLoseSound);
-	Load(cStartSound);
-	Load(cLevelUpSound);
-	Load(cTitleFallSound);
-	Load(cSelectSound);
 }

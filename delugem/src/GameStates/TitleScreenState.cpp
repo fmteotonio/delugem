@@ -106,7 +106,8 @@ void TitleScreenState::SetupDecorBoards() {
 	}
 	for (std::vector<Gem*> column : _rightBoard->GetBoardGems()) {
 		for (Gem* gem : column) {
-			gem->MoveFrom({ 0, static_cast<float>((-2 * cBoardColumns + static_cast<int>(column.size())) * Gem::cDim.h) });
+			gem->MoveFrom({ 0, 
+				static_cast<float>((-2 * cBoardColumns + static_cast<int>(column.size())) * Gem::cDim.h) });
 		}
 	}
 }
