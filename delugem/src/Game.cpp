@@ -61,7 +61,7 @@ bool Game::Init(const char* title, int width, int height) {
 		return true;
 	}
 	else {
-		std::cout << "SDL_Init failed.\n";
+		std::cerr << "SDL_Init failed.\n";
 		return false;
 	}
 }
