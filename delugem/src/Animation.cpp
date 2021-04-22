@@ -24,6 +24,10 @@ int Animation::GetFrameRow()   {
 	return _frameRow; 
 }
 
+int Animation::GetLastFrame() {
+	return _lastFrame;
+}
+
 int Animation::GetCurrentFrame() {
 	return _currentFrame;
 }

@@ -8,6 +8,7 @@ public:
 
 	bool isPlaying();
 	int GetFrameRow();
+	int GetLastFrame();
 	int GetCurrentFrame();
 	bool HasPlayedOnce();
 	

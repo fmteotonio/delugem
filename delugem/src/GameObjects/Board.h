@@ -2,6 +2,7 @@
 
 #include <random>
 #include <vector>
+#include <unordered_set>
 
 #include "Gem.h"
 #include "GameObject.h"
@@ -18,10 +19,9 @@ public:
 	std::vector<Gem*> AddGems(int gX, int gemNumber);
 	void PushColumns(int n);
 	bool FillBoard();
-	void BreakGem(int gX, int gY, bool compressEmptyColumns);
-	void BreakGems(std::vector<int> gemIDs, bool compressEmptyColumns);
+	
 	void BreakAllGems(bool compressEmptyColumns);
-	std::vector<int> SearchGemGroup(int gX, int gY);
+	std::unordered_set<int> SearchGemGroup(int gX, int gY);
 
 	void Update(int deltaTime);
 	void Render();
@@ -41,4 +41,7 @@ private:
 	Gem* _lastHoveredGem = nullptr;
 
 	void HandleInput();
+
+	void BreakGems(std::unordered_set<int> gemIDs, bool compressEmptyColumns);
+	void SetGemToDestroy(int gX, int gY, bool compressEmptyColumns);
 };

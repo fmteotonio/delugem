@@ -22,5 +22,5 @@ Clock::Clock(Position pos, Timer* timer) {
 
 /* Manually update current frame to match timer progress */
 void Clock::UpdateFrame() {
-	_currentAnimation->SetCurrentFrame(std::floor(_connectedTimer->HowMuchPassed() * 16));
+	_currentAnimation->SetCurrentFrame(std::floor(_connectedTimer->HowMuchPassed() * _currentAnimation->GetLastFrame()));
 }

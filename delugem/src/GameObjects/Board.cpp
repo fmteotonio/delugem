@@ -103,7 +103,7 @@ bool Board::FillBoard() {
 }
 
 
-void Board::BreakGem(int gX, int gY, bool compressEmptyColumns) {
+void Board::SetGemToDestroy(int gX, int gY, bool compressEmptyColumns) {
 	std::vector<Gem*>& column = _boardGems.at(gX);
 
 	_beingDestroyedGems.push_back(column.at(gY));
@@ -133,16 +133,16 @@ void Board::BreakGem(int gX, int gY, bool compressEmptyColumns) {
 
 /* Sets gems with the provided ID's for destruction. 
    Can check and delete empty columns afterwards*/
-void Board::BreakGems(std::vector<int> gemIDs, bool compressEmptyColumns) {
+void Board::BreakGems(std::unordered_set<int> gemIDs, bool compressEmptyColumns) {
 	
 	for (int gX = static_cast<int>(_boardGems.size()) - 1; gX >= 0; --gX) {
 		for (int gY = static_cast<int>(_boardGems.at(gX).size()) - 1; gY >= 0; --gY) {
-			
-			std::vector<int>::iterator findResult = std::find(gemIDs.begin(), gemIDs.end(), _boardGems.at(gX).at(gY)->GetId());
+
+			std::unordered_set<int>::iterator findResult = gemIDs.find(_boardGems.at(gX).at(gY)->GetId());
 
 			if (findResult != gemIDs.end()) {
 				gemIDs.erase(findResult);
-				BreakGem(gX, gY, compressEmptyColumns);
+				SetGemToDestroy(gX, gY, compressEmptyColumns);
 			}
 		}
 	}
@@ -152,19 +152,19 @@ void Board::BreakGems(std::vector<int> gemIDs, bool compressEmptyColumns) {
 void Board::BreakAllGems(bool compressEmptyColumns) {
 	for (int i = static_cast<int>(_boardGems.size()) - 1; i >= 0; --i) {
 		for (int ii = static_cast<int>(_boardGems.at(i).size()) - 1; ii >= 0; --ii) {
-				BreakGem(i, ii, compressEmptyColumns);
+				SetGemToDestroy(i, ii, compressEmptyColumns);
 		}
 	}
 }
 
 /* Returns vector of gem ID's of adjacent gems to the [gX, gY] in the board. */
-std::vector<int> Board::SearchGemGroup(int gX, int gY) {
+std::unordered_set<int> Board::SearchGemGroup(int gX, int gY) {
 
 	enum class dir{
 		NONE, UP, DOWN, LEFT, RIGHT
 	};
 	
-	std::vector<int> foundIDs;
+	std::unordered_set<int> foundIDs;
 
 	//Recursive Lambda:
 	//	-> adds ID of clicked group gems to "to_delete".
@@ -179,9 +179,8 @@ std::vector<int> Board::SearchGemGroup(int gX, int gY) {
 				Gem* this_gem = _boardGems.at(gX).at(gY);
 
 				//Gem is same Color and was not already checked
-				if (this_gem->GetGemColor() == gemColor && 
-				std::find(foundIDs.begin(), foundIDs.end(), this_gem->GetId()) == foundIDs.end()) {
-					foundIDs.push_back(this_gem->GetId());
+				if (this_gem->GetGemColor() == gemColor && foundIDs.find(this_gem->GetId()) == foundIDs.end()) {
+					foundIDs.insert(this_gem->GetId());
 					//Does not search in the same direction it came from.
 					if (d != dir::LEFT)  recursion(dir::RIGHT, gemColor, gX + 1, gY);
 					if (d != dir::RIGHT) recursion(dir::LEFT, gemColor, gX - 1, gY);
@@ -240,7 +239,9 @@ void Board::HandleInput() {
 		}
 		//Only once per click and if gem is not moving horizontally
 		if (InputHandler::Instance()->GetMouseLeft() && !_hasClicked && !gem->isMoving(true, false)) {
-			std::vector<int> gemsFoundIds = SearchGemGroup(convX, convY);
+
+			std::unordered_set<int> gemsFoundIds = SearchGemGroup(convX, convY);
+
 			if (gemsFoundIds.size() > 1) {
 				GameManager::Instance()->AddScore(static_cast<int>(gemsFoundIds.size()));
 				SoundManager::Instance()->PlaySFX(SoundManager::cBreakSound);
