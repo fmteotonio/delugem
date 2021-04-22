@@ -4,6 +4,8 @@
 
 Players can also force a new column to appear through the **Push** button and fill the whole board with gems in case they get stuck with the **Fill** button (only three times per game, though). On the top of the screen the current level and score are displayed, as well as the required score to level up. Whenever a new level is reached, the board resets to its initial position!
 
+delugem is currently playable @ https://keeptrying.itch.io/delugem
+
 ## Assets
 
 The following assets were used in this game:
