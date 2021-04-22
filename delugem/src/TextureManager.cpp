@@ -57,28 +57,31 @@ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest) {
 }
 
 void TextureManager::ReleaseTextures() {
-	for (std::pair<std::string, SDL_Texture*> objTexturePair : _objTextures) {
-		if (objTexturePair.second != NULL) {
-			SDL_DestroyTexture(objTexturePair.second);
-			_objTextures.erase(objTexturePair.first);
+	std::map<std::string, SDL_Texture*>::iterator it = _objTextures.begin();
+	while (it != _objTextures.end()) {
+		if (it->second != NULL) {
+			SDL_DestroyTexture(it->second);
+			it = _objTextures.erase(it);
 		}
 	}
 }
 
 void TextureManager::ReleaseTexts() {
-	for (std::pair<std::string, SDL_Texture*> textTexturePair : _textTextures) {
-		if (textTexturePair.second != NULL) {
-			SDL_DestroyTexture(textTexturePair.second);
-			_textTextures.erase(textTexturePair.first);
+	std::map<std::string, SDL_Texture*>::iterator it = _textTextures.begin();
+	while (it != _textTextures.end()) {
+		if (it->second != NULL) {
+			SDL_DestroyTexture(it->second);
+			it = _textTextures.erase(it);
 		}
 	}
 }
 
 void TextureManager::ReleaseFonts() {
-	for (std::pair<std::string, TTF_Font*> fontPair : _fonts) {
-		if (fontPair.second != NULL) {
-			TTF_CloseFont(fontPair.second);
-			_fonts.erase(fontPair.first);
+	std::map<std::string, TTF_Font*>::iterator it = _fonts.begin();
+	while (it != _fonts.end()) {
+		if (it->second != NULL) {
+			TTF_CloseFont(it->second);
+			it = _fonts.erase(it);
 		}
 	}
 }
